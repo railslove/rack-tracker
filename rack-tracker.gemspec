@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Lars Brillert", "Marco Schaden"]
   spec.email         = ["lars@railslove.com", "marco@railslove.com"]
   spec.summary       = %q{Tracking made easy}
-  spec.description   = %q{Don’t fool around with adding tracking partials to your app concentrate on the things that matter.}
+  spec.description   = %q{Don’t fool around with adding tracking partials to your app and concentrate on the things that matter.}
   spec.homepage      = "https://github.com/railslove/rack-tracker"
   spec.license       = "MIT"
 
@@ -20,4 +20,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec", "~> 3.0.0"
 end
