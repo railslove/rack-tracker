@@ -6,11 +6,11 @@ require 'rack/tracker/version'
 Gem::Specification.new do |spec|
   spec.name          = "rack-tracker"
   spec.version       = Rack::Tracker::VERSION
-  spec.authors       = ["Lars Brillert"]
-  spec.email         = ["lars@railslove.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.authors       = ["Lars Brillert", "Marco Schaden"]
+  spec.email         = ["lars@railslove.com", "marco@railslove.com"]
+  spec.summary       = %q{Tracking made easy}
+  spec.description   = %q{Don’t fool around with adding tracking partials to your app concentrate on the things that matter.}
+  spec.homepage      = "https://github.com/railslove/rack-tracker"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
