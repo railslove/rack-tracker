@@ -1,5 +1,7 @@
 # Rack::Tracker
 
+[![Code Climate](https://codeclimate.com/github/railslove/rack-tracker/badges/gpa.svg)](https://codeclimate.com/github/railslove/rack-tracker)
+
 TODO: Write a gem description
 
 ## Installation
