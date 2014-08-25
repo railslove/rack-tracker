@@ -1,12 +1,18 @@
 class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   class Event < Struct.new(:category, :action, :label, :value)
     def write
-      { hitType: 'event', eventCategory: self.category, eventAction: self.action, eventLabel: self.label, eventValue: self.value }.select{|k,v| v }.to_json
+      ['send', { hitType: 'event', eventCategory: self.category, eventAction: self.action, eventLabel: self.label, eventValue: self.value }.compact].to_json.gsub(/\[|\]/, '')
+    end
+  end
+
+  class Ecommerce < Struct.new(:action, :payload)
+    def write
+      [self.action, self.payload.compact].to_json.gsub(/\[|\]/, '')
     end
   end
 
   def events
-    env['tracker.google_analytics.events'] || []
+    env.fetch('tracker', {})['google_analytics'] || []
   end
 
   def tracker

@@ -33,11 +33,11 @@
 <% end %>
 
 <% events.each do |var| %>
-    ga('send', <%= var.write() %>);
+    ga(<%= var.write() %>);
 <% end %>
 
 <% if tracker %>
-   ga('send', 'pageview');
+    ga('send', 'pageview');
 <% end %>
 
 </script>

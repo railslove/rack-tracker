@@ -7,27 +7,46 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
   describe "with events" do
     describe "default" do
       def env
-        {"tracker.google_analytics.events" => [
-          Rack::Tracker::GoogleAnalytics::Event.new("Users", "Login", "Standard")
-        ]}
+        {'tracker' => {
+          'google_analytics' => [
+            Rack::Tracker::GoogleAnalytics::Event.new("Users", "Login", "Standard")
+          ]
+        }}
       end
 
       subject { described_class.new(env, tracker: 'somebody', cookieDomain: "railslabs.com").render }
       it "will show events" do
-        expect(subject).to match(%r{ga\('send', {\"hitType\":\"event\",\"eventCategory\":\"Users\",\"eventAction\":\"Login\",\"eventLabel\":\"Standard\"}\)})
+        expect(subject).to match(%r{ga\(\"send\",{\"hitType\":\"event\",\"eventCategory\":\"Users\",\"eventAction\":\"Login\",\"eventLabel\":\"Standard\"}\)})
       end
     end
 
     describe "with a event value" do
       def env
-        {"tracker.google_analytics.events" => [
+        {'tracker' => { 'google_analytics' => [
           Rack::Tracker::GoogleAnalytics::Event.new("Users", "Login", "Standard", 5)
-        ]}
+        ]}}
       end
 
       subject { described_class.new(env, tracker: 'somebody', cookieDomain: "railslabs.com").render }
       it "will show events with values" do
-        expect(subject).to match(%r{ga\('send', {\"hitType\":\"event\",\"eventCategory\":\"Users\",\"eventAction\":\"Login\",\"eventLabel\":\"Standard\",\"eventValue\":5}\)},)
+        expect(subject).to match(%r{ga\(\"send\",{\"hitType\":\"event\",\"eventCategory\":\"Users\",\"eventAction\":\"Login\",\"eventLabel\":\"Standard\",\"eventValue\":5}\)},)
+      end
+    end
+  end
+
+  describe 'with e-commerce events' do
+    describe "default" do
+      def env
+        {'tracker' => {
+          'google_analytics' => [
+            Rack::Tracker::GoogleAnalytics::Ecommerce.new('ecommerce:addItem', {id: '1234', affiliation: 'Acme Clothing', revenue: 11.99, shipping: '5', tax: '1.29', currency: 'EUR'})
+          ]
+        }}
+      end
+
+      subject { described_class.new(env, tracker: 'somebody', cookieDomain: "railslabs.com").render }
+      it "will show events" do
+        expect(subject).to match(%r{ga\(\"ecommerce:addItem\",#{{id: '1234', affiliation: 'Acme Clothing', revenue: 11.99, shipping: '5', tax: '1.29', currency: 'EUR'}.to_json}})
       end
     end
   end
