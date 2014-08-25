@@ -5,7 +5,6 @@ require 'rspec'
 require 'rack/test'
 require 'capybara/rspec'
 require 'rack/tracker'
-require 'pry-debugger'
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
