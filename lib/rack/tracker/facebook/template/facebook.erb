@@ -1,0 +1,36 @@
+<script type="text/javascript">
+  (function() {
+    var _fbq = window._fbq || (window._fbq = []);
+    if (!_fbq.loaded) {
+      var fbds = document.createElement('script');
+      fbds.async = true;
+      fbds.src = '//connect.facebook.net/en_US/fbds.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(fbds, s);
+      _fbq.loaded = true;
+    }
+  })();
+  window._fbq = window._fbq || [];
+
+</script>
+
+<% if options[:custom_audience_id] %>
+<script type="text/javascript">
+window._fbq.push(['addPixelId', '<%= options[:custom_audience_id] %>']);
+window._fbq.push(["track", "PixelInitialized", {}]);
+</script>
+
+<noscript>
+  <img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?id=<%= options[:custom_audience_id] %>&amp;ev=PixelInitialized">
+</noscript>
+<% end %>
+
+<% if event.any? %>
+<script type="text/javascript">
+window._fbq.push(['track', '<%= event[:pixel_id] %>', {'value': '<%= event[:value] %>', 'currency': '<%= event[:currency] %>'}]);
+</script>
+
+<noscript>
+  <img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=<%= event[:pixel_id] %>&amp;value=<%= event[:value] %>&amp;currency=<%= event[:currency] %>">
+</noscript>
+<% end %>

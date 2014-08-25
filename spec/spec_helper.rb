@@ -1,5 +1,22 @@
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+
+require 'rspec'
+require 'rack/test'
+require 'capybara/rspec'
+require 'rack/tracker'
+require 'pry-debugger'
+
+# Requires supporting files with custom matchers and macros, etc,
+# in ./support/ and its subdirectories.
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
+
+Capybara.ignore_hidden_elements = false
 
 RSpec.configure do |config|
+  config.include Rack::Test::Methods
+  config.include Capybara::DSL
+
   # These two settings work together to allow you to limit a spec run
   # to individual examples or groups you care about by tagging them with
   # `:focus` metadata. When nothing is tagged with `:focus`, all examples
@@ -16,11 +33,6 @@ RSpec.configure do |config|
     # (e.g. via a command-line flag).
     config.default_formatter = 'doc'
   end
-
-  # Print the 10 slowest examples and example groups at the
-  # end of the spec run, to help surface which specs are running
-  # particularly slow.
-  config.profile_examples = 10
 
   # Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing
