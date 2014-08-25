@@ -9,7 +9,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
       def env
         {'tracker' => {
           'google_analytics' => [
-            Rack::Tracker::GoogleAnalytics::Event.new("Users", "Login", "Standard")
+            Rack::Tracker::GoogleAnalytics::Event.new(event_category: "Users", event_action: "Login", event_label: "Standard")
           ]
         }}
       end
@@ -23,7 +23,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
     describe "with a event value" do
       def env
         {'tracker' => { 'google_analytics' => [
-          Rack::Tracker::GoogleAnalytics::Event.new("Users", "Login", "Standard", 5)
+          Rack::Tracker::GoogleAnalytics::Event.new(event_category: "Users", event_action: "Login", event_label: "Standard", event_value: 5)
         ]}}
       end
 

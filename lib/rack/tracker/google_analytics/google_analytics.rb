@@ -1,7 +1,19 @@
+require 'ostruct'
+
 class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
-  class Event < Struct.new(:category, :action, :label, :value)
+  class Event < OpenStruct
+    def event
+      {
+        hitType: 'event',
+        eventCategory: self.event_category,
+        eventAction: self.event_action,
+        eventLabel: self.event_label,
+        eventValue: self.event_value
+      }.compact
+    end
+
     def write
-      ['send', { hitType: 'event', eventCategory: self.category, eventAction: self.action, eventLabel: self.label, eventValue: self.value }.compact].to_json.gsub(/\[|\]/, '')
+      ['send', event].to_json.gsub(/\[|\]/, '')
     end
   end
 
@@ -11,16 +23,15 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
     end
   end
 
-  def events
-    env.fetch('tracker', {})['google_analytics'] || []
-  end
-
   def tracker
     options[:tracker].try(:call, env) || options[:tracker]
   end
 
   def render
-    Tilt.new( File.join( File.dirname(__FILE__), 'template/google_analytics.erb') ).render(self)
+    Tilt.new( File.join( File.dirname(__FILE__), 'template', 'google_analytics.erb') ).render(self)
   end
 
+  def self.google_analytics(event)
+    Event.new(event).to_h
+  end
 end

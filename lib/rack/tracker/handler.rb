@@ -14,4 +14,8 @@ class Rack::Tracker::Handler
   def render
     raise ArgumentError.new('needs implementation')
   end
+
+  def events
+    env.fetch('tracker', {})['google_analytics'] || []
+  end
 end

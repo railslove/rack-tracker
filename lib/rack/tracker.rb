@@ -5,6 +5,7 @@ require "active_support/json"
 
 require "rack/tracker/version"
 require "rack/tracker/handler"
+require "rack/tracker/controller"
 require "rack/tracker/google_analytics/google_analytics"
 require "rack/tracker/facebook/facebook"
 
