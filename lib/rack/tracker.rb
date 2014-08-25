@@ -31,7 +31,7 @@ module Rack
         # Get any stored events from a redirection
         stored_events = session.delete(EVENT_TRACKING_KEY) if session
 
-        env[EVENT_TRACKING_KEY].merge!(stored_events) unless stored_events.nil?
+        env[EVENT_TRACKING_KEY].deep_merge!(stored_events) { |key, old, new| Array.wrap(old) + Array.wrap(new) } unless stored_events.nil?
       elsif response.redirection? && session
         # Store the events until next time
         env["rack.session"][EVENT_TRACKING_KEY] = env[EVENT_TRACKING_KEY]
