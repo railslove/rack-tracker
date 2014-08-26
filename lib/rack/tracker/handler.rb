@@ -11,6 +11,10 @@ class Rack::Tracker::Handler
     self.options = options
   end
 
+  def events
+    env.fetch('tracker', {})[self.class.to_s.demodulize.underscore] || []
+  end
+
   def render
     raise ArgumentError.new('needs implementation')
   end

@@ -25,12 +25,16 @@ window._fbq.push(["track", "PixelInitialized", {}]);
 </noscript>
 <% end %>
 
-<% if event.any? %>
+<% if events.any? %>
 <script type="text/javascript">
-window._fbq.push(['track', '<%= event[:pixel_id] %>', {'value': '<%= event[:value] %>', 'currency': '<%= event[:currency] %>'}]);
+<% events.each do |event| %>
+window._fbq.push(['track', '<%= event["pixel_id"] %>', {'value': '<%= event["value"] %>', 'currency': '<%= event["currency"] %>'}]);
+<% end %>
 </script>
 
 <noscript>
-  <img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=<%= event[:pixel_id] %>&amp;value=<%= event[:value] %>&amp;currency=<%= event[:currency] %>">
+  <% events.each do |event| %>
+  <img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=<%= event["pixel_id"] %>&amp;value=<%= event["value"] %>&amp;currency=<%= event["currency"] %>">
+  <% end %>
 </noscript>
 <% end %>

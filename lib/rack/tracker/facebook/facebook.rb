@@ -14,10 +14,6 @@ class Rack::Tracker::Facebook < Rack::Tracker::Handler
 
   # position :body
 
-  def event
-    env[:rack_tracker][:facebook][:event] rescue {}
-  end
-
   def render
     Tilt.new( File.join( File.dirname(__FILE__), 'template/facebook.erb') ).render(self)
   end

@@ -19,14 +19,13 @@ RSpec.describe Rack::Tracker::Facebook do
   describe 'with events' do
     def env
       {
-        rack_tracker: {
-          facebook: {
-            event: {
-              pixel_id: '123456789',
-              value: '23',
-              currency: 'EUR',
-            }
-          }
+        'tracker' => {
+        'facebook' =>
+          [
+            {'pixel_id' => '123456789',
+             'value' => '23',
+             'currency' => 'EUR'}
+          ]
         }
       }
     end
