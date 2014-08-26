@@ -9,7 +9,7 @@ class SomeController
 
   def index
     tracker do
-      google_analytics event_category: 'foo'
+      google_analytics category: 'foo'
     end
   end
 end
@@ -17,7 +17,7 @@ end
 
 RSpec.describe Rack::Tracker::Controller do
   context 'controller' do
-    let(:event) { Rack::Tracker::GoogleAnalytics::Event.new(event_category: 'foo') }
+    let(:event) { Rack::Tracker::GoogleAnalytics::Event.new(category: 'foo') }
 
     it 'writes the event into env' do
       controller = SomeController.new

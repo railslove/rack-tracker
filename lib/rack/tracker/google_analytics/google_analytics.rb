@@ -2,18 +2,16 @@ require 'ostruct'
 
 class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   class Event < OpenStruct
-    def event
-      {
-        hitType: 'event',
-        eventCategory: self.event_category,
-        eventAction: self.event_action,
-        eventLabel: self.event_label,
-        eventValue: self.event_value
-      }.compact
-    end
-
     def write
       ['send', event].to_json.gsub(/\[|\]/, '')
+    end
+
+    def event
+      { hitType: 'event' }.merge(attributes).compact
+    end
+
+    def attributes
+      Hash[to_h.map { |k,v| ['event' + k.to_s.capitalize, v] }]
     end
   end
 
