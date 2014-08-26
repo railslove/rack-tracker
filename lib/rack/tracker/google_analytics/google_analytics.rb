@@ -32,6 +32,6 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   end
 
   def self.google_analytics(event)
-    Event.new(event)
+    { __callee__.to_s => [Event.new(event)] }
   end
 end

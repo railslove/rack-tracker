@@ -25,7 +25,7 @@ RSpec.describe Rack::Tracker::Controller do
         controller.index
       }.to change {
         controller.env
-      }.from({}).to('tracker' => event)
+      }.from({}).to('tracker' => {'google_analytics' => [event]})
     end
   end
 end

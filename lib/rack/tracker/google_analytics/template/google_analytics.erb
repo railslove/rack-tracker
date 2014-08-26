@@ -25,19 +25,19 @@
 <% end %>
 
 <% if options[:adjusted_bounce_rate_timeouts] %>
-<% options[:adjusted_bounce_rate_timeouts].each do |timeout| %>
-    setTimeout(ga('send', 'event', '<%= "#{timeout.to_s}_seconds" %>', 'read'),<%= timeout*1000 %>);
-<% end %>
+  <% options[:adjusted_bounce_rate_timeouts].each do |timeout| %>
+      setTimeout(ga('send', 'event', '<%= "#{timeout.to_s}_seconds" %>', 'read'),<%= timeout*1000 %>);
+  <% end %>
 <% end %>
 
 <% end %>
 
 <% events.each do |var| %>
-    ga(<%= var.write() %>);
+  ga(<%= var.write() %>);
 <% end %>
 
 <% if tracker %>
-    ga('send', 'pageview');
+  ga('send', 'pageview');
 <% end %>
 
 </script>
