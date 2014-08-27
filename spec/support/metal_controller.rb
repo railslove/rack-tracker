@@ -10,6 +10,7 @@ class MetalController < ActionController::Metal
   def index
     tracker do
       track_all_the_things like: 'no-one-else'
+      another_handler likes: 'you'
     end
     render "metal/index"
   end

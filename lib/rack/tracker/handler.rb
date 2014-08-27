@@ -1,7 +1,4 @@
 class Rack::Tracker::Handler
-  # options do
-  #   cookie_domain "foo"
-  # end
   class_attribute :position
   self.position = :head
 
