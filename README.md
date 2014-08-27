@@ -22,9 +22,11 @@ Or install it yourself as:
 
 Add it to your middleware stack
 
-    config.middleware.use(Rack::Tracker) do
-      handler :google_analytics, { tracker: 'U-XXXXX-Y' }
-    end
+```ruby
+config.middleware.use(Rack::Tracker) do
+  handler :google_analytics, { tracker: 'U-XXXXX-Y' }
+end
+````
 
 This will add Google Analytics as a tracking handler. `Rack::Tracker` some with
 support for Google Analytics and Facebook. Others might be added in the future
@@ -40,20 +42,32 @@ but you can easily write your own handlers.
 * `:advertising` - Enables [Display Features](https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features).
 * `:ecommerce` - Enables [Ecommerce Tracking](https://developers.google.com/analytics/devguides/collection/analyticsjs/ecommerce).
 
-### Facebook
+#### Events
 
-* `custom_audience_id`
-
-
-## Server side events
-
-When using `rack-tracker` within a Rails application you can track events from
-your controller and the tracking snippit will then populated with this data.
+To issue [Events](https://developers.google.com/analytics/devguides/collection/analyticsjs/events) from the server side just call the `tracker` method in your controller.
 
 ```ruby
   def show
     tracker do
-      google_analytics category: 'foo'
+      google_analytics category: 'button', action: 'click', label: 'nav-buttons', value: 'X'
+    end
+  end
+```
+
+The event will show up in the next rendered page. If the next page is a redirect, the event are kept in the session for later use.
+
+### Facebook
+
+* `custom_audience` - adds the [Custom audience](https://developers.facebook.com/docs/reference/ads-api/custom-audience-website-faq) segmentation pixel
+
+#### Events
+
+To track [Conversions](https://www.facebook.com/help/435189689870514) from the server side just call the `tracker` method in your controller.
+
+```ruby
+  def show
+    tracker do
+      facebook '123456789', value: 1, currency: 'EUR'
     end
   end
 ```
