@@ -13,24 +13,26 @@ end
 RSpec.describe Rack::Tracker do
   def app
     Rack::Builder.new do
-    use Rack::Tracker do
-      handler DummyHandler, {foo: 'BAZBAZ'}
-    end
+      use Rack::Session::Cookie, secret: "FOO"
 
-    run lambda { |env|
-      request = Rack::Request.new(env)
-      case request.path
-        when '/' then
-          [200, {'Content-Type' => 'application/html'}, ['<head>Hello world</head>']]
-        when '/body' then
-          [200, {'Content-Type' => 'application/html'}, ['<body>bob here</body>']]
-        when '/test.xml' then
-          [200, {'Content-Type' => 'application/xml'}, ['Xml here']]
-        when '/redirect' then
-          [302, {'Content-Type' => 'application/html', 'Location' => '/'}, ['<body>redirection</body>']]
-        else
-          [404, 'Nothing here']
+      use Rack::Tracker do
+        handler DummyHandler, { foo: 'BAZBAZ' }
       end
+
+      run lambda {|env|
+        request = Rack::Request.new(env)
+        case request.path
+          when '/' then
+            [200, {'Content-Type' => 'application/html'}, ['<head>Hello world</head>']]
+          when '/body' then
+            [200, {'Content-Type' => 'application/html'}, ['<body>bob here</body>']]
+          when '/test.xml' then
+            [200, {'Content-Type' => 'application/xml'}, ['Xml here']]
+          when '/redirect' then
+            [302, {'Content-Type' => 'application/html', 'Location' => '/'}, ['<body>redirection</body>']]
+          else
+            [404, 'Nothing here']
+        end
       }
     end
   end
@@ -66,10 +68,10 @@ RSpec.describe Rack::Tracker do
   end
 
   describe 'when a redirect' do
-    it 'will not inject the handler code' do
-      get '/redirect'
+    it 'will keep the tracker attributes and show them on the new location' do
+      get '/redirect', {}, { 'tracker' => { 'dummy' => 'Keep this!' } }
       follow_redirect!
-      expect(last_response.body).to include("alert('this is a dummy class');")
+      expect(last_response.body).to include("alert('Keep this!');")
     end
   end
 
