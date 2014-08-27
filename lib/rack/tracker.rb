@@ -4,6 +4,7 @@ require "active_support/core_ext/hash"
 require "active_support/json"
 
 require "rack/tracker/version"
+require "rack/tracker/extensions"
 require 'rack/tracker/railtie' if defined?(Rails)
 require "rack/tracker/handler"
 require "rack/tracker/handler_delegator"
