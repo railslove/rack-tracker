@@ -23,7 +23,7 @@ Or install it yourself as:
 Add it to your middleware stack
 
     config.middleware.use(Rack::Tracker) do
-      handler Rack::Tracker::GoogleAnalytics, { tracker: 'U-XXXXX-Y' }
+      handler :google_analytics, { tracker: 'U-XXXXX-Y' }
     end
 
 This will add Google Analytics as a tracking handler. `Rack::Tracker` some with
@@ -49,6 +49,14 @@ but you can easily write your own handlers.
 
 When using `rack-tracker` within a Rails application you can track events from
 your controller and the tracking snippit will then populated with this data.
+
+```ruby
+  def show
+    tracker do
+      google_analytics category: 'foo'
+    end
+  end
+```
 
 ## Contributing
 
