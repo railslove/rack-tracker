@@ -28,7 +28,7 @@ class Rack::Tracker::HandlerDelegator
   end
 
   def respond_to?(method_name, include_private=false)
-    handler(method_name).respond_to?(:track)
+    handler(method_name).respond_to?(:track, include_private)
   end
 
   def handler(method_name)
