@@ -18,6 +18,10 @@ class Rack::Tracker::Handler
   end
 
   def render
-    raise ArgumentError.new('needs implementation')
+    raise NotImplementedError.new('needs implementation')
+  end
+
+   def self.track(name, event)
+    raise NotImplementedError.new("class method `#{__callee__}` is not implemented.")
   end
 end
