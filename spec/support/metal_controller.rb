@@ -14,4 +14,11 @@ class MetalController < ActionController::Metal
     end
     render "metal/index"
   end
+
+  def facebook
+    tracker do
+      facebook 'conversion-event', { value: '1', currency: 'EUR' }
+    end
+    render "metal/index"
+  end
 end
