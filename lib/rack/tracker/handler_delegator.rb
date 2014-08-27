@@ -9,17 +9,19 @@ class Rack::Tracker::HandlerDelegator
       handler(method_name).respond_to?(:track)
     end
 
-    private
-
     def handler(method_name)
+      return method_name if method_name.kind_of?(Class)
+
       _handler = method_name.to_s.camelize
       ["Rack::Tracker::#{_handler}", _handler].detect do |const|
         begin
           return const.constantize
         rescue NameError
-          raise ArgumentError, 'No such Handler'
+          false
         end
       end
+
+      raise ArgumentError, "No such Handler: #{_handler}"
     end
   end
 end

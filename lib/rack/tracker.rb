@@ -65,7 +65,7 @@ module Rack
       end
 
       def handler(name, opts = {}, &block)
-        @handlers << Handler.new(name, opts)
+        @handlers << Handler.new(Rack::Tracker::HandlerDelegator.handler(name), opts)
       end
 
       def first
