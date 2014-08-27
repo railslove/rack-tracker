@@ -11,7 +11,7 @@ RSpec.describe Rack::Tracker::HandlerSet do
 
   describe '#each' do
     subject { set.each }
-    specify { expect(subject.size).to eq(1) }
+    specify { expect(subject.to_a.size).to eq(1) }
     specify { expect(subject).to match_array(Dummy) }
   end
 
