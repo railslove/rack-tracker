@@ -1,5 +1,6 @@
 require "rack"
 require "tilt"
+require "active_support/core_ext/class/attribute"
 require "active_support/core_ext/hash"
 require "active_support/json"
 
@@ -52,12 +53,23 @@ module Rack
     def html?; @headers['Content-Type'] =~ /html/; end
 
     def inject(env, response)
-      @handler = @handlers.first.name.new(env, @handlers.first.options)
-      response.gsub(%r{</head>}, @handler.render + "</head>")
+      @handlers.each(env) do |handler|
+        response.gsub!(%r{</#{handler.position}>}, handler.render + "</#{handler.position}>")
+      end
+      response
     end
 
     class HandlerSet
-      Handler = Struct.new(:name, :options)
+      class Handler
+        def initialize(name, options)
+          @name = name
+          @options = options
+        end
+
+        def init(env)
+          @name.new(env, @options)
+        end
+      end
 
       def initialize(&block)
         @handlers = []
@@ -68,14 +80,9 @@ module Rack
         @handlers << Handler.new(Rack::Tracker::HandlerDelegator.handler(name), opts)
       end
 
-      def first
-        @handlers.first
+      def each(env = {}, &block)
+        @handlers.map{|h| h.init(env)}.each(&block)
       end
-
-      def to_a
-        @handlers
-      end
-
     end
   end
 end

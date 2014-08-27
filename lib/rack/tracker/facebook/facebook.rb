@@ -1,4 +1,5 @@
 class Rack::Tracker::Facebook < Rack::Tracker::Handler
+  self.position = :body
 
   # options do
   #   locale 'de_DE'

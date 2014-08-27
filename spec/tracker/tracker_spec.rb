@@ -1,5 +1,4 @@
 class DummyHandler < Rack::Tracker::Handler
-
   def render
     Tilt.new( File.join( File.dirname(__FILE__), '../fixtures/dummy.erb') ).render(self)
   end
@@ -7,7 +6,10 @@ class DummyHandler < Rack::Tracker::Handler
   def dummy_alert
     env['tracker']['dummy']
   end
+end
 
+class BodyHandler < DummyHandler
+  self.position = :body
 end
 
 RSpec.describe Rack::Tracker do
@@ -16,7 +18,8 @@ RSpec.describe Rack::Tracker do
       use Rack::Session::Cookie, secret: "FOO"
 
       use Rack::Tracker do
-        handler DummyHandler, { foo: 'BAZBAZ' }
+        handler DummyHandler, { foo: 'head' }
+        handler BodyHandler, { foo: 'body' }
       end
 
       run lambda {|env|
@@ -26,6 +29,8 @@ RSpec.describe Rack::Tracker do
             [200, {'Content-Type' => 'application/html'}, ['<head>Hello world</head>']]
           when '/body' then
             [200, {'Content-Type' => 'application/html'}, ['<body>bob here</body>']]
+          when '/body-head' then
+            [200, {'Content-Type' => 'application/html'}, ['<head></head><body></body>']]
           when '/test.xml' then
             [200, {'Content-Type' => 'application/xml'}, ['Xml here']]
           when '/redirect' then
@@ -38,7 +43,7 @@ RSpec.describe Rack::Tracker do
   end
   subject { app }
 
-  describe 'when html and head is present' do
+  describe 'when head is present' do
     it 'injects the handler code' do
       get '/'
       expect(last_response.body).to include("alert('this is a dummy class');")
@@ -46,7 +51,8 @@ RSpec.describe Rack::Tracker do
 
     it 'will pass options to the Handler' do
       get '/'
-      expect(last_response.body).to include("console.log('BAZBAZ');")
+      expect(last_response.body).to include("console.log('head');")
+      expect(last_response.body).to_not include("console.log('body');")
     end
 
     it 'injects custom variables that was directly assigned' do
@@ -60,10 +66,19 @@ RSpec.describe Rack::Tracker do
     end
   end
 
-  describe 'when html and head is missing' do
-    it 'will not inject the handler code' do
+  describe 'when body is present' do
+    it 'will not inject the body handler code' do
       get '/body'
-      expect(last_response.body).to_not include("alert('this is a dummy class');")
+      expect(last_response.body).to include("console.log('body');")
+      expect(last_response.body).to_not include("console.log('head');")
+    end
+  end
+
+  describe 'when head and body is present' do
+    it 'will pass options to the Handler' do
+      get '/body-head'
+      expect(last_response.body).to include("console.log('head');")
+      expect(last_response.body).to include("console.log('body');")
     end
   end
 

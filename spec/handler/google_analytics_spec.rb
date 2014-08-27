@@ -1,8 +1,13 @@
 RSpec.describe Rack::Tracker::GoogleAnalytics do
 
-   def env
-      {misc: 'foobar'}
-   end
+  def env
+    {misc: 'foobar'}
+  end
+
+  it 'will be placed in the head' do
+    expect(described_class.position).to eq(:head)
+    expect(described_class.new(env).position).to eq(:head)
+  end
 
   describe "with events" do
     describe "default" do

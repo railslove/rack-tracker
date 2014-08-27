@@ -2,6 +2,8 @@ class Rack::Tracker::Handler
   # options do
   #   cookie_domain "foo"
   # end
+  class_attribute :position
+  self.position = :head
 
   attr_accessor :options
   attr_accessor :env
