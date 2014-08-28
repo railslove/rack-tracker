@@ -21,7 +21,7 @@ class Rack::Tracker::HandlerDelegator
 
   def write_event(event)
     if env.key?('tracker')
-      self.env = env['tracker'].deep_merge!(event)
+      self.env = env['tracker'].deep_merge!(event) { |key, old, new| Array.wrap(old) + Array.wrap(new) }
     else
       self.env['tracker'] = event
     end
