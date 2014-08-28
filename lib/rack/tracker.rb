@@ -27,19 +27,14 @@ module Rack
       return [@status, @headers, @body] unless html?
       response = Rack::Response.new([], @status, @headers)
 
-      env[EVENT_TRACKING_KEY] = {} unless env[EVENT_TRACKING_KEY]
+      env[EVENT_TRACKING_KEY] ||= {}
 
-      session = env["rack.session"]
-      if response.ok?
-        # Write out the events now
+      if session = env["rack.session"]
+        env[EVENT_TRACKING_KEY].deep_merge!(session.delete(EVENT_TRACKING_KEY) || {}) { |key, old, new| Array.wrap(old) + Array.wrap(new) }
+      end
 
-        # Get any stored events from a redirection
-        stored_events = session.delete(EVENT_TRACKING_KEY) if session
-
-        env[EVENT_TRACKING_KEY].deep_merge!(stored_events) { |key, old, new| Array.wrap(old) + Array.wrap(new) } unless stored_events.nil?
-      elsif response.redirection? && session
-        # Store the events until next time
-        env["rack.session"][EVENT_TRACKING_KEY] = env[EVENT_TRACKING_KEY]
+      if response.redirection? && session
+        session[EVENT_TRACKING_KEY] = env[EVENT_TRACKING_KEY]
       end
 
       @body.each { |fragment| response.write inject(env, fragment) }

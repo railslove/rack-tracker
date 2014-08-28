@@ -35,6 +35,8 @@ RSpec.describe Rack::Tracker do
             [200, {'Content-Type' => 'application/xml'}, ['Xml here']]
           when '/redirect' then
             [302, {'Content-Type' => 'application/html', 'Location' => '/'}, ['<body>redirection</body>']]
+          when '/moved' then
+            [301, {'Content-Type' => 'application/html', 'Location' => '/redirect'}, ['<body>redirection</body>']]
           else
             [404, 'Nothing here']
         end
@@ -87,6 +89,12 @@ RSpec.describe Rack::Tracker do
       get '/redirect', {}, { 'tracker' => { 'dummy' => 'Keep this!' } }
       follow_redirect!
       expect(last_response.body).to include("alert('Keep this!');")
+    end
+
+    it 'will keep the tracker attributes over multiple redirects' do
+      get '/moved', {}, { 'tracker' => { 'dummy' => 'Keep this twice!' } }
+      follow_redirect!
+      expect(last_response.body).to include("alert('Keep this twice!');")
     end
   end
 
