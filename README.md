@@ -48,8 +48,8 @@ To issue [Events](https://developers.google.com/analytics/devguides/collection/a
 
 ```ruby
   def show
-    tracker do
-      google_analytics category: 'button', action: 'click', label: 'nav-buttons', value: 'X'
+    tracker do |t|
+      t.google_analytics category: 'button', action: 'click', label: 'nav-buttons', value: 'X'
     end
   end
 ```
@@ -66,8 +66,8 @@ To track [Conversions](https://www.facebook.com/help/435189689870514) from the s
 
 ```ruby
   def show
-    tracker do
-      facebook '123456789', value: 1, currency: 'EUR'
+    tracker do |t|
+      t.facebook '123456789', value: 1, currency: 'EUR'
     end
   end
 ```

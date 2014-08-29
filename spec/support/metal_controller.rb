@@ -8,16 +8,16 @@ class MetalController < ActionController::Metal
   layout 'application'
 
   def index
-    tracker do
-      track_all_the_things like: 'no-one-else'
-      another_handler likes: 'you'
+    tracker do |t|
+      t.track_all_the_things like: 'no-one-else'
+      t.another_handler likes: 'you'
     end
     render "metal/index"
   end
 
   def facebook
-    tracker do
-      facebook 'conversion-event', { value: '1', currency: 'EUR' }
+    tracker do |t|
+      t.facebook 'conversion-event', { value: '1', currency: 'EUR' }
     end
     render "metal/index"
   end

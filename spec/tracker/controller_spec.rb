@@ -8,8 +8,8 @@ class SomeController
   end
 
   def index
-    tracker do
-      google_analytics category: 'foo'
+    tracker do |t|
+      t.google_analytics category: 'foo'
     end
   end
 end

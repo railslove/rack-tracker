@@ -2,9 +2,7 @@ module Rack
   class Tracker
     module Controller
       def tracker(&block)
-        if block_given?
-          Rack::Tracker::HandlerDelegator.new(env).instance_exec(&block)
-        end
+        yield(Rack::Tracker::HandlerDelegator.new(env)) if block_given?
       end
     end
   end
