@@ -16,7 +16,7 @@ end
 
 
 RSpec.describe Rack::Tracker::Controller do
-  context 'controller' do
+  describe '#tracker' do
     let(:event) { Rack::Tracker::GoogleAnalytics::Event.new(category: 'foo') }
 
     it 'writes the event into env' do
@@ -26,6 +26,19 @@ RSpec.describe Rack::Tracker::Controller do
       }.to change {
         controller.env
       }.from({}).to('tracker' => {'google_analytics' => [event]})
+    end
+
+    it 'returns only the handlers' do
+      TestClass = Struct.new(:env) do
+        include Rack::Tracker::Controller
+      end
+
+      expect(
+        TestClass.new({}).tracker do |t|
+          t.google_analytics category: 'foo'
+          t.facebook some: 'thing'
+        end
+      ).to eql([:google_analytics, :facebook])
     end
   end
 end

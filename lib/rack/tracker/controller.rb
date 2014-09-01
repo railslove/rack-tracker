@@ -2,7 +2,9 @@ module Rack
   class Tracker
     module Controller
       def tracker(&block)
-        yield(Rack::Tracker::HandlerDelegator.new(env)) if block_given?
+        if block_given?
+          yield(Rack::Tracker::HandlerDelegator.new(env)).keys.map(&:to_sym)
+        end
       end
     end
   end
