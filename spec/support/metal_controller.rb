@@ -17,7 +17,7 @@ class MetalController < ActionController::Metal
 
   def facebook
     tracker do |t|
-      t.facebook 'conversion-event', { value: '1', currency: 'EUR' }
+      t.facebook :track, { id: 'conversion-event', value: '1', currency: 'EUR' }
     end
     render "metal/index"
   end

@@ -1,21 +1,26 @@
 class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
-  class Event < OpenStruct
+  class Send < OpenStruct
+    def initialize(attrs = {})
+      attrs.reverse_merge!(type: 'event')
+      super
+    end
+
     def write
       ['send', event].to_json.gsub(/\[|\]/, '')
     end
 
     def event
-      { hitType: 'event' }.merge(attributes).compact
+      { hitType: self.type }.merge(attributes).compact
     end
 
     def attributes
-      Hash[to_h.map { |k,v| ['event' + k.to_s.capitalize, v] }]
+      Hash[to_h.slice(:category, :action, :label, :value).map { |k,v| [self.type.to_s + k.to_s.capitalize, v] }]
     end
   end
 
-  class Ecommerce < Struct.new(:action, :payload)
+  class Ecommerce < OpenStruct
     def write
-      [self.action, self.payload.compact].to_json.gsub(/\[|\]/, '')
+      ["ecommerce:#{self.type}", self.to_h.except(:type).compact].to_json.gsub(/\[|\]/, '')
     end
   end
 
@@ -27,7 +32,7 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
     Tilt.new( File.join( File.dirname(__FILE__), 'template', 'google_analytics.erb') ).render(self)
   end
 
-  def self.track(name, event)
-    { name.to_s => [Event.new(event)] }
+  def self.track(name, *event)
+    { name.to_s => [Send.new(event.last)] }
   end
 end

@@ -1,13 +1,7 @@
 class Rack::Tracker::Facebook < Rack::Tracker::Handler
   class Event < OpenStruct
-    attr_reader :id
-    def initialize(id, attributes = {})
-      @id = id
-      super(attributes)
-    end
-
     def write
-      ['track', @id, to_h.compact].to_json
+      ['track', self.id, to_h.except(:id).compact].to_json
     end
   end
 
@@ -18,7 +12,7 @@ class Rack::Tracker::Facebook < Rack::Tracker::Handler
   end
 
   def self.track(name, *event)
-    { name.to_s => [Event.new(*event)] }
+    { name.to_s => [Event.new(event.last)] }
   end
 
 end

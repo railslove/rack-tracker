@@ -14,7 +14,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
       def env
         {'tracker' => {
           'google_analytics' => [
-            Rack::Tracker::GoogleAnalytics::Event.new(category: "Users", action: "Login", label: "Standard")
+            Rack::Tracker::GoogleAnalytics::Send.new(category: "Users", action: "Login", label: "Standard")
           ]
         }}
       end
@@ -28,7 +28,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
     describe "with a event value" do
       def env
         {'tracker' => { 'google_analytics' => [
-          Rack::Tracker::GoogleAnalytics::Event.new(category: "Users", action: "Login", label: "Standard", value: 5)
+          Rack::Tracker::GoogleAnalytics::Send.new(category: "Users", action: "Login", label: "Standard", value: 5)
         ]}}
       end
 
@@ -44,7 +44,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
       def env
         {'tracker' => {
           'google_analytics' => [
-            Rack::Tracker::GoogleAnalytics::Ecommerce.new('ecommerce:addItem', {id: '1234', affiliation: 'Acme Clothing', revenue: 11.99, shipping: '5', tax: '1.29', currency: 'EUR'})
+            Rack::Tracker::GoogleAnalytics::Ecommerce.new({type: 'addItem', id: '1234', affiliation: 'Acme Clothing', revenue: 11.99, shipping: '5', tax: '1.29', currency: 'EUR'})
           ]
         }}
       end

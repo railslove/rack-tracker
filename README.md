@@ -49,12 +49,45 @@ To issue [Events](https://developers.google.com/analytics/devguides/collection/a
 ```ruby
   def show
     tracker do |t|
-      t.google_analytics category: 'button', action: 'click', label: 'nav-buttons', value: 'X'
+      t.google_analytics :send, { type: 'event', category: 'button', action: 'click', label: 'nav-buttons', value: 'X' }
     end
   end
 ```
 
-The event will show up in the next rendered page. If the next page is a redirect, the event are kept in the session for later use.
+It will render the following to the site source:
+
+```javascript
+  ga('send', { 'hitType': 'event', 'eventCategory': 'button', 'eventAction': 'click', 'eventLabel': 'X' })
+```
+
+#### Ecommerce
+
+You can even trigger ecommerce directly from within your controller:
+
+```ruby
+  def show
+    tracker do |t|
+      t.google_analytics :ecommerce, { type: 'addItem', 'id': '1234', 'affiliation': 'Acme Clothing', 'revenue': '11.99', 'shipping': '5', 'tax': '1.29' }
+    end
+  end
+```
+
+Will give you this:
+
+```javascript
+  ga('ecommerce:addItem', { 'id': '1234', 'affiliation': 'Acme Clothing', 'revenue': '11.99', 'shipping': '5', 'tax': '1.29'  })
+```
+
+To load the `ecommerce`-plugin, add some configuration to the middleware initialization,
+this is _not_ needed for the above to work, but recommened, so you don't have to
+take care of the plugin on your own.
+
+```ruby
+  config.middleware.use(Rack::Tracker) do
+    handler :google_analytics, { tracker: 'U-XXXXX-Y', ecommerce: true}
+  end
+````
+
 
 ### Facebook
 
@@ -67,7 +100,7 @@ To track [Conversions](https://www.facebook.com/help/435189689870514) from the s
 ```ruby
   def show
     tracker do |t|
-      t.facebook '123456789', value: 1, currency: 'EUR'
+      t.facebook :track, { id: '123456789', value: 1, currency: 'EUR' }
     end
   end
 ```

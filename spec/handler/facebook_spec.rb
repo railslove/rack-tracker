@@ -1,7 +1,7 @@
 RSpec.describe Rack::Tracker::Facebook do
   describe Rack::Tracker::Facebook::Event do
 
-    subject { described_class.new('id', {foo: 'bar'}) }
+    subject { described_class.new({id: 'id', foo: 'bar'}) }
 
     describe '#write' do
       specify { expect(subject.write).to eq(['track', 'id', {foo: 'bar'}].to_json) }
@@ -36,10 +36,11 @@ RSpec.describe Rack::Tracker::Facebook do
         'tracker' => {
         'facebook' =>
           [
-            Rack::Tracker::Facebook::Event.new('123456789', {
+            Rack::Tracker::Facebook::Event.new(
+              'id'=> '123456789',
              'value' => '23',
              'currency' => 'EUR'
-            })
+            )
           ]
         }
       }
