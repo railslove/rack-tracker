@@ -72,6 +72,72 @@ To track [Conversions](https://www.facebook.com/help/435189689870514) from the s
   end
 ```
 
+Will result in the following:
+
+```javascript
+  window._fbq.push(["track", "123456789", {'value': 1, 'currency': 'EUR'}]);
+```
+
+## Custom Handlers
+
+Tough we give you Google Analytics and Facebook right out of the box, you might
+be interested adding support for your custom tracking/analytics service.
+
+Writing a handler is straight forward ;) There are just a couple of methods that
+your class needs to implement.
+
+Start with a plain ruby class that inherits from `Rack::Tracker::Handler`
+
+```ruby
+class MyHandler <  Rack::Tracker::Handler
+  ...
+end
+```
+
+Second we need a method called `#render` which will take care of rendering a
+template.
+
+```ruby
+def render
+  Tilt.new( File.join( File.dirname(__FILE__), 'template' 'my_handler.erb') ).render(self)
+end
+```
+
+This will render the `template/my_handler.erb` and inject the result into the source. You
+can be creative about where the template is stored, we tend to have them around
+our actual handler code.
+
+```erb
+<script>
+  console.log('my tracker: ' + <%= options.to_json %>)
+</script>
+```
+
+Lets give it a try! We need to mount our new handler in the `Rack::Tracker` middleware
+
+```ruby
+  config.middleware.use(Rack::Tracker) do
+    handler MyTracker, { awesome: true }
+  end
+````
+
+Everything you're passing to the `handler` will be availble as `#options` in your
+template, You'll also gain access to the `env`-hash belonging to the current request.
+
+Run your application and make a request, the result of the above template can be
+found right before `</head>`. You can change the position in your handler-code:
+
+```ruby
+class MyHandler <  Rack::Tracker::Handler
+  self.position = :body
+
+  ...
+end
+```
+
+The snippot will then be rendered right before `</body>`.
+
+
 ## Contributing
 
 1. Fork it ( http://github.com/railslove/rack-tracker/fork )
