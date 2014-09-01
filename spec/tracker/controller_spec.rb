@@ -1,11 +1,5 @@
-class SomeController
+TestController = Struct.new(:env) do
   include Rack::Tracker::Controller
-
-  attr_accessor :env
-
-  def initialize
-    @env = {}
-  end
 
   def index
     tracker do |t|
@@ -18,9 +12,9 @@ end
 RSpec.describe Rack::Tracker::Controller do
   describe '#tracker' do
     let(:event) { Rack::Tracker::GoogleAnalytics::Event.new(category: 'foo') }
+    let(:controller) { TestController.new({}) }
 
     it 'writes the event into env' do
-      controller = SomeController.new
       expect {
         controller.index
       }.to change {
@@ -29,12 +23,8 @@ RSpec.describe Rack::Tracker::Controller do
     end
 
     it 'returns only the handlers' do
-      TestClass = Struct.new(:env) do
-        include Rack::Tracker::Controller
-      end
-
       expect(
-        TestClass.new({}).tracker do |t|
+        controller.tracker do |t|
           t.google_analytics category: 'foo'
           t.facebook some: 'thing'
         end
