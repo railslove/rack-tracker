@@ -132,7 +132,7 @@ template.
 
 ```ruby
 def render
-  Tilt.new( File.join( File.dirname(__FILE__), 'template' 'my_handler.erb') ).render(self)
+  Tilt.new( File.join( File.dirname(__FILE__), 'template', 'my_handler.erb') ).render(self)
 end
 ```
 
