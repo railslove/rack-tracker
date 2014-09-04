@@ -32,6 +32,10 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
     Tilt.new( File.join( File.dirname(__FILE__), 'template', 'google_analytics.erb') ).render(self)
   end
 
+  def ecommerce_events
+    events.select{|e| e.kind_of?(Ecommerce) }
+  end
+
   def self.track(name, *event)
     { name.to_s => [Send.new(event.last)] }
   end

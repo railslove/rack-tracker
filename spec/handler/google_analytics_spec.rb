@@ -9,6 +9,26 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
     expect(described_class.new(env).position).to eq(:head)
   end
 
+  describe '#ecommerce_events' do
+    subject { described_class.new(env) }
+
+    describe 'with stored ecommerce events' do
+      before { allow(subject).to receive(:events).and_return([Rack::Tracker::GoogleAnalytics::Send.new, Rack::Tracker::GoogleAnalytics::Ecommerce.new]) }
+
+      it 'will just return the ecommerce events' do
+        expect(subject.ecommerce_events).to match_array(Rack::Tracker::GoogleAnalytics::Ecommerce)
+      end
+    end
+
+    describe 'without stored ecommerce events' do
+      before { allow(subject).to receive(:events).and_return([Rack::Tracker::GoogleAnalytics::Send.new]) }
+
+      it 'will be empty' do
+        expect(subject.ecommerce_events).to be_empty
+      end
+    end
+  end
+
   describe "with events" do
     describe "default" do
       def env
@@ -19,7 +39,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
         }}
       end
 
-      subject { described_class.new(env, tracker: 'somebody', cookieDomain: "railslabs.com").render }
+      subject { described_class.new(env, tracker: 'somebody').render }
       it "will show events" do
         expect(subject).to match(%r{ga\(\"send\",{\"hitType\":\"event\",\"eventCategory\":\"Users\",\"eventAction\":\"Login\",\"eventLabel\":\"Standard\"}\)})
       end
@@ -32,7 +52,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
         ]}}
       end
 
-      subject { described_class.new(env, tracker: 'somebody', cookieDomain: "railslabs.com").render }
+      subject { described_class.new(env, tracker: 'somebody').render }
       it "will show events with values" do
         expect(subject).to match(%r{ga\(\"send\",{\"hitType\":\"event\",\"eventCategory\":\"Users\",\"eventAction\":\"Login\",\"eventLabel\":\"Standard\",\"eventValue\":5}\)},)
       end
@@ -49,9 +69,12 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
         }}
       end
 
-      subject { described_class.new(env, tracker: 'somebody', cookieDomain: "railslabs.com").render }
-      it "will show events" do
+      subject { described_class.new(env, tracker: 'somebody', ecommerce: true).render }
+      it "will add items" do
         expect(subject).to match(%r{ga\(\"ecommerce:addItem\",#{{id: '1234', affiliation: 'Acme Clothing', revenue: 11.99, shipping: '5', tax: '1.29', currency: 'EUR'}.to_json}})
+      end
+      it "will submit cart" do
+        expect(subject).to match(%r{ga\('send:ecommerce'\);})
       end
     end
   end

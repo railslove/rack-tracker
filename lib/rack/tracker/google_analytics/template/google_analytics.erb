@@ -36,6 +36,10 @@
   ga(<%= var.write() %>);
 <% end %>
 
+<% if options[:ecommerce] && ecommerce_events.any? %>
+  ga('send:ecommerce');
+<% end %>
+
 <% if tracker %>
   ga('send', 'pageview');
 <% end %>
