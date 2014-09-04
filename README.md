@@ -93,7 +93,7 @@ take care of the plugin on your own.
 
 * `custom_audience` - adds the [Custom audience](https://developers.facebook.com/docs/reference/ads-api/custom-audience-website-faq) segmentation pixel
 
-#### Events
+#### Conversions
 
 To track [Conversions](https://www.facebook.com/help/435189689870514) from the server side just call the `tracker` method in your controller.
 
@@ -111,7 +111,7 @@ Will result in the following:
   window._fbq.push(["track", "123456789", {'value': 1, 'currency': 'EUR'}]);
 ```
 
-## Custom Handlers
+#### Custom Handlers
 
 Tough we give you Google Analytics and Facebook right out of the box, you might
 be interested adding support for your custom tracking/analytics service.
@@ -168,7 +168,7 @@ class MyHandler <  Rack::Tracker::Handler
 end
 ```
 
-The snippot will then be rendered right before `</body>`.
+The snippit will then be rendered right before `</body>`.
 
 
 ## Contributing
