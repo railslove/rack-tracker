@@ -1,7 +1,6 @@
 # Rack::Tracker
 
 [![Code Climate](https://codeclimate.com/github/railslove/rack-tracker/badges/gpa.svg)](https://codeclimate.com/github/railslove/rack-tracker)
-
 [![Build Status](https://travis-ci.org/railslove/rack-tracker.svg?branch=master)](https://travis-ci.org/railslove/rack-tracker)
 
 
@@ -80,8 +79,8 @@ Will give you this:
   ga('ecommerce:addItem', { 'id': '1234', 'affiliation': 'Acme Clothing', 'revenue': '11.99', 'shipping': '5', 'tax': '1.29'  })
 ```
 
-To load the `ecommerce`-plugin, add some configuration to the middleware initialization,
-this is _not_ needed for the above to work, but recommened, so you don't have to
+To load the `ecommerce`-plugin, add some configuration to the middleware initialization.
+This is _not_ needed for the above to work, but recommened, so you don't have to
 take care of the plugin on your own.
 
 ```ruby
@@ -156,8 +155,8 @@ Lets give it a try! We need to mount our new handler in the `Rack::Tracker` midd
   end
 ````
 
-Everything you're passing to the `handler` will be availble as `#options` in your
-template, You'll also gain access to the `env`-hash belonging to the current request.
+Everything you're passing to the `handler` will be available as `#options` in your
+template, so you'll also gain access to the `env`-hash belonging to the current request.
 
 Run your application and make a request, the result of the above template can be
 found right before `</head>`. You can change the position in your handler-code:
