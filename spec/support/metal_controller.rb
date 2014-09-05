@@ -21,4 +21,12 @@ class MetalController < ActionController::Metal
     end
     render "metal/index"
   end
+
+  def google_analytics
+    tracker do |t|
+      t.google_analytics :ecommerce, { type: 'addItem', id: '1234', affiliation: 'Acme Clothing', revenue: '11.99', shipping: '5', tax: '1.29' }
+      t.google_analytics :send, { type: 'event', category: 'button', action: 'click', label: 'nav-buttons', value: 'X' }
+    end
+    render "metal/index"
+  end
 end

@@ -37,6 +37,6 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   end
 
   def self.track(name, *event)
-    { name.to_s => [Send.new(event.last)] }
+    { name.to_s => [const_get(event.first.to_s.capitalize).new(event.last)] }
   end
 end
