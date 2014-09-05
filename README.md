@@ -1,9 +1,24 @@
 # Rack::Tracker
 
-[![Code Climate](https://codeclimate.com/github/railslove/rack-tracker/badges/gpa.svg)](https://codeclimate.com/github/railslove/rack-tracker)
-[![Build Status](https://travis-ci.org/railslove/rack-tracker.svg?branch=master)](https://travis-ci.org/railslove/rack-tracker)
+[![Code Climate](https://codeclimate.com/github/railslove/rack-tracker/badges/gpa.svg)](https://codeclimate.com/github/railslove/rack-tracker) [![Build Status](https://travis-ci.org/railslove/rack-tracker.svg?branch=master)](https://travis-ci.org/railslove/rack-tracker)
 
+## Rationale
 
+Most of the applications we're working on are using some sort of tracking/analytics service,
+Google Analytics comes first but its likely that more are added as the project grows.
+Normally you'd go ahead and add some partials to your application that will render out the
+needed tracking codes. As time passes by you'll find yourself with lots of tracking
+snippets, that will clutter your codebase :) When just looking at Analytics there are
+solutions like `rack-google-analytics` but they just soley tackle the existence of one
+service.
+
+We wanted a solution that ties all services together in one place and offers
+an easy interface to drop in new services. This is why we created `rack-tracker`, a
+rack middleware that can be hooked up to multiple services and exposing them in a unified
+fashion. It comes in two parts, the first one is the actual middleware that you can add
+to the middleware stack the second part are the service-handlers that you're going to use
+in your application. We're shipping support for Google and Facebook, to add your own please
+read about [custom handlers](#custom-handlers).
 
 ## Installation
 
