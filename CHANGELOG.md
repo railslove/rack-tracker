@@ -1,10 +1,14 @@
+# 0.1.3
+
+  * [BUGFIX] ecommerce events weren't created properly
+
 # 0.1.2
 
   * cart is now auto submitted to when ecommerce is turned on and items or transactions are in the queue
 
 # 0.1.1
 
-  * fixed bug (67d31ae7acb871e57ba6bc70fa9a23f0295135db)
+  * [BUGFIX] return value of the `tracker`-block is kinda unpredictabel, so we skip further processing
 
 # 0.1.0
 
