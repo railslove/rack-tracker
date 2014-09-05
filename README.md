@@ -4,6 +4,8 @@
 
 [![Build Status](https://travis-ci.org/railslove/rack-tracker.svg?branch=master)](https://travis-ci.org/railslove/rack-tracker)
 
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -57,7 +59,7 @@ To issue [Events](https://developers.google.com/analytics/devguides/collection/a
 It will render the following to the site source:
 
 ```javascript
-  ga('send', { 'hitType': 'event', 'eventCategory': 'button', 'eventAction': 'click', 'eventLabel': 'X' })
+  ga('send', { 'hitType': 'event', 'eventCategory': 'button', 'eventAction': 'click', 'eventLabel': 'nav-buttons', 'value': 'X' })
 ```
 
 #### Ecommerce
@@ -67,7 +69,7 @@ You can even trigger ecommerce directly from within your controller:
 ```ruby
   def show
     tracker do |t|
-      t.google_analytics :ecommerce, { type: 'addItem', 'id': '1234', 'affiliation': 'Acme Clothing', 'revenue': '11.99', 'shipping': '5', 'tax': '1.29' }
+      t.google_analytics :ecommerce, { type: 'addItem', id: '1234', affiliation: 'Acme Clothing', revenue: '11.99', shipping: '5', tax: '1.29' }
     end
   end
 ```
