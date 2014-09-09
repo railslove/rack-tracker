@@ -126,8 +126,16 @@ Will result in the following:
 ```javascript
   window._fbq.push(["track", "123456789", {'value': 1, 'currency': 'EUR'}]);
 ```
+### Visual website Optimizer (VWO)
+Just integrate the handler with your matching account_id and you will be ready to go
 
-#### Custom Handlers
+```ruby
+  use Rack::Tracker do
+    handler :vwo, { account_id: 'YOUR_ACCOUNT_ID' }
+  end
+```
+
+### Custom Handlers
 
 Tough we give you Google Analytics and Facebook right out of the box, you might
 be interested adding support for your custom tracking/analytics service.

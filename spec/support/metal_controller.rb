@@ -29,4 +29,8 @@ class MetalController < ActionController::Metal
     end
     render "metal/index"
   end
+
+  def vwo
+    render "metal/index"
+  end
 end

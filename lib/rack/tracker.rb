@@ -12,6 +12,7 @@ require "rack/tracker/handler_delegator"
 require "rack/tracker/controller"
 require "rack/tracker/google_analytics/google_analytics"
 require "rack/tracker/facebook/facebook"
+require "rack/tracker/vwo/vwo"
 
 module Rack
   class Tracker
