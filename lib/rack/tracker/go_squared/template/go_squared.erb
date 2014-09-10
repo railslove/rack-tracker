@@ -1,0 +1,47 @@
+<script>
+  !function(g,s,q,r,d){r=g[r]=g[r]||function(){(r.q=r.q||[]).push(
+  arguments)};d=s.createElement(q);q=s.getElementsByTagName(q)[0];
+  d.src='//d1l6p2sc9645hc.cloudfront.net/tracker.js';q.parentNode.
+  insertBefore(d,q)}(window,document,'script','_gs');
+  <% if tracker %>
+  _gs('<%= tracker %>');
+  <% end %>
+
+  <% if trackers %>
+  <% trackers.each do |name, code| %>
+  _gs('<%= code %>', '<%= name %>');
+  <% end %>
+  <% end %>
+
+  <% if options[:anonymize_ip] %>
+    _gs('set', 'anonymizeIp', <%= options[:anonymize_ip] %>);
+  <% end %>
+
+  <% if options[:cookie_domain] %>
+    _gs('set', 'cookieDomain', '<%= options[:cookie_domain] %>');
+  <% end %>
+
+  <% if options[:use_cookies] %>
+    _gs('set', 'useCookies', <%= options[:use_cookies] %>);
+  <% end %>
+
+  <% if options[:track_hash] %>
+    _gs('set', 'trackHash', <%= options[:track_hash] %>);
+  <% end %>
+
+  <% if options[:track_local] %>
+    _gs('set', 'trackLocal', <%= options[:track_local] %>);
+  <% end %>
+
+  <% if options[:track_params] %>
+    _gs('set', 'trackParams', <%= options[:track_params] %>);
+  <% end %>
+
+  <% if visitor_name %>
+  _gs(<%= visitor_name.write() %>);
+  <% end %>
+
+  <% if visitor_info %>
+  _gs(<%= visitor_info.write() %>);
+  <% end %>
+</script>
