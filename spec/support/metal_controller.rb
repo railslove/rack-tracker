@@ -33,4 +33,12 @@ class MetalController < ActionController::Metal
   def vwo
     render "metal/index"
   end
+
+  def go_squared
+    tracker do |t|
+      t.go_squared :visitor_name, { name: 'John Doe' }
+      t.go_squared :visitor_info, { age: 35, favorite_food: 'pizza' }
+    end
+    render "metal/index"
+  end
 end

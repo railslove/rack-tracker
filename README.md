@@ -135,6 +135,87 @@ Just integrate the handler with your matching account_id and you will be ready t
   end
 ```
 
+### GoSquared
+
+To enable GoSquared tracking:
+
+```ruby
+config.middleware.use(Rack::Tracker) do
+  handler :go_squared, { tracker: 'ABCDEFGH' }
+end
+````
+
+This will add the tracker to the page like so:
+
+``` javascript
+  _gs('ABCDEFGH');
+```
+
+You can also set multiple named trackers if need be:
+
+```ruby
+config.middleware.use(Rack::Tracker) do
+  handler :go_squared, {
+    trackers: {
+      primaryTracker: 'ABCDEFGH',
+      secondaryTracker: '1234567',
+    }
+  }
+end
+````
+
+This will add the specified trackers to the page like so:
+
+``` javascript
+  _gs('ABCDEFGH', 'primaryTracker');
+  _gs('1234567', 'secondaryTracker');
+```
+
+You can set [a variety of options](https://www.gosquared.com/developer/tracker/configuration/) by passing the following settings. If you don't set any of the following options, they will be omitted from the rendered code.
+
+* `:anonymize_ip`
+* `:cookie_domain`
+* `:use_cookies`
+* `:track_hash`
+* `:track_local`
+* `:track_params`
+
+#### Visitor Name
+
+To track the [visitor name](https://www.gosquared.com/developer/tracker/tagging/) from the server side, just call the `tracker` method in your controller.
+
+```ruby
+  def show
+    tracker do |t|
+      t.go_squared :visitor_name, { name: 'John Doe' }
+    end
+  end
+```
+
+It will render the following to the site source:
+
+```javascript
+  _gs("set", "visitorName", "John Doe");
+```
+
+#### Visitor Properties
+
+To track [visitor properties](https://www.gosquared.com/developer/tracker/tagging/) from the server side, just call the `tracker` method in your controller.
+
+```ruby
+  def show
+    tracker do |t|
+      t.go_squared :visitor_info, { age: 35, favorite_food: 'pizza' }
+    end
+  end
+```
+
+It will render the following to the site source:
+
+```javascript
+  _gs("set", "visitor", { "age": 35, "favorite_food": "pizza" });
+```
+
 ### Custom Handlers
 
 Tough we give you Google Analytics and Facebook right out of the box, you might

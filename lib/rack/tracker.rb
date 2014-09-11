@@ -3,6 +3,7 @@ require "tilt"
 require "active_support/core_ext/class/attribute"
 require "active_support/core_ext/hash"
 require "active_support/json"
+require "active_support/inflector"
 
 require "rack/tracker/version"
 require "rack/tracker/extensions"
@@ -13,6 +14,7 @@ require "rack/tracker/controller"
 require "rack/tracker/google_analytics/google_analytics"
 require "rack/tracker/facebook/facebook"
 require "rack/tracker/vwo/vwo"
+require "rack/tracker/go_squared/go_squared"
 
 module Rack
   class Tracker
