@@ -17,8 +17,14 @@ an easy interface to drop in new services. This is why we created `rack-tracker`
 rack middleware that can be hooked up to multiple services and exposing them in a unified
 fashion. It comes in two parts, the first one is the actual middleware that you can add
 to the middleware stack the second part are the service-handlers that you're going to use
-in your application. We're shipping support for Google and Facebook, to add your own please
-read about [custom handlers](#custom-handlers).
+in your application. It's easy to add your own [custom handlers](#custom-handlers),
+but to get you startet we're shipping support for the following handlers out of the box:
+
+* [Google Analytics](#google-analytics)
+* [Facebook](#facebook)
+* [Visual Website Optimizer (VWO)](#visual-website-optimizer-vwo)
+* [GoSquared](#gosquared)
+
 
 ## Installation
 
@@ -277,6 +283,12 @@ The snippit will then be rendered right before `</body>`.
 
 
 ## Contributing
+
+First of all, thank you for your help! :green_heart:
+
+If you want a feature implemented, the best way to get it done
+is to submit a pull request that implements it.
+Tests, readme and changelog entries would be nice.
 
 1. Fork it ( http://github.com/railslove/rack-tracker/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
