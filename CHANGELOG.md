@@ -1,3 +1,7 @@
+# 0.2.0
+
+  * added support for GoSquared
+
 # 0.1.3
 
   * [BUGFIX] ecommerce events weren't created properly
