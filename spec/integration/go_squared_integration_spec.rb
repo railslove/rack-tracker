@@ -1,28 +1,20 @@
-require 'support/metal_controller'
-require 'support/fake_handler'
+require 'support/capybara_app_helper'
 
 RSpec.describe "GoSquared Integration" do
-  def setup_go_squared_app(options = {})
-    Capybara.app = Rack::Builder.new do
-      use Rack::Tracker do
-        handler :go_squared, options
-      end
-      run MetalController.action(:go_squared)
-    end
-  end
-
   subject { page }
 
   before do
-    setup_go_squared_app(
-      tracker: '123456',
-      anonymize_ip: true,
-      cookie_domain: 'domain.com',
-      use_cookies: true,
-      track_hash: true,
-      track_local: true,
-      track_params: true
-    )
+    setup_app(action: :go_squared) do |tracker|
+      tracker.handler :go_squared, {
+        tracker: '123456',
+        anonymize_ip: true,
+        cookie_domain: 'domain.com',
+        use_cookies: true,
+        track_hash: true,
+        track_local: true,
+        track_params: true
+      }
+    end
     visit '/'
   end
 
@@ -64,10 +56,11 @@ RSpec.describe "GoSquared Integration" do
 
   context 'multiple trackers are passed in' do
     before do
-      setup_go_squared_app(trackers: {
-        primaryTracker: '12345',
-        secondaryTracker: '67890'
-      })
+      setup_app(action: :go_squared) do |tracker|
+        tracker.handler :go_squared, {
+          trackers: { primaryTracker: '12345', secondaryTracker: '67890' }
+        }
+      end
       visit '/'
     end
 

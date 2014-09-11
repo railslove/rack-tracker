@@ -1,15 +1,10 @@
-require 'support/metal_controller'
-require 'support/fake_handler'
+require 'support/capybara_app_helper'
 
 RSpec.describe "Facebook Integration" do
   before do
-    Capybara.app = Rack::Builder.new do
-      use Rack::Tracker do
-        handler :google_analytics, { tracker: 'U-XXX-Y' }
-      end
-      run MetalController.action(:google_analytics)
+    setup_app(action: :google_analytics) do |tracker|
+      tracker.handler :google_analytics, { tracker: 'U-XXX-Y' }
     end
-
     visit '/'
   end
 

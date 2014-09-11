@@ -1,14 +1,10 @@
-require 'support/metal_controller'
-require 'support/fake_handler'
+require 'support/capybara_app_helper'
 
 RSpec.describe "Rails Integration" do
   before do
-    Capybara.app = Rack::Builder.new do
-      use Rack::Tracker do
-        handler :track_all_the_things, { custom_key: 'SomeKey123' }
-        handler :another_handler, { custom_key: 'AnotherKey42' }
-      end
-      run MetalController.action(:index)
+    setup_app(action: :index) do |tracker|
+      tracker.handler :track_all_the_things, { custom_key: 'SomeKey123' }
+      tracker.handler :another_handler, { custom_key: 'AnotherKey42' }
     end
 
     visit '/'

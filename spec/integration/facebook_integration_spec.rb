@@ -1,15 +1,10 @@
-require 'support/metal_controller'
-require 'support/fake_handler'
+require 'support/capybara_app_helper'
 
 RSpec.describe "Facebook Integration" do
   before do
-    Capybara.app = Rack::Builder.new do
-      use Rack::Tracker do
-        handler :facebook, { custom_audience: 'my-audience' }
-      end
-      run MetalController.action(:facebook)
+    setup_app(action: :facebook) do |tracker|
+      tracker.handler :facebook, { custom_audience: 'my-audience' }
     end
-
     visit '/'
   end
 
