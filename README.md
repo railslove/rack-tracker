@@ -50,9 +50,7 @@ config.middleware.use(Rack::Tracker) do
 end
 ````
 
-This will add Google Analytics as a tracking handler. `Rack::Tracker` some with
-support for Google Analytics and Facebook. Others might be added in the future
-but you can easily write your own handlers.
+This will add Google Analytics as a tracking handler.
 
 ### Google Analytics
 
@@ -224,10 +222,10 @@ It will render the following to the site source:
 
 ### Custom Handlers
 
-Tough we give you Google Analytics and Facebook right out of the box, you might
+Tough we give you handlers for a few tracking services right out of the box, you might
 be interested adding support for your custom tracking/analytics service.
 
-Writing a handler is straight forward ;) There are just a couple of methods that
+Writing a handler is straight forward ;) and there are just a couple of methods that
 your class needs to implement.
 
 Start with a plain ruby class that inherits from `Rack::Tracker::Handler`
@@ -248,7 +246,7 @@ end
 ```
 
 This will render the `template/my_handler.erb` and inject the result into the source. You
-can be creative about where the template is stored, we tend to have them around
+can be creative about where the template is stored, but we tend to have them around
 our actual handler code.
 
 ```erb
@@ -281,10 +279,22 @@ end
 
 The snippit will then be rendered right before `</body>`.
 
+To enable the *tracker dsl* functionality in your controllers
+you need to implement the `track` class method on your handler:
+
+```ruby
+def self.track(name, *event)
+  # do something with the event(s) to prepare them for your template
+  # and return a hash with a signature like { name => event }
+end
+```
+
+Checkout the existing handlers in `lib/rack/trackers` for some inspiration. :)
+
 
 ## Contributing
 
-First of all, thank you for your help! :green_heart:
+First of all, **thank** you for your help! :green_heart:
 
 If you want a feature implemented, the best way to get it done
 is to submit a pull request that implements it.
