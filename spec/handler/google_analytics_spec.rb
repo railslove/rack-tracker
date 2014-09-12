@@ -64,17 +64,21 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
       def env
         {'tracker' => {
           'google_analytics' => [
-            Rack::Tracker::GoogleAnalytics::Ecommerce.new({type: 'addItem', id: '1234', affiliation: 'Acme Clothing', revenue: 11.99, shipping: '5', tax: '1.29', currency: 'EUR'})
+            Rack::Tracker::GoogleAnalytics::Ecommerce.new({type: 'addItem', id: '1234', name: 'Fluffy Pink Bunnies', sku: 'DD23444', category: 'Party Toys', price: '11.99', quantity: '1'}),
+            Rack::Tracker::GoogleAnalytics::Ecommerce.new({type: 'addTransaction', id: '1234', affiliation: 'Acme Clothing', revenue: 11.99, shipping: '5', tax: '1.29', currency: 'EUR'})
           ]
         }}
       end
 
       subject { described_class.new(env, tracker: 'somebody', ecommerce: true).render }
       it "will add items" do
-        expect(subject).to match(%r{ga\(\"ecommerce:addItem\",#{{id: '1234', affiliation: 'Acme Clothing', revenue: 11.99, shipping: '5', tax: '1.29', currency: 'EUR'}.to_json}})
+        expect(subject).to match(%r{ga\(\"ecommerce:addItem\",#{{id: '1234', name: 'Fluffy Pink Bunnies', sku: 'DD23444', category: 'Party Toys', price: '11.99', quantity: '1'}.to_json}})
+      end
+      it "will add transaction" do
+        expect(subject).to match(%r{ga\(\"ecommerce:addTransaction\",#{{id: '1234', affiliation: 'Acme Clothing', revenue: 11.99, shipping: '5', tax: '1.29', currency: 'EUR'}.to_json}})
       end
       it "will submit cart" do
-        expect(subject).to match(%r{ga\('send:ecommerce'\);})
+        expect(subject).to match(%r{ga\('ecommerce:send'\);})
       end
     end
   end

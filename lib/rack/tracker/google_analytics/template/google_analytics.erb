@@ -37,7 +37,7 @@
 <% end %>
 
 <% if options[:ecommerce] && ecommerce_events.any? %>
-  ga('send:ecommerce');
+  ga('ecommerce:send');
 <% end %>
 
 <% if tracker %>
