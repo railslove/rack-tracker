@@ -1,6 +1,11 @@
+# 0.2.1
+
+  * [BUGFIX] sending the ecommerce cart was misspelled
+
 # 0.2.0
 
   * added support for GoSquared
+  * added support for Visual Website Optimizer
 
 # 0.1.3
 
