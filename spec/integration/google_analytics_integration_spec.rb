@@ -1,5 +1,4 @@
 require 'support/capybara_app_helper'
-require 'pry'
 
 RSpec.describe "Facebook Integration" do
   before do
