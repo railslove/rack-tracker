@@ -1,3 +1,7 @@
+# 0.2.2
+
+  * [BUGFIX] the tracker key got lost while merging multiple nested events into env
+
 # 0.2.1
 
   * [BUGFIX] sending the ecommerce cart was misspelled
