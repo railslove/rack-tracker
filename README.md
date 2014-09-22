@@ -18,7 +18,7 @@ rack middleware that can be hooked up to multiple services and exposing them in 
 fashion. It comes in two parts, the first one is the actual middleware that you can add
 to the middleware stack the second part are the service-handlers that you're going to use
 in your application. It's easy to add your own [custom handlers](#custom-handlers),
-but to get you startet we're shipping support for the following services out of the box:
+but to get you started we're shipping support for the following services out of the box:
 
 * [Google Analytics](#google-analytics)
 * [Facebook](#facebook)
