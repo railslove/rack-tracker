@@ -10,7 +10,7 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
     end
 
     def event
-      { hitType: self.type }.merge(attributes).compact
+      { hitType: self.type }.merge(attributes.stringify_values).compact
     end
 
     def attributes
@@ -20,7 +20,7 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
 
   class Ecommerce < OpenStruct
     def write
-      ["ecommerce:#{self.type}", self.to_h.except(:type).compact].to_json.gsub(/\[|\]/, '')
+      ["ecommerce:#{self.type}", self.to_h.except(:type).compact.stringify_values].to_json.gsub(/\[|\]/, '')
     end
   end
 
