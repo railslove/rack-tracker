@@ -1,3 +1,7 @@
+# 0.2.3
+
+  * [ENHANCEMENT] support all the rails versions >= 4.0.0
+
 # 0.2.2
 
   * [BUGFIX] the tracker key got lost while merging multiple nested events into env
