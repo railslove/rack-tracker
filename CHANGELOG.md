@@ -1,3 +1,7 @@
+# 0.2.4
+
+  * [ENHANCEMENT] support all the rack versions >= 1.5.2
+
 # 0.2.3
 
   * [ENHANCEMENT] support all the rails versions >= 4.0.0
