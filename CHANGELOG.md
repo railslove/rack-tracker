@@ -1,3 +1,7 @@
+# 0.2.5
+
+  * [BUGFIX] stringify google analytics event values to be api compliant
+
 # 0.2.4
 
   * [ENHANCEMENT] support all the rack versions >= 1.5.2
