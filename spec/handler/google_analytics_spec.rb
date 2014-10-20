@@ -48,13 +48,13 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
     describe "with a event value" do
       def env
         {'tracker' => { 'google_analytics' => [
-          Rack::Tracker::GoogleAnalytics::Send.new(category: "Users", action: "Login", label: "Standard", value: 5)
+          Rack::Tracker::GoogleAnalytics::Send.new(category: "Users", action: "Login", label: "Standard", value: "5")
         ]}}
       end
 
       subject { described_class.new(env, tracker: 'somebody').render }
       it "will show events with values" do
-        expect(subject).to match(%r{ga\(\"send\",{\"hitType\":\"event\",\"eventCategory\":\"Users\",\"eventAction\":\"Login\",\"eventLabel\":\"Standard\",\"eventValue\":5}\)},)
+        expect(subject).to match(%r{ga\(\"send\",{\"hitType\":\"event\",\"eventCategory\":\"Users\",\"eventAction\":\"Login\",\"eventLabel\":\"Standard\",\"eventValue\":\"5\"}\)},)
       end
     end
   end
@@ -75,7 +75,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
         expect(subject).to match(%r{ga\(\"ecommerce:addItem\",#{{id: '1234', name: 'Fluffy Pink Bunnies', sku: 'DD23444', category: 'Party Toys', price: '11.99', quantity: '1'}.to_json}})
       end
       it "will add transaction" do
-        expect(subject).to match(%r{ga\(\"ecommerce:addTransaction\",#{{id: '1234', affiliation: 'Acme Clothing', revenue: 11.99, shipping: '5', tax: '1.29', currency: 'EUR'}.to_json}})
+        expect(subject).to match(%r{ga\(\"ecommerce:addTransaction\",#{{id: '1234', affiliation: 'Acme Clothing', revenue: '11.99', shipping: '5', tax: '1.29', currency: 'EUR'}.to_json}})
       end
       it "will submit cart" do
         expect(subject).to match(%r{ga\('ecommerce:send'\);})
