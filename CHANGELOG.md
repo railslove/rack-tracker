@@ -1,3 +1,7 @@
+# 0.2.6
+
+  * [ENHANCEMENT] rails 3 support
+
 # 0.2.5
 
   * [BUGFIX] stringify google analytics event values to be api compliant
