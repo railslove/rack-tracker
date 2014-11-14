@@ -259,7 +259,7 @@ Lets give it a try! We need to mount our new handler in the `Rack::Tracker` midd
 
 ```ruby
   config.middleware.use(Rack::Tracker) do
-    handler MyTracker, { awesome: true }
+    handler MyHandler, { awesome: true }
   end
 ````
 
