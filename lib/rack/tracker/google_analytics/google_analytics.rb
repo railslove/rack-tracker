@@ -25,7 +25,7 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   end
 
   def tracker
-    options[:tracker].try(:call, env) || options[:tracker]
+    options[:tracker].respond_to?(:call) ? options[:tracker].call(env) : options[:tracker]
   end
 
   def render

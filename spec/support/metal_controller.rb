@@ -3,7 +3,14 @@ require 'action_controller'
 class MetalController < ActionController::Metal
   include Rack::Tracker::Controller
   include AbstractController::Rendering
-  include ActionView::Layouts
+
+  # depending on the actionpack version the layout code was moved
+  if defined?(ActionView::Layouts)
+    include ActionView::Layouts # => this is the new and shiny
+  else
+    include AbstractController::Layouts
+  end
+
   append_view_path File.join(File.dirname(__FILE__), '../fixtures/views')
   layout 'application'
 
