@@ -1,3 +1,7 @@
+# 0.3.0
+
+  * [ENHANCEMENT] google analytics cookieDomain renamed to cookie_domain
+
 # 0.2.6
 
   * [ENHANCEMENT] rails 3 support
