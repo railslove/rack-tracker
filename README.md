@@ -52,6 +52,34 @@ end
 
 This will add Google Analytics as a tracking handler.
 
+## Sinatra / Rack
+
+You can even use Rack::Tracker with Sinatra or respectively with every Rack application
+
+Just insert the Tracker in your Rack stack:
+
+```ruby
+web = Rack::Builder.new do
+  use Rack::Tracker do
+    handler :google_analytics, { tracker: 'U-XXXXX-Y' }
+  end
+  run Sinatra::Web
+end
+
+run web
+```
+
+Although you cannot use the Rails controller extensions for obvious reasons, its easy
+to inject arbitrary events into the request environment.
+
+```ruby
+request.env['tracker'] = {
+  'google_analytics' => [
+    Rack::Tracker::GoogleAnalytics::Send.new(category: "Users", action: "Login", label: "Standard")
+  ]
+}
+```
+
 ### Google Analytics
 
 * `:anonymize_ip` -  sets the tracker to remove the last octet from all IP addresses, see https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApi_gat?hl=de#_gat._anonymizeIp for details.
