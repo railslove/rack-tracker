@@ -84,7 +84,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
   end
 
   describe "with custom domain" do
-    subject { described_class.new(env, tracker: 'somebody', cookieDomain: "railslabs.com").render }
+    subject { described_class.new(env, tracker: 'somebody', cookie_domain: "railslabs.com").render }
 
     it "will show asyncronous tracker with cookieDomain" do
       expect(subject).to match(%r{ga\('create', 'somebody', {\"cookieDomain\":\"railslabs.com\"}\)})
