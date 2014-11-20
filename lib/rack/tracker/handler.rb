@@ -7,7 +7,8 @@ class Rack::Tracker::Handler
 
   def initialize(env, options = {})
     self.env = env
-    self.options = options
+    self.options  = options
+    self.position = options[:position] if options.has_key?(:position)
   end
 
   def events
