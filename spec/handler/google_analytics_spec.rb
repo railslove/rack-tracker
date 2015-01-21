@@ -30,6 +30,34 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
     end
   end
 
+  describe '#tracker_options' do
+    describe 'with cookie_domain option' do
+      subject { described_class.new(env, { cookie_domain: 'railslabs.com' }) }
+
+      it 'returns hash with cookieDomain' do
+        expect(subject.tracker_options).to eql ({ cookieDomain: 'railslabs.com' })
+      end
+    end
+
+    describe 'with user_id option' do
+      context 'returning a value' do
+        subject { described_class.new(env, { user_id: ->(env){ '123' } }) }
+
+        it 'returns hash with userId' do
+          expect(subject.tracker_options).to eql ({ userId: '123' })
+        end
+      end
+
+      context 'returning nil' do
+        subject { described_class.new(env, { user_id: ->(env){ nil } }) }
+
+        it 'returns hash without userId' do
+          expect(subject.tracker_options).to eql ({ })
+        end
+      end
+    end
+  end
+
   describe "with events" do
     describe "default" do
       def env
@@ -89,6 +117,15 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
 
     it "will show asyncronous tracker with cookieDomain" do
       expect(subject).to match(%r{ga\('create', 'somebody', {\"cookieDomain\":\"railslabs.com\"}\)})
+      expect(subject).to match(%r{ga\('send', 'pageview'\)})
+    end
+  end
+
+  describe "with user_id tracking" do
+    subject { described_class.new(env, tracker: 'somebody', user_id: ->(env){ '123' } ).render }
+
+    it "will show asyncronous tracker with userId" do
+      expect(subject).to match(%r{ga\('create', 'somebody', {\"userId\":\"123\"}\)})
       expect(subject).to match(%r{ga\('send', 'pageview'\)})
     end
   end

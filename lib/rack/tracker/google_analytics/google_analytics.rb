@@ -28,6 +28,19 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
     options[:tracker].respond_to?(:call) ? options[:tracker].call(env) : options[:tracker]
   end
 
+  def tracker_options
+    @tracker_options ||= begin
+      tracker_options = {}
+
+      tracker_options[:cookieDomain] = options[:cookie_domain] if options[:cookie_domain]
+
+      user_id = options[:user_id].call(env) if options[:user_id]
+      tracker_options[:userId] = "#{user_id}" if user_id.present?
+
+      tracker_options
+    end
+  end
+
   def render
     Tilt.new( File.join( File.dirname(__FILE__), 'template', 'google_analytics.erb') ).render(self)
   end

@@ -1,3 +1,7 @@
+# 0.3.1
+
+  * [ENHANCEMENT] add support for google analytics userId
+
 # 0.3.0
 
   * [ENHANCEMENT] google analytics cookieDomain renamed to cookie_domain
