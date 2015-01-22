@@ -1,3 +1,4 @@
+<% if events.any? %>
 <script type: 'text/javascript', src: '//static.criteo.net/js/ld/ld.js', async: 'true' />
 <script type='text/javascript'>
 window.criteo_q = window.criteo_q || [];
@@ -16,3 +17,4 @@ window.criteo_q.push({ event: 'setCustomerId', id: '<%= tracker_options[:user_id
 window.criteo_q.push(<%= event.write %>);
 <% end %>
 </script>
+<% end %>

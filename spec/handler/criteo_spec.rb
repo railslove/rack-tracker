@@ -18,33 +18,44 @@ RSpec.describe Rack::Tracker::Criteo do
     expect(described_class.new(env).position).to eq(:body)
   end
 
-  describe 'with user_id' do
-    subject { described_class.new(env, user_id: ->(env){ '123' } ).render }
-
-    it 'will push the setCustomerId event to the queue' do
-      expect(subject).to include "window.criteo_q.push({ event: 'setCustomerId', id: '123' });"
-    end
-  end
-
-  describe 'with events' do
-    def env
-      {
-        'tracker' => {
-        'criteo' =>
-          [
-            {
-              event: 'viewItem',
-              item: 'P001',
-              class_name: 'Event'
-            }
-          ]
+  describe '#render' do
+    context 'with events' do
+      let(:env) {
+        {
+          'tracker' => {
+          'criteo' =>
+            [
+              {
+                event: 'viewItem',
+                item: 'P001',
+                class_name: 'Event'
+              }
+            ]
+          }
         }
       }
-    end
-    subject { described_class.new(env).render }
 
-    it 'will push the tracking events to the queue' do
-      expect(subject).to include 'window.criteo_q.push({"event":"viewItem","item":"P001"});'
+      subject { described_class.new(env).render }
+
+      it 'will push the tracking events to the queue' do
+        expect(subject).to include 'window.criteo_q.push({"event":"viewItem","item":"P001"});'
+      end
+    end
+
+    context 'without events' do
+     let(:env) {
+        {
+          'tracker' => {
+            'criteo' => []
+          }
+        }
+      }
+
+      subject { described_class.new(env, { user_id: ->(env){ '123' } }).render }
+
+      it 'should render nothing' do
+        expect(subject).to eql ""
+      end
     end
   end
 
