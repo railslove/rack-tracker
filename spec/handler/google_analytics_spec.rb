@@ -1,7 +1,10 @@
 RSpec.describe Rack::Tracker::GoogleAnalytics do
 
   def env
-    {misc: 'foobar'}
+    {
+      misc: 'foobar',
+      user_id: '123'
+    }
   end
 
   it 'will be placed in the head' do
@@ -35,26 +38,26 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
       stub_const("#{described_class}::ALLOWED_TRACKER_OPTIONS", [:some_option])
     end
 
-    context 'an allowed option configured with a static value' do
+    context 'with an allowed option configured with a static value' do
       subject { described_class.new(env, { some_option: 'value' }) }
 
-      it 'returns hash with cookieDomain' do
+      it 'returns hash with option set' do
         expect(subject.tracker_options).to eql ({ someOption: 'value' })
       end
     end
 
-    context 'an allowed option configured with a block' do
-      subject { described_class.new(env, { some_option: ->(env){ 'value' } }) }
+    context 'with an allowed option configured with a block' do
+      subject { described_class.new(env, { some_option: lambda { |env| return env[:misc] } }) }
 
-      it 'returns hash with cookieDomain' do
-        expect(subject.tracker_options).to eql ({ someOption: 'value' })
+      it 'returns hash with option set' do
+        expect(subject.tracker_options).to eql ({ someOption: 'foobar' })
       end
     end
 
-    context 'a non allowed option' do
+    context 'with a non allowed option' do
       subject { described_class.new(env, { new_option: 'value' }) }
 
-      it 'returns hash with cookieDomain' do
+      it 'returns an empty hash' do
         expect(subject.tracker_options).to eql ({})
       end
     end
@@ -124,7 +127,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
   end
 
   describe "with user_id tracking" do
-    subject { described_class.new(env, tracker: 'somebody', user_id: ->(env){ '123' } ).render }
+    subject { described_class.new(env, tracker: 'somebody', user_id: lambda { |env| return env[:user_id] } ).render }
 
     it "will show asyncronous tracker with userId" do
       expect(subject).to match(%r{ga\('create', 'somebody', {\"userId\":\"123\"}\)})

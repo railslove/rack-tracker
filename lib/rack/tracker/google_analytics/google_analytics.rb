@@ -34,15 +34,13 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   def tracker_options
     @tracker_options ||= begin
       tracker_options = {}
-      ALLOWED_TRACKER_OPTIONS.each do |option|
-        if options[option]
-          if options[option].respond_to?(:call)
-            option_value = options[option].call(env)
-          else
-            option_value = options[option]
-          end
+      options.slice(*ALLOWED_TRACKER_OPTIONS).each do |key, value|
+        if value.respond_to?(:call)
+          option_value = value.call(env)
+        else
+          option_value = value
         end
-        tracker_options["#{option}".camelize(:lower).to_sym] = "#{option_value}" if option_value.present?
+        tracker_options["#{key}".camelize(:lower).to_sym] = "#{option_value}" if option_value.present?
       end
       tracker_options
     end
