@@ -4,4 +4,4 @@ rvm:
   - 2.0.0
   - 2.1.2
   - jruby
-  bundler_args: --without debug
+bundler_args: --without debug
