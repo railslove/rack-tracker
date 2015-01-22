@@ -31,29 +31,31 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
   end
 
   describe '#tracker_options' do
-    describe 'with cookie_domain option' do
-      subject { described_class.new(env, { cookie_domain: 'railslabs.com' }) }
+    before do
+      stub_const("#{described_class}::ALLOWED_TRACKER_OPTIONS", [:some_option])
+    end
+
+    context 'an allowed option configured with a static value' do
+      subject { described_class.new(env, { some_option: 'value' }) }
 
       it 'returns hash with cookieDomain' do
-        expect(subject.tracker_options).to eql ({ cookieDomain: 'railslabs.com' })
+        expect(subject.tracker_options).to eql ({ someOption: 'value' })
       end
     end
 
-    describe 'with user_id option' do
-      context 'returning a value' do
-        subject { described_class.new(env, { user_id: ->(env){ '123' } }) }
+    context 'an allowed option configured with a block' do
+      subject { described_class.new(env, { some_option: ->(env){ 'value' } }) }
 
-        it 'returns hash with userId' do
-          expect(subject.tracker_options).to eql ({ userId: '123' })
-        end
+      it 'returns hash with cookieDomain' do
+        expect(subject.tracker_options).to eql ({ someOption: 'value' })
       end
+    end
 
-      context 'returning nil' do
-        subject { described_class.new(env, { user_id: ->(env){ nil } }) }
+    context 'a non allowed option' do
+      subject { described_class.new(env, { new_option: 'value' }) }
 
-        it 'returns hash without userId' do
-          expect(subject.tracker_options).to eql ({ })
-        end
+      it 'returns hash with cookieDomain' do
+        expect(subject.tracker_options).to eql ({})
       end
     end
   end
