@@ -32,6 +32,6 @@ class Rack::Tracker::GoSquared < Rack::Tracker::Handler
   end
 
   def self.track(name, *event)
-    { name.to_s => [const_get(event.first.to_s.classify).new(event.last)] }
+    { name.to_s => [event.last.merge(class_name: event.first.to_s.classify)] }
   end
 end

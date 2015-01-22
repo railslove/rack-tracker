@@ -12,7 +12,7 @@ class Rack::Tracker::Facebook < Rack::Tracker::Handler
   end
 
   def self.track(name, *event)
-    { name.to_s => [Event.new(event.last)] }
+    { name.to_s => [event.last.merge(class_name: 'Event')] }
   end
 
 end
