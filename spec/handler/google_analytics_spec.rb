@@ -54,6 +54,14 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
       end
     end
 
+    context 'with an allowed option configured with a block returning nil' do
+      subject { described_class.new(env, { some_option: lambda { |env| return env[:non_existing_key] } }) }
+
+      it 'returns an empty hash' do
+        expect(subject.tracker_options).to eql ({})
+      end
+    end
+
     context 'with a non allowed option' do
       subject { described_class.new(env, { new_option: 'value' }) }
 
