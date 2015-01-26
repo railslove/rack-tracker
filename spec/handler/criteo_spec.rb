@@ -59,41 +59,14 @@ RSpec.describe Rack::Tracker::Criteo do
     end
   end
 
-  describe '#tracker_options' do
-    describe 'with site_type' do
-      context 'returning a value' do
-        subject { described_class.new(env, { site_type: ->(env){ 'd' } }) }
+  describe '#tracker_events' do
+    subject { described_class.new(env, { set_account: '1234', set_site_type: ->(env){ 'd' }, set_customer_id: ->(env){ nil } }) }
 
-        it 'returns hash with userId' do
-          expect(subject.tracker_options).to eql ({ site_type: 'd' })
-        end
-      end
-
-      context 'returning nil' do
-        subject { described_class.new(env, { site_type: ->(env){ nil } }) }
-
-        it 'returns hash without userId' do
-          expect(subject.tracker_options).to eql ({ })
-        end
-      end
-    end
-
-    describe 'with user_id option' do
-      context 'returning a value' do
-        subject { described_class.new(env, { user_id: ->(env){ '123' } }) }
-
-        it 'returns hash with userId' do
-          expect(subject.tracker_options).to eql ({ user_id: '123' })
-        end
-      end
-
-      context 'returning nil' do
-        subject { described_class.new(env, { user_id: ->(env){ nil } }) }
-
-        it 'returns hash without userId' do
-          expect(subject.tracker_options).to eql ({ })
-        end
-      end
+    specify do
+      expect(subject.tracker_events).to match_array [
+        Rack::Tracker::Criteo::Event.new(event: 'setSiteType', type: 'd'),
+        Rack::Tracker::Criteo::Event.new(event: 'setAccount', account: '1234')
+      ]
     end
   end
 

@@ -2,18 +2,7 @@
 <script type: 'text/javascript', src: '//static.criteo.net/js/ld/ld.js', async: 'true' />
 <script type='text/javascript'>
 window.criteo_q = window.criteo_q || [];
-
-window.criteo_q.push({ event: 'setAccount', account: '<%= options[:account_id] %>' });
-
-<% if tracker_options[:site_type] %>
-window.criteo_q.push({ event: 'setSiteType', type: '<%= tracker_options[:site_type] %>' });
-<% end %>
-
-<% if tracker_options[:user_id] %>
-window.criteo_q.push({ event: 'setCustomerId', id: '<%= tracker_options[:user_id] %>' });
-<% end %>
-
-<% events.each do |event| %>
+<% (tracker_events + events).each do |event| %>
 window.criteo_q.push(<%= event.write %>);
 <% end %>
 </script>

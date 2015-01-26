@@ -1,4 +1,12 @@
 class Criteo <  Rack::Tracker::Handler
+
+  TRACKER_OPTIONS = {
+    # option/event name => event key name, e.g. { event: 'setSiteType', type: '' }
+    set_site_type: :type,
+    set_account: :account,
+    set_customer_id: :id
+  }
+
   class Event < OpenStruct
     def write
       to_h.to_json
@@ -7,17 +15,16 @@ class Criteo <  Rack::Tracker::Handler
 
   self.position = :body
 
-  def tracker_options
-    @tracker_options ||= begin
-      tracker_options = {}
-
-      user_id = options[:user_id].call(env) if options[:user_id]
-      tracker_options[:user_id] = "#{user_id}" if user_id.present?
-
-      site_type = options[:site_type].call(env) if options[:site_type]
-      tracker_options[:site_type] = "#{site_type}" if site_type.present?
-
-      tracker_options
+  # global events for each tracker instance
+  def tracker_events
+    @tracker_events ||= begin
+      tracker_events = []
+      options.slice(*TRACKER_OPTIONS.keys).each do |key, value|
+        if option_value = value.respond_to?(:call) ? value.call(env) : value
+          tracker_events << Event.new(:event => "#{key}".camelize(:lower),  TRACKER_OPTIONS[key] => "#{option_value}")
+        end
+      end
+      tracker_events
     end
   end
 
