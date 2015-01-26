@@ -1,4 +1,7 @@
 class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
+
+  ALLOWED_TRACKER_OPTIONS = [:cookie_domain, :user_id]
+
   class Send < OpenStruct
     def initialize(attrs = {})
       attrs.reverse_merge!(type: 'event')
@@ -26,6 +29,18 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
 
   def tracker
     options[:tracker].respond_to?(:call) ? options[:tracker].call(env) : options[:tracker]
+  end
+
+  def tracker_options
+    @tracker_options ||= begin
+      tracker_options = {}
+      options.slice(*ALLOWED_TRACKER_OPTIONS).each do |key, value|
+        if option_value = value.respond_to?(:call) ? value.call(env) : value
+          tracker_options["#{key}".camelize(:lower).to_sym] = "#{option_value}"
+        end
+      end
+      tracker_options
+    end
   end
 
   def render
