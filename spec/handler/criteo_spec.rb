@@ -63,7 +63,7 @@ RSpec.describe Rack::Tracker::Criteo do
     subject { described_class.new(env, options) }
 
     context 'nil value' do
-      let(:options) = { { set_account: nil } }
+      let(:options) { { set_account: nil } }
 
       it 'should ignore option' do
         expect(subject.tracker_events).to match_array []
@@ -71,7 +71,7 @@ RSpec.describe Rack::Tracker::Criteo do
     end
 
     context 'static string value' do
-      let(:options) = { { set_account: '1234' } }
+      let(:options) { { set_account: '1234' } }
 
       it 'should set the value' do
         expect(subject.tracker_events).to match_array [
@@ -81,7 +81,7 @@ RSpec.describe Rack::Tracker::Criteo do
     end
 
     context 'static integer value' do
-      let(:options) = { { set_customer_id: 1234 } }
+      let(:options) { { set_customer_id: 1234 } }
 
       it 'should set the value as string' do
         expect(subject.tracker_events).to match_array [
@@ -91,7 +91,7 @@ RSpec.describe Rack::Tracker::Criteo do
     end
 
     context 'unsupported option' do
-      let(:options) { unsupported: "option" }
+      let(:options) { { unsupported: "option" } }
 
       subject { described_class.new(env, options) }
 
@@ -101,7 +101,7 @@ RSpec.describe Rack::Tracker::Criteo do
     end
 
     context 'proc returning value' do
-      let(:options) = { { set_site_type: ->(env){ 'm' } } }
+      let(:options) { { set_site_type: ->(env){ 'm' } } }
 
       it 'should set the value' do
         expect(subject.tracker_events).to match_array [
@@ -111,7 +111,7 @@ RSpec.describe Rack::Tracker::Criteo do
     end
 
     context 'proc returning nil' do
-      let(:options) = { { set_account: ->(env){ nil } } }
+      let(:options) { { set_account: ->(env){ nil } } }
 
       it 'should ignore the option' do
         expect(subject.tracker_events).to match_array []
