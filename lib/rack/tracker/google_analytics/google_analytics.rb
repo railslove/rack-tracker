@@ -35,7 +35,7 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
     @tracker_options ||= {}.tap do |tracker_options|
       options.slice(*ALLOWED_TRACKER_OPTIONS).each do |key, value|
         if option_value = value.respond_to?(:call) ? value.call(env) : value
-          tracker_options["#{key}".camelize(:lower).to_sym] = "#{option_value}"
+          tracker_options[key.to_s.camelize(:lower).to_sym] = option_value.to_s
         end
       end
     end
