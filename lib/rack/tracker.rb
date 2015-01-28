@@ -15,6 +15,7 @@ require "rack/tracker/google_analytics/google_analytics"
 require "rack/tracker/facebook/facebook"
 require "rack/tracker/vwo/vwo"
 require "rack/tracker/go_squared/go_squared"
+require "rack/tracker/criteo/criteo"
 
 module Rack
   class Tracker

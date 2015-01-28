@@ -49,4 +49,11 @@ class MetalController < ActionController::Metal
     end
     render "metal/index"
   end
+
+  def criteo
+    tracker do |t|
+      t.criteo :track, { event: 'viewItem', item: 'P001' }
+    end
+    render 'metal/index'
+  end
 end
