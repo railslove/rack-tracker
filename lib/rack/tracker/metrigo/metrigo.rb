@@ -2,7 +2,7 @@ class Rack::Tracker::Metrigo < Rack::Tracker::Handler
   class Event < OpenStruct
     def initialize(args)
       args[:arguments] ||= {}
-      super args
+      super
     end
 
     def write
