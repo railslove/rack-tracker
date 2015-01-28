@@ -30,7 +30,7 @@ class Criteo <  Rack::Tracker::Handler
     Tilt.new( File.join( File.dirname(__FILE__), 'template', 'criteo.erb') ).render(self)
   end
 
-  def self.track(name, *event)
-    { name.to_s => [event.last.merge(class_name: 'Event')] }
+  def self.track(name, event_name, event_args = {})
+    { name.to_s => [{ class_name: 'Event', event: event_name.to_s.camelize(:lower) }.merge(event_args)] }
   end
 end
