@@ -1,0 +1,19 @@
+<!-- Metrigo interest mining tag v1.0-->
+<script type="text/javascript" charset="utf-8">
+var _mstack = _mstack || []; // Queue for API calls
+
+<% events.each do |event| %>
+_mstack.push(function() {
+  <%= event.write %>
+});
+<% end %>
+
+(function() {
+  var s = document.createElement('script');
+  s.async = true;
+  var h = (("https:" == document.location.protocol) ? "https://" : "http://");
+  s.src = h + 'rtb.metrigo.com/delivery/sync_and_log.js';
+  var c = document.getElementsByTagName('script')[0];
+  c.parentNode.insertBefore(s, c);
+})();
+</script>
