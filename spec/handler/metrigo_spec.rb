@@ -8,20 +8,12 @@ RSpec.describe Rack::Tracker::Metrigo do
     end
 
     describe '#write' do
-      specify { expect(subject.write).to eq "DELIVERY.DataLogger.logHomepage()" }
-    end
-
-    describe '#write_arguments' do
-      context 'nil' do
-        it 'should return nothing' do
-          expect(subject.write_arguments).to be_nil
-        end
-      end
+      specify { expect(subject.write).to eq "DELIVERY.DataLogger.logHomepage({})" }
 
       context 'with arguments hash' do
-        subject { described_class.new({ arguments: { categories: ["cat1", "cat2"], shop_id: 7 } }) }
+        subject { described_class.new({ function_name: 'logCategory', arguments: { categories: ["cat1", "cat2"], shop_id: 7 } }) }
         it 'should return the hash as JSON' do
-          expect(subject.write_arguments).to eq '{"categories":["cat1","cat2"],"shop_id":7}'
+          expect(subject.write).to eq 'DELIVERY.DataLogger.logCategory({"categories":["cat1","cat2"],"shop_id":7})'
         end
       end
     end

@@ -6,11 +6,7 @@ class Rack::Tracker::Metrigo < Rack::Tracker::Handler
     end
 
     def write
-      "DELIVERY.DataLogger.#{function_name}(#{write_arguments})"
-    end
-
-    def write_arguments
-      arguments.to_json  if arguments.present?
+      "DELIVERY.DataLogger.#{function_name}(#{arguments.to_json})"
     end
   end
 
