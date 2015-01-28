@@ -49,4 +49,20 @@ class MetalController < ActionController::Metal
     end
     render "metal/index"
   end
+
+  def metrigo
+    tracker do |t|
+      t.metrigo :log_homepage
+      t.metrigo :log_category, { categories: ['cat1', 'cat2'] }
+      t.metrigo :log_product, { product: { external_id: 42 } }
+      t.metrigo :log_cart, { products: [ { external_id: 42 }, { external_id: 37 } ] }
+      t.metrigo(:log_conversion, {
+        type: 'lead',
+        order_id: 'a8ad-234q-asdad',
+        source: 0,
+        products: [ { external_id: 42, external_id: 37 }]
+      })
+    end
+    render "metal/index"
+  end
 end
