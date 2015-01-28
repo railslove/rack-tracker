@@ -5,7 +5,7 @@ require 'rspec'
 require 'rack/test'
 require 'capybara/rspec'
 require 'rack/tracker'
-require 'pry-byebug'
+require 'pry'
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
