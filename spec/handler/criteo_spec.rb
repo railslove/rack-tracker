@@ -43,7 +43,7 @@ RSpec.describe Rack::Tracker::Criteo do
     end
 
     context 'without events' do
-     let(:env) {
+      let(:env) {
         {
           'tracker' => {
             'criteo' => []
