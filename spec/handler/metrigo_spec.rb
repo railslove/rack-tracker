@@ -44,5 +44,21 @@ RSpec.describe Rack::Tracker::Metrigo do
     it 'will add shop_id and push the tracking events to the queue' do
       expect(subject).to include 'DELIVERY.DataLogger.logHomepage({"shop_id":1999})'
     end
+
+    context 'without events' do
+      let(:env) {
+        {
+          'tracker' => {
+            'metrigo' => []
+          }
+        }
+      }
+
+      subject { described_class.new(env, { shop_id: 1999 }).render }
+
+      it 'should render nothing' do
+        expect(subject).to eql ""
+      end
+    end
   end
 end
