@@ -14,7 +14,7 @@ RSpec.describe Rack::Tracker::GoSquared do
       def env
         {'tracker' => {
           'go_squared' => [
-            { class_name: 'VisitorName', name: 'John Doe' }
+            { 'class_name' => 'VisitorName', 'name' => 'John Doe' }
           ]
         }}
       end
@@ -30,7 +30,7 @@ RSpec.describe Rack::Tracker::GoSquared do
       def env
         {'tracker' => {
           'go_squared' => [
-            { class_name: 'VisitorInfo', age: 35, favorite_food: 'pizza' }
+            { 'class_name' => 'VisitorInfo', 'age' => 35, 'favorite_food' => 'pizza' }
           ]
         }}
       end

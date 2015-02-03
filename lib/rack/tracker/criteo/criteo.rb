@@ -31,6 +31,6 @@ class Criteo <  Rack::Tracker::Handler
   end
 
   def self.track(name, event_name, event_args = {})
-    { name.to_s => [{ class_name: 'Event', event: event_name.to_s.camelize(:lower) }.merge(event_args)] }
+    { name.to_s => [{ 'class_name' => 'Event', 'event' => event_name.to_s.camelize(:lower) }.merge(event_args.deep_stringify_keys)] }
   end
 end

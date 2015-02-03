@@ -26,9 +26,9 @@ RSpec.describe Rack::Tracker::Criteo do
           'criteo' =>
             [
               {
-                event: 'viewItem',
-                item: 'P001',
-                class_name: 'Event'
+                'event' => 'viewItem',
+                'item' => 'P001',
+                'class_name' => 'Event'
               }
             ]
           }
@@ -43,7 +43,7 @@ RSpec.describe Rack::Tracker::Criteo do
     end
 
     context 'without events' do
-     let(:env) {
+      let(:env) {
         {
           'tracker' => {
             'criteo' => []
