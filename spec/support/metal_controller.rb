@@ -49,4 +49,30 @@ class MetalController < ActionController::Metal
     end
     render "metal/index"
   end
+
+  def criteo
+    tracker do |t|
+      t.criteo :view_item, { item: 'P001' }
+      t.criteo :view_list, { item: ['P001', 'P002'] }
+      t.criteo :track_transaction, { id: 'id', item: { id: "P0038", price:"6.54", quantity:1 } }
+      t.criteo :view_basket, { item: [{ id: "P001", price:"6.54", quantity:1 }, { id: "P0038", price:"2.99", quantity:1 }] }
+    end
+    render 'metal/index'
+  end
+
+  def metrigo
+    tracker do |t|
+      t.metrigo :log_homepage
+      t.metrigo :log_category, { categories: ['cat1', 'cat2'] }
+      t.metrigo :log_product, { product: { external_id: 42 } }
+      t.metrigo :log_cart, { products: [ { external_id: 42 }, { external_id: 37 } ] }
+      t.metrigo(:log_conversion, {
+        type: 'lead',
+        order_id: 'a8ad-234q-asdad',
+        source: 0,
+        products: [ { external_id: 42, external_id: 37 }]
+      })
+    end
+    render "metal/index"
+  end
 end
