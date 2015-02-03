@@ -38,6 +38,13 @@ class MetalController < ActionController::Metal
     render "metal/index"
   end
 
+  def google_adwords_conversion
+    tracker do |t|
+      t.google_adwords_conversion :conversion, { id: 123456, language: 'en', format: '3', color: 'ffffff', label: 'Conversion Label' }
+    end
+    render "metal/index"
+  end
+
   def vwo
     render "metal/index"
   end
