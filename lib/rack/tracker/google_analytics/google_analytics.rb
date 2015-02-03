@@ -32,14 +32,12 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   end
 
   def tracker_options
-    @tracker_options ||= begin
-      tracker_options = {}
+    @tracker_options ||= {}.tap do |tracker_options|
       options.slice(*ALLOWED_TRACKER_OPTIONS).each do |key, value|
         if option_value = value.respond_to?(:call) ? value.call(env) : value
-          tracker_options["#{key}".camelize(:lower).to_sym] = "#{option_value}"
+          tracker_options[key.to_s.camelize(:lower).to_sym] = option_value.to_s
         end
       end
-      tracker_options
     end
   end
 
@@ -52,6 +50,6 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   end
 
   def self.track(name, *event)
-    { name.to_s => [event.last.merge(class_name: event.first.to_s.capitalize)] }
+    { name.to_s => [event.last.deep_stringify_keys.merge('class_name' => event.first.to_s.capitalize)] }
   end
 end

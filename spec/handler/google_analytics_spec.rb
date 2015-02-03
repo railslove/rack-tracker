@@ -76,7 +76,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
       def env
         {'tracker' => {
           'google_analytics' => [
-            { class_name: 'Send', category: "Users", action: "Login", label: "Standard" }
+            { 'class_name' => 'Send', 'category' => 'Users', 'action' => 'Login', 'label' => 'Standard' }
           ]
         }}
       end
@@ -90,7 +90,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
     describe "with a event value" do
       def env
         {'tracker' => { 'google_analytics' => [
-          { class_name: 'Send', category: "Users", action: "Login", label: "Standard", value: "5" }
+          { 'class_name' => 'Send', category: "Users", action: "Login", label: "Standard", value: "5" }
         ]}}
       end
 
@@ -106,8 +106,8 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
       def env
         {'tracker' => {
           'google_analytics' => [
-            { class_name: 'Ecommerce', type: 'addItem', id: '1234', name: 'Fluffy Pink Bunnies', sku: 'DD23444', category: 'Party Toys', price: '11.99', quantity: '1' },
-            { class_name: 'Ecommerce', type: 'addTransaction', id: '1234', affiliation: 'Acme Clothing', revenue: 11.99, shipping: '5', tax: '1.29', currency: 'EUR' }
+            { 'class_name' => 'Ecommerce', 'type' => 'addItem', 'id' => '1234', 'name' => 'Fluffy Pink Bunnies', 'sku' => 'DD23444', 'category' => 'Party Toys', 'price' => '11.99', 'quantity' => '1' },
+            { 'class_name' => 'Ecommerce', 'type' => 'addTransaction', 'id' => '1234', 'affiliation' => 'Acme Clothing', 'revenue' => 11.99, 'shipping' => '5', 'tax' => '1.29', 'currency' => 'EUR' }
           ]
         }}
       end

@@ -1,3 +1,9 @@
+# 0.4.0 (master, unreleased)
+
+  * [BUGFIX] store event objects as hashes so they can be safely serialized using JSON (default since rails 4.1) #13
+  * added support for Criteo #17
+  * added support for Google Analytics User ID feature #15
+
 # 0.3.0
 
   * [ENHANCEMENT] google analytics cookieDomain renamed to cookie_domain

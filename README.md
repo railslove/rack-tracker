@@ -249,6 +249,28 @@ It will render the following to the site source:
   _gs("set", "visitor", { "age": 35, "favorite_food": "pizza" });
 ```
 
+### Criteo
+
+[Criteo](http://www.criteo.com/) retargeting service.
+
+```
+config.middleware.use(Rack::Tracker) do
+  handler :criteo, { set_account: '1234' }
+end
+```
+
+Other global criteo handler options are:
+* `setCustomerId` (value can be a static or a dynamic, e.g. `lambda { |env| env['rack.session']['user_id'] }`)
+* `setSiteType` (`m`, `t`, `d`)
+
+```
+def show
+  tracker do |t|
+    t.criteo :track, { event: 'viewItem', item: 'P0001' }
+  end
+end
+```
+
 ### Custom Handlers
 
 Tough we give you handlers for a few tracking services right out of the box, you might

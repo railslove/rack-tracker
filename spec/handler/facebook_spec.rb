@@ -37,10 +37,10 @@ RSpec.describe Rack::Tracker::Facebook do
         'facebook' =>
           [
             {
-              id: '123456789',
-              value: '23',
-              currency: 'EUR',
-              class_name: 'Event'
+              'id' => '123456789',
+              'value' => '23',
+              'currency' => 'EUR',
+              'class_name' => 'Event'
             }
           ]
         }
