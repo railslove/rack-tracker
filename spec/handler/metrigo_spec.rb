@@ -11,7 +11,7 @@ RSpec.describe Rack::Tracker::Metrigo do
       specify { expect(subject.write).to eq "DELIVERY.DataLogger.logHomepage({})" }
 
       context 'with arguments hash' do
-        subject { described_class.new({ function_name: 'logCategory', arguments: { categories: ["cat1", "cat2"], shop_id: 7 } }) }
+        subject { described_class.new({ 'function_name' => 'logCategory', 'arguments' => { 'categories' => ["cat1", "cat2"], 'shop_id' => 7 } }) }
         it 'should return the hash as JSON' do
           expect(subject.write).to eq 'DELIVERY.DataLogger.logCategory({"categories":["cat1","cat2"],"shop_id":7})'
         end
@@ -31,8 +31,8 @@ RSpec.describe Rack::Tracker::Metrigo do
         'metrigo' =>
           [
             {
-              function_name: 'logHomepage',
-              class_name: 'Event'
+              'function_name' => 'logHomepage',
+              'class_name' => 'Event'
             }
           ]
         }
@@ -43,6 +43,22 @@ RSpec.describe Rack::Tracker::Metrigo do
 
     it 'will add shop_id and push the tracking events to the queue' do
       expect(subject).to include 'DELIVERY.DataLogger.logHomepage({"shop_id":1999})'
+    end
+
+    context 'without events' do
+      let(:env) {
+        {
+          'tracker' => {
+            'metrigo' => []
+          }
+        }
+      }
+
+      subject { described_class.new(env, { shop_id: 1999 }).render }
+
+      it 'should render nothing' do
+        expect(subject).to eql ""
+      end
     end
   end
 end
