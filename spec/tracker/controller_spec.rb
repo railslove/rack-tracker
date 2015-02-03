@@ -22,11 +22,11 @@ end
 
 RSpec.describe Rack::Tracker::Controller do
   describe '#tracker' do
-    let(:send)       { { class_name: 'Send', category: 'foo' } }
-    let(:trx)        { { class_name: 'Ecommerce', type: 'addTransaction', some: 'thing' } }
-    let(:item_foo)   { { class_name: 'Ecommerce', type: 'addItem', name: 'foo' } }
-    let(:item_bar)   { { class_name: 'Ecommerce', type: 'addItem', name: 'bar' } }
-    let(:fb_event)   { { class_name: 'Event', id: '1', value: 1, currency: 'USD' } }
+    let(:send)       { { 'category' => 'foo', 'class_name' => 'Send' } }
+    let(:trx)        { { 'type' => 'addTransaction', 'some' => 'thing', 'class_name' => 'Ecommerce' } }
+    let(:item_foo)   { { 'type' => 'addItem', 'name' => 'foo', 'class_name' => 'Ecommerce' } }
+    let(:item_bar)   { { 'type' => 'addItem', 'name' => 'bar', 'class_name' => 'Ecommerce' } }
+    let(:fb_event)   { { 'id' => '1', 'value' => 1, 'currency' => 'USD', 'class_name' => 'Event' } }
     let(:controller) { TestController.new({}) }
 
     context 'controller' do

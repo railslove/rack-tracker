@@ -50,6 +50,6 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   end
 
   def self.track(name, *event)
-    { name.to_s => [event.last.merge(class_name: event.first.to_s.capitalize)] }
+    { name.to_s => [event.last.deep_stringify_keys.merge('class_name' => event.first.to_s.capitalize)] }
   end
 end
