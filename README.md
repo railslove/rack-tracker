@@ -83,7 +83,7 @@ request.env['tracker'] = {
 ### Google Analytics
 
 * `:anonymize_ip` -  sets the tracker to remove the last octet from all IP addresses, see https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApi_gat?hl=de#_gat._anonymizeIp for details.
-* `:cookie_domain` -  sets the domain name for the GATC cookies. Defaults to `auto`.
+* `:cookie_domain` -  sets the domain name for the [GATC cookies](https://developers.google.com/analytics/devguides/collection/analyticsjs/domains#implementation). If not set its the website domain, with the www. prefix removed.
 * `:user_id` -  defines a proc to set the [userId](https://developers.google.com/analytics/devguides/collection/analyticsjs/user-id). Ex: `user_id: lambda { |env| env['rack.session']['user_id'] }` would return the user_id from the session.
 * `:site_speed_sample_rate` - Defines a new sample set size for Site Speed data collection, see https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration?hl=de#_gat.GA_Tracker_._setSiteSpeedSampleRate
 * `:adjusted_bounce_rate_timeouts` - An array of times in seconds that the tracker will use to set timeouts for adjusted bounce rate tracking. See http://analytics.blogspot.ca/2012/07/tracking-adjusted-bounce-rate-in-google.html for details.
