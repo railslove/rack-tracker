@@ -25,7 +25,7 @@ class Rack::Tracker::Metrigo < Rack::Tracker::Handler
   end
 
   def self.track(name, *event)
-    { name.to_s => [{ 'class_name' => 'Event', 'function_name' => event[0].to_s.camelize(:lower), 'arguments' => event[1].try(:deep_stringify_keys) }] }
+    { name.to_s => [{ 'class_name' => 'Event', 'function_name' => event[0].to_s.camelize(:lower), 'arguments' => event[1] }] }
   end
 
 end
