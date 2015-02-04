@@ -75,7 +75,7 @@ to inject arbitrary events into the request environment.
 ```ruby
 request.env['tracker'] = {
   'google_analytics' => [
-    Rack::Tracker::GoogleAnalytics::Send.new(category: "Users", action: "Login", label: "Standard")
+    { 'class_name' => 'Send', 'category' => 'Users', 'action' => 'Login', 'label' => 'Standard' }
   ]
 }
 ```
