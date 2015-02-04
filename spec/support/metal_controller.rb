@@ -38,6 +38,13 @@ class MetalController < ActionController::Metal
     render "metal/index"
   end
 
+  def google_adwords_conversion
+    tracker do |t|
+      t.google_adwords_conversion :conversion, { id: 123456, language: 'en', format: '3', color: 'ffffff', label: 'Conversion Label' }
+    end
+    render "metal/index"
+  end
+
   def vwo
     render "metal/index"
   end
@@ -46,6 +53,32 @@ class MetalController < ActionController::Metal
     tracker do |t|
       t.go_squared :visitor_name, { name: 'John Doe' }
       t.go_squared :visitor_info, { age: 35, favorite_food: 'pizza' }
+    end
+    render "metal/index"
+  end
+
+  def criteo
+    tracker do |t|
+      t.criteo :view_item, { item: 'P001' }
+      t.criteo :view_list, { item: ['P001', 'P002'] }
+      t.criteo :track_transaction, { id: 'id', item: { id: "P0038", price:"6.54", quantity:1 } }
+      t.criteo :view_basket, { item: [{ id: "P001", price:"6.54", quantity:1 }, { id: "P0038", price:"2.99", quantity:1 }] }
+    end
+    render 'metal/index'
+  end
+
+  def metrigo
+    tracker do |t|
+      t.metrigo :log_homepage
+      t.metrigo :log_category, { categories: ['cat1', 'cat2'] }
+      t.metrigo :log_product, { product: { external_id: 42 } }
+      t.metrigo :log_cart, { products: [ { external_id: 42 }, { external_id: 37 } ] }
+      t.metrigo(:log_conversion, {
+        type: 'lead',
+        order_id: 'a8ad-234q-asdad',
+        source: 0,
+        products: [ { external_id: 42, external_id: 37 }]
+      })
     end
     render "metal/index"
   end
