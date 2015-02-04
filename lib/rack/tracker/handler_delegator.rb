@@ -20,6 +20,7 @@ class Rack::Tracker::HandlerDelegator
   end
 
   def write_event(event)
+    event.deep_stringify_keys! # for consistency
     if env.key?('tracker')
       self.env['tracker'].deep_merge!(event) { |key, old, new| Array.wrap(old) + Array.wrap(new) }
     else
