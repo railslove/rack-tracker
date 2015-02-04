@@ -32,6 +32,6 @@ class Rack::Tracker::GoSquared < Rack::Tracker::Handler
   end
 
   def self.track(name, *event)
-    { name.to_s => [event.last.deep_stringify_keys.merge('class_name' => event.first.to_s.classify)] }
+    { name.to_s => [event.last.merge('class_name' => event.first.to_s.classify)] }
   end
 end
