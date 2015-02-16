@@ -43,7 +43,13 @@
 <% end %>
 
 <% if tracker %>
-  ga('send', 'pageview');
+  if(typeof Turbolinks !== 'undefined' && Turbolinks.supported) {
+    $(document).on('page:change', function() {
+      ga('send', 'pageview', window.location.pathname);
+    });
+  } else {
+    ga('send', 'pageview');
+  }
 <% end %>
 
 </script>
