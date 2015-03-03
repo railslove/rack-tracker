@@ -16,6 +16,7 @@ require "rack/tracker/google_adwords_conversion/google_adwords_conversion"
 require "rack/tracker/facebook/facebook"
 require "rack/tracker/vwo/vwo"
 require "rack/tracker/go_squared/go_squared"
+require "rack/tracker/metrigo/metrigo"
 
 module Rack
   class Tracker
