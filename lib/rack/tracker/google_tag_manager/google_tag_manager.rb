@@ -17,6 +17,10 @@ class Rack::Tracker::GoogleTagManager < Rack::Tracker::Handler
     end
   end
 
+  # It is strongly recommended to put the google_tag_manager snippet only in the body tag
+  # https://developers.google.com/tag-manager/quickstart
+  self.position = :body
+
   def tracker
     options[:tracker].respond_to?(:call) ? options[:tracker].call(env) : options[:tracker]
   end
