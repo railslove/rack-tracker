@@ -1,7 +1,5 @@
 class Rack::Tracker::GoogleTagManager < Rack::Tracker::Handler
 
-  ALLOWED_TRACKER_OPTIONS = [:cookie_domain, :user_id]
-
   class Push < OpenStruct
 
     def write
@@ -21,8 +19,8 @@ class Rack::Tracker::GoogleTagManager < Rack::Tracker::Handler
   # https://developers.google.com/tag-manager/quickstart
   self.position = :body
 
-  def tracker
-    options[:tracker].respond_to?(:call) ? options[:tracker].call(env) : options[:tracker]
+  def container
+    options[:container].respond_to?(:call) ? options[:container].call(env) : options[:container]
   end
 
   def render

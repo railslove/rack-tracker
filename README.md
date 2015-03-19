@@ -21,6 +21,7 @@ in your application. It's easy to add your own [custom handlers](#custom-handler
 but to get you started we're shipping support for the following services out of the box:
 
 * [Google Analytics](#google-analytics)
+* [Google Tag Manager](#google-tag-manager)
 * [Facebook](#facebook)
 * [Visual Website Optimizer (VWO)](#visual-website-optimizer-vwo)
 * [GoSquared](#gosquared)
@@ -133,9 +134,34 @@ take care of the plugin on your own.
 
 ```ruby
   config.middleware.use(Rack::Tracker) do
-    handler :google_analytics, { tracker: 'U-XXXXX-Y', ecommerce: true}
+    handler :google_analytics, { tracker: 'U-XXXXX-Y', ecommerce: true }
   end
 ````
+
+
+### Google Tag Manager
+
+Google Tag manager code snippet doesn't support any option other than the container id
+
+```ruby
+  config.middleware.use(Rack::Tracker) do
+    handler :google_tag_manager, { container: 'GTM-XXXXXX' }
+  end
+````
+
+#### Data Layer
+
+GTM supports a [dataLayer](https://developers.google.com/tag-manager/devguide#datalayer) for pushing events as well as variables.
+
+To add events or variables to the dataLayer from the server side, just call the `tracker` method in your controller.
+
+```ruby
+  def show
+    tracker do |t|
+      t.google_tag_manager :push, { name: 'price', value: 'X' }
+    end
+  end
+```
 
 
 ### Facebook

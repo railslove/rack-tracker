@@ -24,7 +24,7 @@ RSpec.describe Rack::Tracker::GoogleTagManager do
         }}
       end
 
-      subject { described_class.new(env, tracker: 'somebody').render }
+      subject { described_class.new(env, container: 'somebody').render }
       it "will show events" do
         expect(subject).to match(%r{'page': 'Cart', 'price': '50'})
       end
@@ -32,7 +32,7 @@ RSpec.describe Rack::Tracker::GoogleTagManager do
   end
 
   describe "with dynamic tracker" do
-    subject { described_class.new(env, { tracker: lambda { |env| return env[:misc] }}).render }
+    subject { described_class.new(env, { container: lambda { |env| return env[:misc] }}).render }
 
     it 'will call tracker lambdas to obtain tracking codes' do
       expect(subject).to match(%r{\(window,document,'script','dataLayer','foobar'\)})

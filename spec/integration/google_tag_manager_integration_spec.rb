@@ -3,7 +3,7 @@ require 'support/capybara_app_helper'
 RSpec.describe "Google Tag Manager Integration" do
   before do
     setup_app(action: :google_tag_manager) do |tracker|
-      tracker.handler :google_tag_manager, { tracker: 'GTM-ABCDEF' }
+      tracker.handler :google_tag_manager, { container: 'GTM-ABCDEF' }
     end
     visit '/'
   end
