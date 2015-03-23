@@ -110,6 +110,26 @@ It will render the following to the site source:
   ga('send', { 'hitType': 'event', 'eventCategory': 'button', 'eventAction': 'click', 'eventLabel': 'nav-buttons', 'value': 'X' })
 ```
 
+#### Parameters
+
+You can set parameters in your controller too:
+
+```ruby
+  def show
+    tracker do |t|
+      t.google_analytics :parameter, { dimension1: 'pink' }
+    end
+  end
+```
+
+Will render this:
+
+```javascript
+  ga('set', 'dimension1', 'pink');
+```
+
+
+
 #### Ecommerce
 
 You can even trigger ecommerce directly from within your controller:
