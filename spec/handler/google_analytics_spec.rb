@@ -1,5 +1,4 @@
 RSpec.describe Rack::Tracker::GoogleAnalytics do
-
   def env
     {
       misc: 'foobar',
@@ -125,6 +124,22 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
     end
   end
 
+  describe 'with parameters events' do
+    def env
+      {'tracker' => {
+        'google_analytics' => [
+          { 'class_name' => 'Parameter', 'dimension1' => 'pink' },
+        ]
+      }}
+    end
+
+    subject { described_class.new(env, tracker: 'somebody').render }
+
+    it "will render dimension parameter" do
+      expect(subject).to match(%r{ga\('set', 'dimension1', 'pink'})
+    end
+  end
+
   describe "with custom domain" do
     subject { described_class.new(env, tracker: 'somebody', cookie_domain: "railslabs.com").render }
 
@@ -191,5 +206,4 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
       expect(subject).to match(%r{ga\('send', 'event', '30_seconds', 'read'\)})
     end
   end
-
 end
