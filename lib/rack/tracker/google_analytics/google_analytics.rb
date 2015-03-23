@@ -58,7 +58,11 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   end
 
   def ecommerce_events
-    events.select{|e| e.kind_of?(Ecommerce) }
+    events.select {|e| e.kind_of?(Ecommerce) }
+  end
+
+  def enhanced_ecommerce_events
+    events.select {|e| e.kind_of?(EnhancedEcommerce) }
   end
 
   def self.track(name, *event)

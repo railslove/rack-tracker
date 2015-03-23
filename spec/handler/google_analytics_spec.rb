@@ -32,6 +32,26 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
     end
   end
 
+  describe '#enhanced_ecommerce_events' do
+    subject { described_class.new(env) }
+
+    describe 'with stored enhanced ecommerce events' do
+      before { allow(subject).to receive(:events).and_return([Rack::Tracker::GoogleAnalytics::Send.new, Rack::Tracker::GoogleAnalytics::EnhancedEcommerce.new]) }
+
+      it 'will just return the enhanced ecommerce events' do
+        expect(subject.enhanced_ecommerce_events).to match_array(Rack::Tracker::GoogleAnalytics::EnhancedEcommerce)
+      end
+    end
+
+    describe 'without stored enhanced ecommerce events' do
+      before { allow(subject).to receive(:events).and_return([Rack::Tracker::GoogleAnalytics::Send.new]) }
+
+      it 'will be empty' do
+        expect(subject.enhanced_ecommerce_events).to be_empty
+      end
+    end
+  end
+
   describe '#tracker_options' do
     before do
       stub_const("#{described_class}::ALLOWED_TRACKER_OPTIONS", [:some_option])
@@ -197,10 +217,28 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
   end
 
   describe "with enhanced ecommerce" do
-    subject { described_class.new(env, tracker: 'happy', enhanced_ecommerce: true).render }
+    describe "without events" do
+      subject { described_class.new(env, tracker: 'happy', enhanced_ecommerce: true).render }
 
-    it "will require the enhanced ecommerce plugin" do
-      expect(subject).to match(%r{ga\('require', 'ec'\)})
+      it "will require the enhanced ecommerce plugin" do
+        expect(subject).to_not match(%r{ga\('require', 'ec'\)})
+      end
+    end
+
+    describe "with events" do
+      def env
+        {'tracker' => {
+          'google_analytics' => [
+            { 'class_name' => 'EnhancedEcommerce', 'type' => 'addProduct', 'id' => 'P12345', 'name' => 'Android Warhol T-Shirt', 'category' => 'Apparel', 'brand' => 'Google', 'variant' => 'black', 'price' => '29.20', 'coupon' => 'APPARELSALE', 'quantity' => 1 },
+          ]
+        }}
+      end
+
+      subject { described_class.new(env, tracker: 'happy', enhanced_ecommerce: true).render }
+
+      it "will require the enhanced ecommerce plugin" do
+        expect(subject).to match(%r{ga\('require', 'ec'\)})
+      end
     end
   end
 
