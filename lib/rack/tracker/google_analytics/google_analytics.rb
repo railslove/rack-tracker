@@ -27,6 +27,12 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
     end
   end
 
+  class Parameter < OpenStruct
+    def write
+      ["set", self.to_h.to_a].flatten.map {|s| "'#{s}'" }.join(', ')
+    end
+  end
+
   def tracker
     options[:tracker].respond_to?(:call) ? options[:tracker].call(env) : options[:tracker]
   end
