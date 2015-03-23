@@ -18,6 +18,9 @@
   ga('require', 'displayfeatures');
 <% end %>
 
+<% if options[:enhanced_ecommerce] %>
+  ga('require', 'ec');
+<% end %>
 <% if options[:ecommerce] %>
   ga('require', 'ecommerce', 'ecommerce.js');
 <% end %>
