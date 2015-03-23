@@ -1,9 +1,13 @@
-# 0.4.0 (master, unreleased)
+# master
+
+# 0.4.0
 
   * [BUGFIX] store event objects as hashes so they can be safely serialized using JSON (default since rails 4.1) #13
-  * added support for Criteo #17
   * added support for Google Analytics User ID feature #15
+  * added support for Google adwords conversion #24
   * added support for Google Tag Manager feature #29
+  * added support for Google Analytics custom metrics and parameters #31 (thx @mnin)
+  * added support for Google Enhanced Ecommerce #32 (thx @mnin)
 
 # 0.3.0
 
