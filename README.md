@@ -91,6 +91,7 @@ request.env['tracker'] = {
 * `:enhanced_link_attribution` - Enables [Enhanced Link Attribution](https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#enhancedlink).
 * `:advertising` - Enables [Display Features](https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features).
 * `:ecommerce` - Enables [Ecommerce Tracking](https://developers.google.com/analytics/devguides/collection/analyticsjs/ecommerce).
+* `:enhanced_ecommerce` - Enables [Enhanced Ecommerce Tracking](https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-ecommerce)
 
 #### Events
 
@@ -126,6 +127,34 @@ Will render this:
 
 ```javascript
   ga('set', 'dimension1', 'pink');
+```
+
+
+
+#### Enhanced Ecommerce
+
+You can set parameters in your controller:
+
+```ruby
+  def show
+    tracker do |t|
+      t.google_analytics :enhanced_ecommerce, {
+        type: 'addItem',
+        id: '1234',
+        name: 'Fluffy Pink Bunnies',
+        sku: 'DD23444',
+        category: 'Party Toys',
+        price: '11.99',
+        quantity: '1'
+      }
+    end
+  end
+```
+
+Will render this:
+
+```javascript
+  ga("ec:addItem", {"id": "1234", "name": "Fluffy Pink Bunnies", "sku": "DD23444", "category": "Party Toys", "price": "11.99", "quantity": "1"});
 ```
 
 
