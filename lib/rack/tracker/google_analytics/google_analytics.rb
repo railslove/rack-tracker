@@ -23,7 +23,8 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
 
   class EnhancedEcommerce < OpenStruct
     def write
-      ["ec:#{self.type}", self.to_h.except(:type).compact.stringify_values].to_json.gsub(/\[|\]/, '')
+      hash = self.to_h
+      ["ec:#{self.type}", hash[:label], hash.except(:label, :type).compact.stringify_values].compact.to_json.gsub(/\[|\]/, '')
     end
   end
 

@@ -28,6 +28,5 @@ RSpec.describe "Google Analytics Integration" do
      expect(page.find("head")).to_not have_content('U-XXX-Y')
      expect(page.find("body")).to have_content('ga("ecommerce:addItem",{"id":"1234","name":"Fluffy Pink Bunnies","sku":"DD23444","category":"Party Toys","price":"11.99","quantity":"1"})')
     end
-
   end
 end

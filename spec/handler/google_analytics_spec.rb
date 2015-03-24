@@ -150,7 +150,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
         {'tracker' => {
           'google_analytics' => [
             { 'class_name' => 'EnhancedEcommerce', 'type' => 'addProduct', 'id' => 'P12345', 'name' => 'Android Warhol T-Shirt', 'category' => 'Apparel', 'brand' => 'Google', 'variant' => 'black', 'price' => '29.20', 'coupon' => 'APPARELSALE', 'quantity' => 1 },
-            { 'class_name' => 'EnhancedEcommerce', 'type' => 'setAction', 'id' => 'T12345', 'affiliation' => 'Google Store - Online', 'revenue' => '37.39', 'tax' => '2.85', 'shipping' => '5.34', 'coupon' => 'SUMMER2013' }
+            { 'class_name' => 'EnhancedEcommerce', 'type' => 'setAction', 'label' => 'purchase', 'id' => 'T12345', 'affiliation' => 'Google Store - Online', 'revenue' => '37.39', 'tax' => '2.85', 'shipping' => '5.34', 'coupon' => 'SUMMER2013' }
           ]
         }}
       end
@@ -161,7 +161,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
       end
 
       it "will add action" do
-        expect(subject).to match(%r{ga\(\"ec:setAction\",#{{id: 'T12345', affiliation: 'Google Store - Online', revenue: '37.39', tax: '2.85', shipping: '5.34', coupon: 'SUMMER2013'}.to_json}})
+        expect(subject).to match(%r{ga\(\"ec:setAction\",\"purchase\",#{{id: 'T12345', affiliation: 'Google Store - Online', revenue: '37.39', tax: '2.85', shipping: '5.34', coupon: 'SUMMER2013'}.to_json}})
       end
     end
   end
