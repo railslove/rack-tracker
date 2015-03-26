@@ -21,6 +21,7 @@ in your application. It's easy to add your own [custom handlers](#custom-handler
 but to get you started we're shipping support for the following services out of the box:
 
 * [Google Analytics](#google-analytics)
+* [Google Tag Manager](#google-tag-manager)
 * [Facebook](#facebook)
 * [Visual Website Optimizer (VWO)](#visual-website-optimizer-vwo)
 * [GoSquared](#gosquared)
@@ -83,13 +84,14 @@ request.env['tracker'] = {
 ### Google Analytics
 
 * `:anonymize_ip` -  sets the tracker to remove the last octet from all IP addresses, see https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApi_gat?hl=de#_gat._anonymizeIp for details.
-* `:cookie_domain` -  sets the domain name for the GATC cookies. Defaults to `auto`.
+* `:cookie_domain` -  sets the domain name for the [GATC cookies](https://developers.google.com/analytics/devguides/collection/analyticsjs/domains#implementation). If not set its the website domain, with the www. prefix removed.
 * `:user_id` -  defines a proc to set the [userId](https://developers.google.com/analytics/devguides/collection/analyticsjs/user-id). Ex: `user_id: lambda { |env| env['rack.session']['user_id'] }` would return the user_id from the session.
 * `:site_speed_sample_rate` - Defines a new sample set size for Site Speed data collection, see https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration?hl=de#_gat.GA_Tracker_._setSiteSpeedSampleRate
 * `:adjusted_bounce_rate_timeouts` - An array of times in seconds that the tracker will use to set timeouts for adjusted bounce rate tracking. See http://analytics.blogspot.ca/2012/07/tracking-adjusted-bounce-rate-in-google.html for details.
 * `:enhanced_link_attribution` - Enables [Enhanced Link Attribution](https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#enhancedlink).
 * `:advertising` - Enables [Display Features](https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features).
 * `:ecommerce` - Enables [Ecommerce Tracking](https://developers.google.com/analytics/devguides/collection/analyticsjs/ecommerce).
+* `:enhanced_ecommerce` - Enables [Enhanced Ecommerce Tracking](https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-ecommerce)
 
 #### Events
 
@@ -108,6 +110,54 @@ It will render the following to the site source:
 ```javascript
   ga('send', { 'hitType': 'event', 'eventCategory': 'button', 'eventAction': 'click', 'eventLabel': 'nav-buttons', 'value': 'X' })
 ```
+
+#### Parameters
+
+You can set parameters in your controller too:
+
+```ruby
+  def show
+    tracker do |t|
+      t.google_analytics :parameter, { dimension1: 'pink' }
+    end
+  end
+```
+
+Will render this:
+
+```javascript
+  ga('set', 'dimension1', 'pink');
+```
+
+
+
+#### Enhanced Ecommerce
+
+You can set parameters in your controller:
+
+```ruby
+  def show
+    tracker do |t|
+      t.google_analytics :enhanced_ecommerce, {
+        type: 'addItem',
+        id: '1234',
+        name: 'Fluffy Pink Bunnies',
+        sku: 'DD23444',
+        category: 'Party Toys',
+        price: '11.99',
+        quantity: '1'
+      }
+    end
+  end
+```
+
+Will render this:
+
+```javascript
+  ga("ec:addItem", {"id": "1234", "name": "Fluffy Pink Bunnies", "sku": "DD23444", "category": "Party Toys", "price": "11.99", "quantity": "1"});
+```
+
+
 
 #### Ecommerce
 
@@ -133,9 +183,34 @@ take care of the plugin on your own.
 
 ```ruby
   config.middleware.use(Rack::Tracker) do
-    handler :google_analytics, { tracker: 'U-XXXXX-Y', ecommerce: true}
+    handler :google_analytics, { tracker: 'U-XXXXX-Y', ecommerce: true }
   end
 ````
+
+
+### Google Tag Manager
+
+Google Tag manager code snippet doesn't support any option other than the container id
+
+```ruby
+  config.middleware.use(Rack::Tracker) do
+    handler :google_tag_manager, { container: 'GTM-XXXXXX' }
+  end
+````
+
+#### Data Layer
+
+GTM supports a [dataLayer](https://developers.google.com/tag-manager/devguide#datalayer) for pushing events as well as variables.
+
+To add events or variables to the dataLayer from the server side, just call the `tracker` method in your controller.
+
+```ruby
+  def show
+    tracker do |t|
+      t.google_tag_manager :push, { name: 'price', value: 'X' }
+    end
+  end
+```
 
 
 ### Facebook

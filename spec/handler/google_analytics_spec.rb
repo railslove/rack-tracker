@@ -1,5 +1,4 @@
 RSpec.describe Rack::Tracker::GoogleAnalytics do
-
   def env
     {
       misc: 'foobar',
@@ -29,6 +28,26 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
 
       it 'will be empty' do
         expect(subject.ecommerce_events).to be_empty
+      end
+    end
+  end
+
+  describe '#enhanced_ecommerce_events' do
+    subject { described_class.new(env) }
+
+    describe 'with stored enhanced ecommerce events' do
+      before { allow(subject).to receive(:events).and_return([Rack::Tracker::GoogleAnalytics::Send.new, Rack::Tracker::GoogleAnalytics::EnhancedEcommerce.new]) }
+
+      it 'will just return the enhanced ecommerce events' do
+        expect(subject.enhanced_ecommerce_events).to match_array(Rack::Tracker::GoogleAnalytics::EnhancedEcommerce)
+      end
+    end
+
+    describe 'without stored enhanced ecommerce events' do
+      before { allow(subject).to receive(:events).and_return([Rack::Tracker::GoogleAnalytics::Send.new]) }
+
+      it 'will be empty' do
+        expect(subject.enhanced_ecommerce_events).to be_empty
       end
     end
   end
@@ -101,7 +120,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
     end
   end
 
-  describe 'with e-commerce events' do
+  describe 'with ecommerce events' do
     describe "default" do
       def env
         {'tracker' => {
@@ -122,6 +141,44 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
       it "will submit cart" do
         expect(subject).to match(%r{ga\('ecommerce:send'\);})
       end
+    end
+  end
+
+  describe 'with enhanced ecommerce events' do
+    describe "default" do
+      def env
+        {'tracker' => {
+          'google_analytics' => [
+            { 'class_name' => 'EnhancedEcommerce', 'type' => 'addProduct', 'id' => 'P12345', 'name' => 'Android Warhol T-Shirt', 'category' => 'Apparel', 'brand' => 'Google', 'variant' => 'black', 'price' => '29.20', 'coupon' => 'APPARELSALE', 'quantity' => 1 },
+            { 'class_name' => 'EnhancedEcommerce', 'type' => 'setAction', 'id' => 'T12345', 'affiliation' => 'Google Store - Online', 'revenue' => '37.39', 'tax' => '2.85', 'shipping' => '5.34', 'coupon' => 'SUMMER2013' }
+          ]
+        }}
+      end
+
+      subject { described_class.new(env, tracker: 'somebody', enhanced_ecommerce: true).render }
+      it "will add product" do
+        expect(subject).to match(%r{ga\(\"ec:addProduct\",#{{id: 'P12345', name: 'Android Warhol T-Shirt', category: 'Apparel', brand: 'Google', variant: 'black', price: '29.20', coupon: 'APPARELSALE', quantity: '1'}.to_json}})
+      end
+
+      it "will add action" do
+        expect(subject).to match(%r{ga\(\"ec:setAction\",#{{id: 'T12345', affiliation: 'Google Store - Online', revenue: '37.39', tax: '2.85', shipping: '5.34', coupon: 'SUMMER2013'}.to_json}})
+      end
+    end
+  end
+
+  describe 'with parameters events' do
+    def env
+      {'tracker' => {
+        'google_analytics' => [
+          { 'class_name' => 'Parameter', 'dimension1' => 'pink' },
+        ]
+      }}
+    end
+
+    subject { described_class.new(env, tracker: 'somebody').render }
+
+    it "will render dimension parameter" do
+      expect(subject).to match(%r{ga\('set', 'dimension1', 'pink'})
     end
   end
 
@@ -159,7 +216,33 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
     end
   end
 
-  describe "with e-commerce" do
+  describe "with enhanced ecommerce" do
+    describe "without events" do
+      subject { described_class.new(env, tracker: 'happy', enhanced_ecommerce: true).render }
+
+      it "will require the enhanced ecommerce plugin" do
+        expect(subject).to_not match(%r{ga\('require', 'ec'\)})
+      end
+    end
+
+    describe "with events" do
+      def env
+        {'tracker' => {
+          'google_analytics' => [
+            { 'class_name' => 'EnhancedEcommerce', 'type' => 'addProduct', 'id' => 'P12345', 'name' => 'Android Warhol T-Shirt', 'category' => 'Apparel', 'brand' => 'Google', 'variant' => 'black', 'price' => '29.20', 'coupon' => 'APPARELSALE', 'quantity' => 1 },
+          ]
+        }}
+      end
+
+      subject { described_class.new(env, tracker: 'happy', enhanced_ecommerce: true).render }
+
+      it "will require the enhanced ecommerce plugin" do
+        expect(subject).to match(%r{ga\('require', 'ec'\)})
+      end
+    end
+  end
+
+  describe "with ecommerce" do
     subject { described_class.new(env, tracker: 'happy', ecommerce: true).render }
 
     it "will require the ecommerce plugin" do
@@ -191,5 +274,4 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
       expect(subject).to match(%r{ga\('send', 'event', '30_seconds', 'read'\)})
     end
   end
-
 end

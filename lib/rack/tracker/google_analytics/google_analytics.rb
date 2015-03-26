@@ -21,9 +21,21 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
     end
   end
 
+  class EnhancedEcommerce < OpenStruct
+    def write
+      ["ec:#{self.type}", self.to_h.except(:type).compact.stringify_values].to_json.gsub(/\[|\]/, '')
+    end
+  end
+
   class Ecommerce < OpenStruct
     def write
       ["ecommerce:#{self.type}", self.to_h.except(:type).compact.stringify_values].to_json.gsub(/\[|\]/, '')
+    end
+  end
+
+  class Parameter < OpenStruct
+    def write
+      ["set", self.to_h.to_a].flatten.map {|s| "'#{s}'" }.join(', ')
     end
   end
 
@@ -46,10 +58,14 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   end
 
   def ecommerce_events
-    events.select{|e| e.kind_of?(Ecommerce) }
+    events.select {|e| e.kind_of?(Ecommerce) }
+  end
+
+  def enhanced_ecommerce_events
+    events.select {|e| e.kind_of?(EnhancedEcommerce) }
   end
 
   def self.track(name, *event)
-    { name.to_s => [event.last.merge('class_name' => event.first.to_s.capitalize)] }
+    { name.to_s => [event.last.merge('class_name' => event.first.to_s.classify)] }
   end
 end
