@@ -328,6 +328,8 @@ It will render the following to the site source:
 
 [Criteo](http://www.criteo.com/) retargeting service.
 
+#### Basic configuration
+
 ```
 config.middleware.use(Rack::Tracker) do
   handler :criteo, { set_account: '1234' }
@@ -335,16 +337,38 @@ end
 ```
 
 Other global criteo handler options are:
-* `setCustomerId` (value can be a static or a dynamic, e.g. `lambda { |env| env['rack.session']['user_id'] }`)
-* `setSiteType` (`m`, `t`, `d`)
+* `set_customer_id: 'x'`
+* `set_site_type: 'd'` - possible values are `m` (mobile), `t` (tablet), `d` (desktop)
+
+Option values can be either static or dynamic by providing a lambda being reevaluated for each request, e.g. `set_customer_id: lambda { |env| env['rack.session']['user_id'] }`
+
+#### Tracking events
+
+This will track a basic event:
 
 ```
 def show
   tracker do |t|
-    t.criteo :track, { event: 'viewItem', item: 'P0001' }
+    t.criteo :view_item, { item: 'P0001' }
   end
 end
 ```
+
+This will render to the follwing code in the JS:
+
+```
+window.criteo_q.push({"event": "viewItem", "item": "P001" });
+```
+
+The first argument for `t.criteo` is always the criteo event (e.g. `:view_item`, `:view_list`, `:track_transaction`, `:view_basket`) and the second argument are additional properties for the event.
+
+Another example
+
+```
+t.criteo :track_transaction, { id: 'id', item: { id: "P0038", price: "6.54", quantity: 1 } }
+```
+
+end
 
 ### Custom Handlers
 
