@@ -91,6 +91,8 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
   end
 
   describe "with events" do
+    subject { described_class.new(env, tracker: 'somebody').render }
+
     describe "default" do
       def env
         {'tracker' => {
@@ -100,7 +102,6 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
         }}
       end
 
-      subject { described_class.new(env, tracker: 'somebody').render }
       it "will show events" do
         expect(subject).to match(%r{ga\(\"send\",{\"hitType\":\"event\",\"eventCategory\":\"Users\",\"eventAction\":\"Login\",\"eventLabel\":\"Standard\"}\)})
       end
@@ -113,7 +114,6 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
         ]}}
       end
 
-      subject { described_class.new(env, tracker: 'somebody').render }
       it "will show events with values" do
         expect(subject).to match(%r{ga\(\"send\",{\"hitType\":\"event\",\"eventCategory\":\"Users\",\"eventAction\":\"Login\",\"eventLabel\":\"Standard\",\"eventValue\":\"5\"}\)},)
       end
@@ -132,12 +132,17 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
       end
 
       subject { described_class.new(env, tracker: 'somebody', ecommerce: true).render }
+
       it "will add items" do
-        expect(subject).to match(%r{ga\(\"ecommerce:addItem\",#{{id: '1234', name: 'Fluffy Pink Bunnies', sku: 'DD23444', category: 'Party Toys', price: '11.99', quantity: '1'}.to_json}})
+        attributes = { id: '1234', name: 'Fluffy Pink Bunnies', sku: 'DD23444', category: 'Party Toys', price: '11.99', quantity: '1' }.to_json
+        expect(subject).to match(%r{ga\(\"ecommerce:addItem\",#{attributes}\);})
       end
+
       it "will add transaction" do
-        expect(subject).to match(%r{ga\(\"ecommerce:addTransaction\",#{{id: '1234', affiliation: 'Acme Clothing', revenue: '11.99', shipping: '5', tax: '1.29', currency: 'EUR'}.to_json}})
+        attributes = { id: '1234', affiliation: 'Acme Clothing', revenue: '11.99', shipping: '5', tax: '1.29', currency: 'EUR' }.to_json
+        expect(subject).to match(%r{ga\(\"ecommerce:addTransaction\",#{attributes}\);})
       end
+
       it "will submit cart" do
         expect(subject).to match(%r{ga\('ecommerce:send'\);})
       end
@@ -150,18 +155,20 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
         {'tracker' => {
           'google_analytics' => [
             { 'class_name' => 'EnhancedEcommerce', 'type' => 'addProduct', 'id' => 'P12345', 'name' => 'Android Warhol T-Shirt', 'category' => 'Apparel', 'brand' => 'Google', 'variant' => 'black', 'price' => '29.20', 'coupon' => 'APPARELSALE', 'quantity' => 1 },
-            { 'class_name' => 'EnhancedEcommerce', 'type' => 'setAction', 'id' => 'T12345', 'affiliation' => 'Google Store - Online', 'revenue' => '37.39', 'tax' => '2.85', 'shipping' => '5.34', 'coupon' => 'SUMMER2013' }
+            { 'class_name' => 'EnhancedEcommerce', 'type' => 'setAction', 'label' => 'purchase' }
           ]
         }}
       end
 
       subject { described_class.new(env, tracker: 'somebody', enhanced_ecommerce: true).render }
+
       it "will add product" do
-        expect(subject).to match(%r{ga\(\"ec:addProduct\",#{{id: 'P12345', name: 'Android Warhol T-Shirt', category: 'Apparel', brand: 'Google', variant: 'black', price: '29.20', coupon: 'APPARELSALE', quantity: '1'}.to_json}})
+        attributes = { id: 'P12345', name: 'Android Warhol T-Shirt', category: 'Apparel', brand: 'Google', variant: 'black', price: '29.20', coupon: 'APPARELSALE', quantity: '1' }.to_json
+        expect(subject).to match(%r{ga\(\"ec:addProduct\",#{attributes}\);})
       end
 
       it "will add action" do
-        expect(subject).to match(%r{ga\(\"ec:setAction\",#{{id: 'T12345', affiliation: 'Google Store - Online', revenue: '37.39', tax: '2.85', shipping: '5.34', coupon: 'SUMMER2013'}.to_json}})
+        expect(subject).to match(%r{ga\(\"ec:setAction\",\"purchase\"\);})
       end
     end
   end
@@ -217,28 +224,10 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
   end
 
   describe "with enhanced ecommerce" do
-    describe "without events" do
-      subject { described_class.new(env, tracker: 'happy', enhanced_ecommerce: true).render }
+    subject { described_class.new(env, tracker: 'happy', enhanced_ecommerce: true).render }
 
-      it "will require the enhanced ecommerce plugin" do
-        expect(subject).to_not match(%r{ga\('require', 'ec'\)})
-      end
-    end
-
-    describe "with events" do
-      def env
-        {'tracker' => {
-          'google_analytics' => [
-            { 'class_name' => 'EnhancedEcommerce', 'type' => 'addProduct', 'id' => 'P12345', 'name' => 'Android Warhol T-Shirt', 'category' => 'Apparel', 'brand' => 'Google', 'variant' => 'black', 'price' => '29.20', 'coupon' => 'APPARELSALE', 'quantity' => 1 },
-          ]
-        }}
-      end
-
-      subject { described_class.new(env, tracker: 'happy', enhanced_ecommerce: true).render }
-
-      it "will require the enhanced ecommerce plugin" do
-        expect(subject).to match(%r{ga\('require', 'ec'\)})
-      end
+    it "will require the enhanced ecommerce plugin" do
+      expect(subject).to match(%r{ga\('require', 'ec'\)})
     end
   end
 

@@ -14,7 +14,7 @@
 <% if options[:advertising] %>
   ga('require', 'displayfeatures');
 <% end %>
-<% if options[:enhanced_ecommerce] && enhanced_ecommerce_events.any? %>
+<% if options[:enhanced_ecommerce] %>
   ga('require', 'ec');
 <% end %>
 <% if options[:ecommerce] %>
