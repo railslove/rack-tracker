@@ -25,6 +25,7 @@ but to get you started we're shipping support for the following services out of 
 * [Facebook](#facebook)
 * [Visual Website Optimizer (VWO)](#visual-website-optimizer-vwo)
 * [GoSquared](#gosquared)
+* [Criteo](#criteo)
 
 
 ## Installation
