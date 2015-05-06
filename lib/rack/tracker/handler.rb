@@ -1,15 +1,16 @@
 class Rack::Tracker::Handler
-  class_attribute :position, :exact_position
-  self.position = :head
-  self.exact_position = :closing
+  class_attribute :container_tag, :container_position
+  self.container_tag = :head
+  self.container_position = :closing
 
   attr_accessor :options
   attr_accessor :env
 
   def initialize(env, options = {})
     self.env = env
-    self.options  = options
-    self.position = options[:position] if options.has_key?(:position)
+    self.options             = options
+    self.container_tag       = options[:container_tag]      if options.has_key?(:container_tag)
+    self.container_position  = options[:container_position] if options.has_key?(:container_position)
   end
 
   def events

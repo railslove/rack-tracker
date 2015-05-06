@@ -55,10 +55,10 @@ module Rack
 
     def inject(env, response)
       @handlers.each(env) do |handler|
-        if handler.exact_position == :closing
-          response.gsub!(%r{</#{handler.position}>}, handler.render + "</#{handler.position}>")
+        if handler.container_position == :closing
+          response.gsub!(%r{</#{handler.container_tag}>}, handler.render + "</#{handler.container_tag}>")
         else
-          response.gsub!(%r{<#{handler.position}>}, "<#{handler.position}>" + handler.render)
+          response.gsub!(%r{<#{handler.container_tag}>}, "<#{handler.container_tag}>" + handler.render)
         end
       end
       response

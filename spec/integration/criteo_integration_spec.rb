@@ -27,10 +27,10 @@ RSpec.describe "Criteo Integration" do
     expect(page.find("body")).to have_content "window.criteo_q.push({\"event\":\"viewBasket\",\"item\":[{\"id\":\"P001\",\"price\":\"6.54\",\"quantity\":1},{\"id\":\"P0038\",\"price\":\"2.99\",\"quantity\":1}]});"
   end
 
-  describe 'adjust tracker position via options' do
+  describe 'adjust tracker container_tag via options' do
     before do
       setup_app(action: :criteo) do |tracker|
-        tracker.handler :criteo, { set_account: '1234', position: :head }
+        tracker.handler :criteo, { set_account: '1234', container_tag: :head }
       end
       visit '/'
     end

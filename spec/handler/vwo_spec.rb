@@ -5,8 +5,8 @@ RSpec.describe Rack::Tracker::Vwo do
   end
 
   it 'will be placed in the head' do
-    expect(described_class.position).to eq(:head)
-    expect(described_class.new(env).position).to eq(:head)
+    expect(described_class.container_tag).to eq(:head)
+    expect(described_class.new(env).container_tag).to eq(:head)
   end
 
 end

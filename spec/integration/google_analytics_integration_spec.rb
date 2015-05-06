@@ -16,10 +16,10 @@ RSpec.describe "Google Analytics Integration" do
     expect(page.find("head")).to have_content('ga("send",{"hitType":"event","eventCategory":"button","eventAction":"click","eventLabel":"nav-buttons","eventValue":"X"})')
   end
 
-  describe 'adjust tracker position via options' do
+  describe 'adjust tracker container_tag via options' do
     before do
       setup_app(action: :google_analytics) do |tracker|
-        tracker.handler :google_analytics, { tracker: 'U-XXX-Y', position: :body }
+        tracker.handler :google_analytics, { tracker: 'U-XXX-Y', container_tag: :body }
       end
       visit '/'
     end

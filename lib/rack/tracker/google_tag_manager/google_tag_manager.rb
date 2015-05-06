@@ -17,8 +17,8 @@ class Rack::Tracker::GoogleTagManager < Rack::Tracker::Handler
 
   # It is strongly recommended to put the google_tag_manager snippet only in the body tag
   # https://developers.google.com/tag-manager/quickstart
-  self.position = :body
-  self.exact_position = :opening
+  self.container_tag = :body
+  self.container_position = :opening
 
   def container
     options[:container].respond_to?(:call) ? options[:container].call(env) : options[:container]

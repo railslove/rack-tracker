@@ -8,9 +8,9 @@ RSpec.describe Rack::Tracker::GoogleAdwordsConversion do
   end
 
   it 'will be placed in the body' do
-    expect(described_class.position).to eq(:body)
-    expect(described_class.new(env).position).to eq(:body)
-    expect(described_class.new(env, position: :body).position).to eq(:body)
+    expect(described_class.container_tag).to eq(:body)
+    expect(described_class.new(env).container_tag).to eq(:body)
+    expect(described_class.new(env, container_tag: :body).container_tag).to eq(:body)
   end
 
   describe "with events" do
