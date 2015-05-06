@@ -12,6 +12,11 @@ class BodyHandler < DummyHandler
   self.position = :body
 end
 
+class BodyOpeningHandler < DummyHandler
+  self.position = :body
+  self.exact_position = :opening
+end
+
 RSpec.describe Rack::Tracker do
   def app
     Rack::Builder.new do
@@ -20,6 +25,7 @@ RSpec.describe Rack::Tracker do
       use Rack::Tracker do
         handler DummyHandler, { foo: 'head' }
         handler BodyHandler, { foo: 'body' }
+        handler BodyOpeningHandler, { foo: 'body_opening' }
       end
 
       run lambda {|env|
@@ -55,6 +61,7 @@ RSpec.describe Rack::Tracker do
       get '/'
       expect(last_response.body).to include("console.log('head');")
       expect(last_response.body).to_not include("console.log('body');")
+      expect(last_response.body).to_not include("console.log('body_opening');")
     end
 
     it 'injects custom variables that was directly assigned' do
@@ -69,10 +76,17 @@ RSpec.describe Rack::Tracker do
   end
 
   describe 'when body is present' do
-    it 'will not inject the body handler code' do
+    it 'will inject only the body handler code' do
       get '/body'
       expect(last_response.body).to include("console.log('body');")
+      expect(last_response.body).to include("console.log('body_opening');")
       expect(last_response.body).to_not include("console.log('head');")
+    end
+
+    it 'will inject the handlers in their exact_position' do
+      get '/body'
+      expect(last_response.body).to include("<body><script type=\"text/javascript\">\n    alert('this is a dummy class');\n\n  console.log('body_opening');\n</script>")
+      expect(last_response.body).to include("<script type=\"text/javascript\">\n    alert('this is a dummy class');\n\n  console.log('body');\n</script>\n</body>")
     end
   end
 
@@ -81,6 +95,7 @@ RSpec.describe Rack::Tracker do
       get '/body-head'
       expect(last_response.body).to include("console.log('head');")
       expect(last_response.body).to include("console.log('body');")
+      expect(last_response.body).to include("console.log('body_opening');")
     end
   end
 

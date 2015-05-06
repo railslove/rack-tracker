@@ -1,6 +1,7 @@
 class Rack::Tracker::Handler
-  class_attribute :position
+  class_attribute :position, :exact_position
   self.position = :head
+  self.exact_position = :closing
 
   attr_accessor :options
   attr_accessor :env
