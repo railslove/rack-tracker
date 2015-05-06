@@ -34,7 +34,7 @@ RSpec.describe Rack::Tracker do
           when '/' then
             [200, {'Content-Type' => 'application/html'}, ['<head>Hello world</head>']]
           when '/body' then
-            [200, {'Content-Type' => 'application/html'}, ['<body>bob here</body>']]
+            [200, {'Content-Type' => 'application/html'}, ['<body class="dummy">bob here</body>']]
           when '/body-head' then
             [200, {'Content-Type' => 'application/html'}, ['<head></head><body></body>']]
           when '/test.xml' then
@@ -85,7 +85,7 @@ RSpec.describe Rack::Tracker do
 
     it 'will inject the handlers at their container_position in the container_tag' do
       get '/body'
-      expect(last_response.body).to include("<body><script type=\"text/javascript\">\n    alert('this is a dummy class');\n\n  console.log('body_opening');\n</script>")
+      expect(last_response.body).to include("<body class=\"dummy\"><script type=\"text/javascript\">\n    alert('this is a dummy class');\n\n  console.log('body_opening');\n</script>")
       expect(last_response.body).to include("<script type=\"text/javascript\">\n    alert('this is a dummy class');\n\n  console.log('body');\n</script>\n</body>")
     end
   end
