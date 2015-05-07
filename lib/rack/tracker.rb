@@ -54,15 +54,23 @@ module Rack
     def html?; @headers['Content-Type'] =~ /html/; end
 
     def inject(env, response)
+      handlers_by_position = {}
+
       @handlers.each(env) do |handler|
-        handler.position_options.map do |tag, insert|
+        handlers_by_position[handler.position_options] = '' if handlers_by_position[handler.position_options].blank?
+        handlers_by_position[handler.position_options] += handler.render
+      end
+
+      handlers_by_position.map do |position, rendered_handlers|
+        position.map do |tag, insert|
           if insert == :append
-            response.gsub!(%r{</#{tag}>}, handler.render + '\0')
+            response.sub!(%r{</#{tag}>}, rendered_handlers + '\0')
           else
-            response.gsub!(%r{<#{tag}[^>]*>}, '\0' + handler.render)
+            response.sub!(%r{<#{tag}[^>]*>}, '\0' + rendered_handlers)
           end
         end
       end
+
       response
     end
 
