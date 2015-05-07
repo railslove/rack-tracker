@@ -8,9 +8,9 @@ RSpec.describe Rack::Tracker::GoogleTagManager do
   end
 
   it 'will be placed in the body by default' do
-    expect(described_class.container_tag).to eq(:body)
-    expect(described_class.new(env).container_tag).to eq(:body)
-    expect(described_class.new(env, container_tag: :head).container_tag).to eq(:head)
+    expect(described_class.position).to eq({ body: :prepend })
+    expect(described_class.new(env).position).to eq({ body: :prepend })
+    expect(described_class.new(env, position: { head: :append }).position).to eq({ head: :append })
   end
 
   describe "with events" do

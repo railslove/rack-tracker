@@ -9,12 +9,11 @@ class DummyHandler < Rack::Tracker::Handler
 end
 
 class BodyHandler < DummyHandler
-  self.container_tag = :body
+  self.position body: :append
 end
 
 class BodyOpeningHandler < DummyHandler
-  self.container_tag = :body
-  self.container_position = :opening
+  self.position body: :prepend
 end
 
 RSpec.describe Rack::Tracker do
@@ -83,7 +82,7 @@ RSpec.describe Rack::Tracker do
       expect(last_response.body).to_not include("console.log('head');")
     end
 
-    it 'will inject the handlers at their container_position in the container_tag' do
+    it 'will inject the handlers correctly using append or prepend' do
       get '/body'
       expect(last_response.body).to include("<body class=\"dummy\"><script type=\"text/javascript\">\n    alert('this is a dummy class');\n\n  console.log('body_opening');\n</script>")
       expect(last_response.body).to include("<script type=\"text/javascript\">\n    alert('this is a dummy class');\n\n  console.log('body');\n</script>\n</body>")

@@ -55,10 +55,12 @@ module Rack
 
     def inject(env, response)
       @handlers.each(env) do |handler|
-        if handler.container_position == :closing
-          response.gsub!(%r{</#{handler.container_tag}>}, handler.render + '\0')
-        else
-          response.gsub!(%r{<#{handler.container_tag}[^>]*>}, '\0' + handler.render)
+        handler.position_options.map do |tag, insert|
+          if insert == :append
+            response.gsub!(%r{</#{tag}>}, handler.render + '\0')
+          else
+            response.gsub!(%r{<#{tag}[^>]*>}, '\0' + handler.render)
+          end
         end
       end
       response

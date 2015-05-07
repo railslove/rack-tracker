@@ -418,11 +418,11 @@ Everything you're passing to the `handler` will be available as `#options` in yo
 template, so you'll also gain access to the `env`-hash belonging to the current request.
 
 Run your application and make a request, the result of the above template can be
-found right before `</head>`. You can change the `container_tag` in your handler-code:
+found right before `</head>`. You can change the `position` in your handler-code:
 
 ```ruby
 class MyHandler <  Rack::Tracker::Handler
-  self.container_tag = :body
+  self.position body: :append
 
   ...
 end
@@ -430,12 +430,11 @@ end
 
 The snippet will then be rendered right before `</body>`.
 
-You can also change the `container_position` in your handler-code:
+You can also change the `:append` option to `:prepend` in your handler-code:
 
 ```ruby
 class MyHandler <  Rack::Tracker::Handler
-  self.container_tag = :body
-  self.container_position = :opening
+  self.position body: :prepend
 
   ...
 end

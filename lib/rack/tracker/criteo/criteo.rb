@@ -13,7 +13,7 @@ class Rack::Tracker::Criteo <  Rack::Tracker::Handler
     end
   end
 
-  self.container_tag = :body
+  self.position body: :append
 
   # global events (setSiteType, setAccount, ...) for each tracker instance
   def tracker_events
