@@ -1,0 +1,10 @@
+<% events.each do |event| %>
+
+<script type="text/javascript" src="https://ad.zanox.com/ppl/?<%= options[:zanox_tracking_id] %>&mode=[[1]]&<%= event.write %>">
+</script>
+
+<noscript>
+<img src="https://ad.zanox.com/ppl/?<%= options[:zanox_tracking_id] %>&mode=[[2]]&<%= event.write %>" width="1" height="1" />
+</noscript>
+
+<% end %>
