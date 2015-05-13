@@ -74,4 +74,11 @@ class MetalController < ActionController::Metal
     end
     render 'metal/index'
   end
+
+  def zenox
+    tracker do |t|
+      t.zenox :mastertag, { id: 'blurg567'}
+    end
+    render 'metal/index'
+  end
 end
