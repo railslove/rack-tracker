@@ -4,8 +4,8 @@ RSpec.describe "Zanox Integration" do
 
   before do
     setup_app(action: :zanox) do |tracker|
-    tracker.handler(:zanox, { account_id: '12345H123456789' } )
-  end
+      tracker.handler(:zanox, { account_id: '12345H123456789' } )
+    end
 
     visit '/'
   end
