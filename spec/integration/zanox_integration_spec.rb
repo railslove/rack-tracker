@@ -1,33 +1,25 @@
 require 'support/capybara_app_helper'
 
 RSpec.describe "Zanox Integration" do
+
   before do
     setup_app(action: :zanox) do |tracker|
-      tracker.handler(:zanox, { id: '345345' })
-    end
+    tracker.handler(:zanox, { account_id: '12345H123456789' } )
+  end
 
     visit '/'
   end
 
   subject { page }
 
-  it 'should include all the events' do
-    # tracker_events
-    binding.pry
-    expect(page.find("body")).to have_content " "
+  it 'should include the mastertag event' do
+    expect(page.find("body")).to have_content "window._zx.push({\"id\": \"blurg567\"});"
   end
 
-  describe 'adjust tracker position via options' do
-    before do
-      setup_app(action: :zanox) do |tracker|
-        tracker.handler :zanox, { id: '1234', position: :head }
-      end
-      visit '/'
-    end
-
-    it "will be placed in the specified tag" do
-     expect(page.find("body")).to_not have_content('zanox')
-    end
-
+  it 'should include the track event' do
+    expect(page).to have_xpath "//script[contains(@src,'12345H123456789&mode=[[1]]&OrderID=[[DEFC-4321]]&CurrencySymbol=[[EUR]]&TotalPrice=[[150.00]]')]"
   end
 end
+
+
+

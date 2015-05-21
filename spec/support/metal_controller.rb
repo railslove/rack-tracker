@@ -75,9 +75,10 @@ class MetalController < ActionController::Metal
     render 'metal/index'
   end
 
-  def zenox
+  def zanox
     tracker do |t|
-      t.zenox :mastertag, { id: 'blurg567'}
+      t.zanox :mastertag, { id: 'blurg567'}
+      t.zanox :track, { order_i_d: 'DEFC-4321', currency_symbol: 'EUR', total_price: '150.00'}
     end
     render 'metal/index'
   end
