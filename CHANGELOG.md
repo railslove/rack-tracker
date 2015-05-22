@@ -1,4 +1,6 @@
-# master
+# 0.4.1
+
+  * [ENHANCEMENT] support zanox mastertag and tracking events
 
 # 0.4.0
 

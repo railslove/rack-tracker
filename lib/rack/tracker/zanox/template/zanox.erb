@@ -1,0 +1,26 @@
+<% if mastertag %>
+
+<div class="zx_<%= mastertag.id %> zx_mediaslot">
+  <script type="text/javascript">
+    window._zx = window._zx || [];
+    window._zx.push({"id": "<%= mastertag.id %>"});
+    (function(d) {
+      var s = d.createElement("script"); s.async = true;
+      s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//static.zanox.com/scripts/zanox.js";
+      var a = d.getElementsByTagName("script")[0]; a.parentNode.insertBefore(s, a);
+    }(document));
+  </script>
+</div>
+
+<% end %>
+
+<% tracking_events.each do |event| %>
+
+<script type="text/javascript" src="https://ad.zanox.com/ppl/?<%= options[:account_id] %>&mode=[[1]]&<%= event.write %>">
+</script>
+
+<noscript>
+<img src="https://ad.zanox.com/ppl/?<%= options[:account_id] %>&mode=[[2]]&<%= event.write %>" width="1" height="1" />
+</noscript>
+
+<% end %>
