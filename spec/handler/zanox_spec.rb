@@ -26,6 +26,7 @@ RSpec.describe Rack::Tracker::Zanox do
           'zanox' =>
             [
               {
+                'CustomerID' => '123456',
                 'OrderId' => 'DEFC-4321',
                 'CurrencySymbol' => 'EUR',
                 'TotalPrice' => '150.00',
@@ -40,7 +41,7 @@ RSpec.describe Rack::Tracker::Zanox do
       let(:options) { { account_id: '123456H123456' } }
 
       it 'will display the correct tracking events' do
-        expect(subject).to include "https://ad.zanox.com/ppl/?123456H123456&mode=[[1]]&OrderId=[[DEFC-4321]]&CurrencySymbol=[[EUR]]&TotalPrice=[[150.00]]"
+        expect(subject).to include "https://ad.zanox.com/ppl/?123456H123456&mode=[[1]]&CustomerID=[[123456]]&OrderId=[[DEFC-4321]]&CurrencySymbol=[[EUR]]&TotalPrice=[[150.00]]"
       end
     end
   end

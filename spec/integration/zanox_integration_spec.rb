@@ -17,7 +17,7 @@ RSpec.describe "Zanox Integration" do
   end
 
   it 'should include the track event' do
-    expect(page).to have_xpath "//script[contains(@src,'12345H123456789&mode=[[1]]&OrderID=[[DEFC-4321]]&CurrencySymbol=[[EUR]]&TotalPrice=[[150.00]]')]"
+    expect(page).to have_xpath "//script[contains(@src,'12345H123456789&mode=[[1]]&CustomerID=[[123456]]&OrderID=[[DEFC-4321]]&CurrencySymbol=[[EUR]]&TotalPrice=[[150.00]]')]"
   end
 end
 

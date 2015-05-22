@@ -417,7 +417,7 @@ This is an example of a sale event:
 ```
 def show
   tracker do |t|
-    t.zanox :track, { order_i_d: 'DEFC-4321', currency_symbol: 'EUR', total_price: '150.00'}
+    t.zanox :track, { customer_i_d: '123456', order_i_d: 'DEFC-4321', currency_symbol: 'EUR', total_price: '150.00'}
   end
 end
 ```
