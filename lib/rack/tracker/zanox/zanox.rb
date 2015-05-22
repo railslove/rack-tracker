@@ -14,7 +14,7 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
     end
   end
 
-  self.position = :body
+  self.position body: :append
 
   def mastertag
     # First event should be stronger, e.g. one signs up and gets redirected to homepage
