@@ -189,6 +189,15 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
     end
   end
 
+  describe "with manually pageview tracking option" do
+    subject { described_class.new(env, tracker: 'somebody', manually_track_pageview: true).render }
+
+    it "will show asyncronous tracker but without pageview command" do
+      expect(subject).to match(%r{ga\('create', 'somebody', {}\)})
+      expect(subject).not_to match(%r{ga\('send', 'pageview'\)})
+    end
+  end
+
   describe "with custom domain" do
     subject { described_class.new(env, tracker: 'somebody', cookie_domain: "railslabs.com").render }
 
