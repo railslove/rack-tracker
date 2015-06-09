@@ -1,3 +1,7 @@
+# 0.4.2
+
+  * [BUGFIX] proper page track when used with turbolink #40 (thx @remiprev @musaffa)
+
 # 0.4.1
 
   * [ENHANCEMENT] support zanox mastertag and tracking events
