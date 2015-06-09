@@ -194,7 +194,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
 
     it "will show asyncronous tracker with cookieDomain" do
       expect(subject).to match(%r{ga\('create', 'somebody', {\"cookieDomain\":\"railslabs.com\"}\)})
-      expect(subject).to match(%r{ga\('send', 'pageview'\)})
+      expect(subject).to match(%r{ga\('send', 'pageview', {'location': window.location.href}\)})
     end
   end
 
@@ -203,7 +203,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
 
     it "will show asyncronous tracker with userId" do
       expect(subject).to match(%r{ga\('create', 'somebody', {\"userId\":\"123\"}\)})
-      expect(subject).to match(%r{ga\('send', 'pageview'\)})
+      expect(subject).to match(%r{ga\('send', 'pageview', {'location': window.location.href}\)})
     end
   end
 
