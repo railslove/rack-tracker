@@ -21,6 +21,7 @@ in your application. It's easy to add your own [custom handlers](#custom-handler
 but to get you started we're shipping support for the following services out of the box:
 
 * [Google Analytics](#google-analytics)
+* [Google Adwords Conversion](#google-adwords-conversion)
 * [Google Tag Manager](#google-tag-manager)
 * [Facebook](#facebook)
 * [Visual Website Optimizer (VWO)](#visual-website-optimizer-vwo)
@@ -187,8 +188,44 @@ take care of the plugin on your own.
   config.middleware.use(Rack::Tracker) do
     handler :google_analytics, { tracker: 'U-XXXXX-Y', ecommerce: true }
   end
-````
+```
 
+### Google Adwords Conversion
+
+You can configure the handler with default options:
+```ruby
+config.middleware.use(Rack::Tracker) do
+  handler :google_adwords_conversion, { id: 123456,
+                                        language: "en",
+                                        format: "3",
+                                        color: "ffffff",
+                                        label: "Conversion label",
+                                        currency: "USD" }
+end
+```
+
+To track adwords conversion from the server side just call the `tracker` method in your controller.
+```ruby
+  def show
+    tracker do |t|
+      t.google_adwords_conversion :conversion, { value: 10.0 }
+    end
+  end
+```
+
+You can also specify a different value from default options:
+```ruby
+  def show
+    tracker do |t|
+      t.google_adwords_conversion :conversion, { id: 123456,
+                                                 language: 'en',
+                                                 format: '3',
+                                                 color: 'ffffff',
+                                                 label: 'Conversion Label',
+                                                 value: 10.0 }
+    end
+  end
+```
 
 ### Google Tag Manager
 
@@ -198,7 +235,7 @@ Google Tag manager code snippet doesn't support any option other than the contai
   config.middleware.use(Rack::Tracker) do
     handler :google_tag_manager, { container: 'GTM-XXXXXX' }
   end
-````
+```
 
 #### Data Layer
 
