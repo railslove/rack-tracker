@@ -15,7 +15,7 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
       end.join('&')
     end
 
-    def set_path_extension
+    def path_extension
       to_h[:path_extension]
     end
   end

@@ -16,11 +16,11 @@
 
 <% tracking_events.each do |event| %>
 
-<script type="text/javascript" src="https://ad.zanox.com/<%= event.set_path_extension %>/?<%= options[:account_id] %>&mode=[[1]]&<%= event.write %>">
+<script type="text/javascript" src="https://ad.zanox.com/<%= event.path_extension %>/?<%= options[:account_id] %>&mode=[[1]]&<%= event.write %>">
 </script>
 
 <noscript>
-<img src="https://ad.zanox.com/<%= event.set_path_extension %>/?<%= options[:account_id] %>&mode=[[2]]&<%= event.write %>" width="1" height="1" />
+<img src="https://ad.zanox.com/<%= event.path_extension %>/?<%= options[:account_id] %>&mode=[[2]]&<%= event.write %>" width="1" height="1" />
 </noscript>
 
 <% end %>
