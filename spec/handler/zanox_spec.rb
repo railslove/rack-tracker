@@ -2,7 +2,7 @@ RSpec.describe Rack::Tracker::Zanox do
 
   describe Rack::Tracker::Zanox::Track do
 
-    subject { described_class.new(order_i_d: 'DEFC-4321', currency_symbol: 'EUR', total_price: '150.00') }
+    subject { described_class.new(order_i_d: 'DEFC-4321', currency_symbol: 'EUR', total_price: '150.00', path_extension: 'zan') }
 
     describe '#write' do
       specify { expect(subject.write).to eq "OrderID=[[DEFC-4321]]&CurrencySymbol=[[EUR]]&TotalPrice=[[150.00]]" }
@@ -30,7 +30,8 @@ RSpec.describe Rack::Tracker::Zanox do
                 'OrderId' => 'DEFC-4321',
                 'CurrencySymbol' => 'EUR',
                 'TotalPrice' => '150.00',
-                'class_name' => 'Track'
+                'class_name' => 'Track',
+                'path_extension' => 'zan'
               }
             ]
           }
@@ -41,7 +42,7 @@ RSpec.describe Rack::Tracker::Zanox do
       let(:options) { { account_id: '123456H123456' } }
 
       it 'will display the correct tracking events' do
-        expect(subject).to include "https://ad.zanox.com/ppl/?123456H123456&mode=[[1]]&CustomerID=[[123456]]&OrderId=[[DEFC-4321]]&CurrencySymbol=[[EUR]]&TotalPrice=[[150.00]]"
+        expect(subject).to include "https://ad.zanox.com/zan/?123456H123456&mode=[[1]]&CustomerID=[[123456]]&OrderId=[[DEFC-4321]]&CurrencySymbol=[[EUR]]&TotalPrice=[[150.00]]"
       end
     end
   end
@@ -55,7 +56,8 @@ RSpec.describe Rack::Tracker::Zanox do
             [
               {
                 'OrderId' => 'DEFC-4321',
-                'class_name' => 'Track'
+                'class_name' => 'Track',
+                'path_extension' => 'fan'
               }
             ]
           }
@@ -66,7 +68,7 @@ RSpec.describe Rack::Tracker::Zanox do
       let(:options) { { account_id: '123456H123456' } }
 
       it 'will display the correct tracking events' do
-        expect(subject).to include "https://ad.zanox.com/ppl/?123456H123456&mode=[[1]]&OrderId=[[DEFC-4321]]"
+        expect(subject).to include "https://ad.zanox.com/fan/?123456H123456&mode=[[1]]&OrderId=[[DEFC-4321]]"
       end
     end
   end

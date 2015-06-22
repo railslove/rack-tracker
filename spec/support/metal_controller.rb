@@ -78,7 +78,7 @@ class MetalController < ActionController::Metal
   def zanox
     tracker do |t|
       t.zanox :mastertag, { id: 'blurg567'}
-      t.zanox :track, { customer_i_d: '123456', order_i_d: 'DEFC-4321', currency_symbol: 'EUR', total_price: '150.00'}
+      t.zanox :track, { customer_i_d: '123456', order_i_d: 'DEFC-4321', currency_symbol: 'EUR', total_price: '150.00', path_extension: 'zan'}
     end
     render 'metal/index'
   end

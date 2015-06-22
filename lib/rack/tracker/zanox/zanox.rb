@@ -7,10 +7,16 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
 
   class Track < OpenStruct
     # Example: OrderID=[[DEFC-4321]]&CurrencySymbol=[[EUR]]&TotalPrice=[[23.40]]
+    # url_param gets passed into the url, but should not be one of main parameters set to zanox
     def write
-      to_h.map do |k,v|
+      events = to_h.delete_if { |k,v| k == :path_extension}
+      events.map do |k,v|
         "#{k.to_s.camelize}=[[#{v}]]"
       end.join('&')
+    end
+
+    def set_path_extension
+      to_h[:path_extension]
     end
   end
 
