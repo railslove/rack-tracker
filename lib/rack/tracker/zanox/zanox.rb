@@ -5,18 +5,21 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
   class Mastertag < OpenStruct
   end
 
-  class Track < OpenStruct
+  class Lead < OpenStruct
     # Example: OrderID=[[DEFC-4321]]&CurrencySymbol=[[EUR]]&TotalPrice=[[23.40]]
-    # url_param gets passed into the url, but should not be one of main parameters set to zanox
+
     def write
-      events = to_h.delete_if { |k,v| k == :path_extension}
-      events.map do |k,v|
+      to_h.map do |k,v|
         "#{k.to_s.camelize}=[[#{v}]]"
       end.join('&')
     end
+  end
 
-    def path_extension
-      to_h[:path_extension]
+  class Sale < OpenStruct
+    def write
+      to_h.map do |k,v|
+        "#{k.to_s.camelize}=[[#{v}]]"
+      end.join('&')
     end
   end
 
@@ -28,8 +31,12 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
     events.select{ |event| event.class.to_s.demodulize == 'Mastertag' }.first
   end
 
-  def tracking_events
-    events.select{ |event| event.class.to_s.demodulize == 'Track' }
+  def lead_events
+    events.select{ |event| event.class.to_s.demodulize == 'Lead' }
+  end
+
+  def sale_events
+    events.select{ |event| event.class.to_s.demodulize == 'Sale' }
   end
 
   def render

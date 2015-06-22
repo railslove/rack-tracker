@@ -402,15 +402,12 @@ window._zx.push({"id": "25GHTE9A07DF67DFG90T"});
 
 #### Conversion tracking
 
-Lead events and sale events use similar text snippets, but different url paths. For example:
-`https://foo.zanox.com/abc/?123456789`, where `abc` is the changing url path. This can be set dynamically along with the rest of the parameters by setting the `path_extension`. 
-
 This is an example of a lead event:
 
 ```
 def show
   tracker do |t|
-    t.zanox :track, { order_i_d: 'DEFC-4321', path_extension: 'abc' }
+    t.zanox :lead, { order_i_d: 'DEFC-4321' }
   end
 end
 ```
@@ -420,7 +417,7 @@ This is an example of a sale event:
 ```
 def show
   tracker do |t|
-    t.zanox :track, { customer_i_d: '123456', order_i_d: 'DEFC-4321', currency_symbol: 'EUR', total_price: '150.00', path_extension: 'def'}
+    t.zanox :sale, { customer_i_d: '123456', order_i_d: 'DEFC-4321', currency_symbol: 'EUR', total_price: '150.00' }
   end
 end
 ```
