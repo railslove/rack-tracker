@@ -1,18 +1,18 @@
 <% if mastertag %>
-
-<div class="zx_<%= mastertag.id %> zx_mediaslot">
-  <script type="text/javascript">
-    window._zx = window._zx || [];
-    window._zx.push({"id": "<%= mastertag.id %>"});
-    (function(d) {
-      var s = d.createElement("script"); s.async = true;
-      s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//static.zanox.com/scripts/zanox.js";
-      var a = d.getElementsByTagName("script")[0]; a.parentNode.insertBefore(s, a);
-    }(document));
-  </script>
-</div>
-
+  <div class="zx_<%= mastertag.id %> zx_mediaslot">
+    <script type="text/javascript">
+      window._zx = window._zx || [];
+      window._zx.push({"id": "<%= mastertag.id %>"});
+      (function(d) {
+        var s = d.createElement("script"); s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//static.zanox.com/scripts/zanox.js";
+        var a = d.getElementsByTagName("script")[0]; a.parentNode.insertBefore(s, a);
+      }(document));
+        <%= mastertag.write %>
+    </script>
+  </div>
 <% end %>
+
 
 <% tracking_events.each do |event| %>
 

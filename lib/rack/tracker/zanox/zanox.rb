@@ -3,6 +3,12 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
   # name of the handler
   # everything after is passed as options
   class Mastertag < OpenStruct
+
+    def write
+      to_h.except(:id).map do |k,v|
+        "var zx_#{k} = '#{v}';"
+      end.join("\n")
+    end
   end
 
   class Track < OpenStruct

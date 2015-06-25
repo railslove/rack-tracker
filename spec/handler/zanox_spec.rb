@@ -80,7 +80,10 @@ RSpec.describe Rack::Tracker::Zanox do
             [
               {
                 'id' => '12345678D2345',
-                'class_name' => 'Mastertag'
+                'class_name' => 'Mastertag',
+                'category' => 'Sewing',
+                'identifier' => '234',
+                'amount' => '5.90'
               }
             ]
           }
@@ -88,10 +91,12 @@ RSpec.describe Rack::Tracker::Zanox do
       }
 
       subject { described_class.new(env, options).render }
+
       let(:options) { { account_id: '123456H123456' } }
 
       it 'will display the correct tracking events' do
         expect(subject).to include 'window._zx.push({"id": "12345678D2345"});'
+        expect(subject).to include "var zx_category = 'Sewing';\nvar zx_identifier = '234';\nvar zx_amount = '5.90';"
       end
     end
   end
