@@ -1,3 +1,8 @@
+# 1.0.0
+
+  * [BUGFIX] breaking API change: set zanox path extension #45 (thx @berlintam)
+  * [BUGFIX] Fix Google Analytics pageview command arguments #44 (thx @remiprev)
+
 # 0.4.2
 
   * [BUGFIX] proper page track when used with turbolink #40 (thx @remiprev @musaffa)

@@ -11,8 +11,17 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
     end
   end
 
-  class Track < OpenStruct
+  class Lead < OpenStruct
     # Example: OrderID=[[DEFC-4321]]&CurrencySymbol=[[EUR]]&TotalPrice=[[23.40]]
+
+    def write
+      to_h.map do |k,v|
+        "#{k.to_s.camelize}=[[#{v}]]"
+      end.join('&')
+    end
+  end
+
+  class Sale < OpenStruct
     def write
       to_h.map do |k,v|
         "#{k.to_s.camelize}=[[#{v}]]"
@@ -28,8 +37,12 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
     events.select{ |event| event.class.to_s.demodulize == 'Mastertag' }.first
   end
 
-  def tracking_events
-    events.select{ |event| event.class.to_s.demodulize == 'Track' }
+  def lead_events
+    events.select{ |event| event.class.to_s.demodulize == 'Lead' }
+  end
+
+  def sale_events
+    events.select{ |event| event.class.to_s.demodulize == 'Sale' }
   end
 
   def render

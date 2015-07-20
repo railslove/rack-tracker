@@ -1,6 +1,6 @@
 RSpec.describe Rack::Tracker::Zanox do
 
-  describe Rack::Tracker::Zanox::Track do
+  describe Rack::Tracker::Zanox::Sale do
 
     subject { described_class.new(order_i_d: 'DEFC-4321', currency_symbol: 'EUR', total_price: '150.00') }
 
@@ -18,7 +18,7 @@ RSpec.describe Rack::Tracker::Zanox do
     expect(described_class.new(env).position).to eq(:body)
   end
 
-  describe '#render a sale #tracking_event' do
+  describe '#render #sale_events' do
     context 'with events' do
       let(:env) {
         {
@@ -30,7 +30,7 @@ RSpec.describe Rack::Tracker::Zanox do
                 'OrderId' => 'DEFC-4321',
                 'CurrencySymbol' => 'EUR',
                 'TotalPrice' => '150.00',
-                'class_name' => 'Track'
+                'class_name' => 'Sale',
               }
             ]
           }
@@ -41,12 +41,12 @@ RSpec.describe Rack::Tracker::Zanox do
       let(:options) { { account_id: '123456H123456' } }
 
       it 'will display the correct tracking events' do
-        expect(subject).to include "https://ad.zanox.com/ppl/?123456H123456&mode=[[1]]&CustomerID=[[123456]]&OrderId=[[DEFC-4321]]&CurrencySymbol=[[EUR]]&TotalPrice=[[150.00]]"
+        expect(subject).to include "https://ad.zanox.com/pps/?123456H123456&mode=[[1]]&CustomerID=[[123456]]&OrderId=[[DEFC-4321]]&CurrencySymbol=[[EUR]]&TotalPrice=[[150.00]]"
       end
     end
   end
 
-  describe '#render a lead #tracking_event' do
+  describe '#render #lead_events' do
     context 'with events' do
       let(:env) {
         {
@@ -55,7 +55,7 @@ RSpec.describe Rack::Tracker::Zanox do
             [
               {
                 'OrderId' => 'DEFC-4321',
-                'class_name' => 'Track'
+                'class_name' => 'Lead'
               }
             ]
           }
