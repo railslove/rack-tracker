@@ -14,13 +14,27 @@
 
 <% end %>
 
-<% tracking_events.each do |event| %>
 
-<script type="text/javascript" src="https://ad.zanox.com/ppl/?<%= options[:account_id] %>&mode=[[1]]&<%= event.write %>">
-</script>
+<% sale_events.each do |event| %>
 
-<noscript>
-<img src="https://ad.zanox.com/ppl/?<%= options[:account_id] %>&mode=[[2]]&<%= event.write %>" width="1" height="1" />
-</noscript>
+  <script type="text/javascript" src="https://ad.zanox.com/pps/?<%= options[:account_id] %>&mode=[[1]]&<%= event.write %>">
+  </script>
+
+  <noscript>
+  <img src="https://ad.zanox.com/pps/?<%= options[:account_id] %>&mode=[[2]]&<%= event.write %>" width="1" height="1" />
+  </noscript>
 
 <% end %>
+
+
+<% lead_events.each do |event| %>
+
+  <script type="text/javascript" src="https://ad.zanox.com/ppl/?<%= options[:account_id] %>&mode=[[1]]&<%= event.write %>">
+  </script>
+
+  <noscript>
+  <img src="https://ad.zanox.com/ppl/?<%= options[:account_id] %>&mode=[[2]]&<%= event.write %>" width="1" height="1" />
+  </noscript>
+
+<% end %>
+
