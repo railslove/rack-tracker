@@ -9,6 +9,15 @@ RSpec.describe Rack::Tracker::Zanox do
     end
   end
 
+  describe Rack::Tracker::Zanox::Mastertag do
+
+    subject { described_class.new(id: "25GHTE9A07DF67DFG90T", category: 'Swimming', amount: '3.50', products: [{amount: '5', currency: 'EUR'}, {amount: '6', currency: 'USD'}]) }
+
+    describe '#write' do
+      specify { expect(subject.write).to eq "var zx_category = \"Swimming\";\nvar zx_amount = \"3.50\";\nvar zx_products = [{\"amount\":\"5\",\"currency\":\"EUR\"},{\"amount\":\"6\",\"currency\":\"USD\"}];"}
+    end
+  end
+
   def env
     {}
   end
@@ -96,7 +105,6 @@ RSpec.describe Rack::Tracker::Zanox do
 
       it 'will display the correct tracking events' do
         expect(subject).to include 'window._zx.push({"id": "12345678D2345"});'
-        expect(subject).to include "var zx_category = 'Sewing';\nvar zx_identifier = '234';\nvar zx_amount = '5.90';"
       end
     end
   end
