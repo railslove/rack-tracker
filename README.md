@@ -389,7 +389,7 @@ This is an example of a mastertag:
 ```
 def show
   tracker do |t|
-    t.zanox :mastertag, { id: "25GHTE9A07DF67DFG90T" }
+    t.zanox :mastertag, { id: "25GHTE9A07DF67DFG90T", category: 'Swimming', amount: '3.50' }
   end
 end
 ```
@@ -399,6 +399,11 @@ This will render to the follwing code in the JS:
 ```
 window._zx.push({"id": "25GHTE9A07DF67DFG90T"});
 ```
+
+and the following variables:
+```
+zx_category = 'Swimming';
+zx_amount = '3.50';
 
 #### Conversion tracking
 
