@@ -36,6 +36,6 @@
   ga('ecommerce:send');
 <% end %>
 <% if tracker %>
-  ga('send', 'pageview', {'location': window.location.href});
+  ga('send', 'pageview', window.location.pathname + window.location.search);
 <% end %>
 </script>
