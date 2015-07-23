@@ -105,6 +105,7 @@ RSpec.describe Rack::Tracker::Zanox do
 
       it 'will display the correct tracking events' do
         expect(subject).to include 'window._zx.push({"id": "12345678D2345"});'
+        expect(subject).to include "var zx_category = \"Sewing\";\nvar zx_identifier = \"234\";\nvar zx_amount = \"5.90\";\n"
       end
     end
   end
