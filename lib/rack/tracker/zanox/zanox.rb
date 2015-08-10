@@ -6,7 +6,7 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
 
     def write
       to_h.except(:id).map do |k,v|
-        "var zx_#{k} = '#{v}';"
+        "var zx_#{k} = #{v.to_json};"
       end.join("\n")
     end
   end

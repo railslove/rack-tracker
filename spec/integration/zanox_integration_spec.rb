@@ -14,7 +14,7 @@ RSpec.describe "Zanox Integration" do
 
   it 'should include the mastertag event' do
     expect(page.find("body")).to have_content "window._zx.push({\"id\": \"blurg567\"});"
-    expect(page).to have_content "var zx_category = 'cake decorating';\nvar zx_amount = '5.90';"
+    expect(page).to have_content "var zx_category = \"cake decorating\";\nvar zx_amount = \"5.90\";\n"
   end
 
   it 'should include the sale event' do
