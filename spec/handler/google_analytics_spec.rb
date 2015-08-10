@@ -259,8 +259,8 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
     subject { described_class.new(env, tracker: 'afake', adjusted_bounce_rate_timeouts: [15, 30]).render }
 
     it "will add timeouts to push read events" do
-      expect(subject).to match(%r{ga\('send', 'event', '15_seconds', 'read'\)})
-      expect(subject).to match(%r{ga\('send', 'event', '30_seconds', 'read'\)})
+      expect(subject).to include %q{setTimeout(function() { ga('send', 'event', '15_seconds', 'read'); },15000)}
+      expect(subject).to include %q{setTimeout(function() { ga('send', 'event', '30_seconds', 'read'); },30000)}
     end
   end
 end
