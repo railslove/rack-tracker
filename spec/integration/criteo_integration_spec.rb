@@ -6,7 +6,8 @@ RSpec.describe "Criteo Integration" do
       tracker.handler(:criteo, {
         set_account: '1234',
         set_customer_id: ->(env){ '4711' },
-        set_site_type: ->(env){ 'm' }
+        set_site_type: ->(env){ 'm' },
+        set_email: 'user@test.com'
       })
     end
     visit '/'
@@ -19,6 +20,7 @@ RSpec.describe "Criteo Integration" do
     expect(page.find("body")).to have_content "window.criteo_q.push({\"event\":\"setAccount\",\"account\":\"1234\"});"
     expect(page.find("body")).to have_content "window.criteo_q.push({\"event\":\"setSiteType\",\"type\":\"m\"});"
     expect(page.find("body")).to have_content "window.criteo_q.push({\"event\":\"setCustomerId\",\"id\":\"4711\"});"
+    expect(page.find("body")).to have_content "window.criteo_q.push({\"event\":\"setEmail\",\"email\":\"user@test.com\"});"
 
     # events
     expect(page.find("body")).to have_content "window.criteo_q.push({\"event\":\"viewItem\",\"item\":\"P001\"});"

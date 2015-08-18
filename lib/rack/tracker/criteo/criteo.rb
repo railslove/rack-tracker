@@ -4,7 +4,8 @@ class Rack::Tracker::Criteo <  Rack::Tracker::Handler
     # event name => event key name, e.g. { event: 'setSiteType', type: '' }
     set_site_type: :type,
     set_account: :account,
-    set_customer_id: :id
+    set_customer_id: :id,
+    set_email: :email
   }
 
   class Event < OpenStruct
