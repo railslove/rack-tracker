@@ -2,8 +2,8 @@
 
   <script type="text/javascript">
   /* <![CDATA[ */
-  <% ev.to_h.each do |attr_name, attr_value| %>
-    var google_conversion_<%= attr_name %> = <%= attr_name == :id ? attr_value : "'#{attr_value}'" %>;
+  <% options.merge(ev.to_h).each do |attr_name, attr_value| %>
+    var google_conversion_<%= attr_name %> = <%= [:id, :value].include?(attr_name) ? attr_value : "'#{attr_value}'" %>;
   <% end %>
   var google_remarketing_only = false;
   /* ]]> */
@@ -11,7 +11,7 @@
   <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>
   <noscript>
     <div style="display:inline;">
-      <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/<%= ev.id %>/?label=<%= URI.escape(ev.label) %>&amp;guid=ON&amp;script=0"/>
+      <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/<%= ev.id || options[:id] %>/?label=<%= URI.escape(ev.label || options[:label]) %>&amp;guid=ON&amp;script=0"/>
     </div>
   </noscript>
 
