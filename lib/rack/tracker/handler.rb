@@ -5,6 +5,9 @@ class Rack::Tracker::Handler
   attr_accessor :options
   attr_accessor :env
 
+  # Allow javascript escaping in view templates
+  include Rack::Tracker::JavaScriptHelper
+
   def initialize(env, options = {})
     self.env = env
     self.options  = options
