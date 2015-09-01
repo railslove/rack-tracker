@@ -47,8 +47,9 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   end
 
   class Parameter < OpenStruct
+    include Rack::Tracker::JavaScriptHelper
     def write
-      ["set", self.to_h.to_a].flatten.map {|s| "'#{s}'" }.join(', ')
+      ['set', self.to_h.to_a].flatten.map { |v| %Q{'#{j(v)}'} }.join ', '
     end
   end
 

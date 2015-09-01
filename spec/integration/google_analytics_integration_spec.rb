@@ -40,7 +40,13 @@ RSpec.describe "Google Analytics Integration" do
 
     it "will not mess up the html" do
       expect(page.find('head')).to have_content('U-XXX-Y')
-      expect(page.find('head')).to have_content %q{Some escaped \\'value}
+      # Backslashes are also escaped, thus \' becomes in \\\' in output
+      expect(page.find('head')).to have_content %q{Some escaped \\\\\\'value}
+    end
+
+    it "automatically escape javascript in dimensions" do
+      expect(page.find('head')).to have_content('U-XXX-Y')
+      expect(page.find('head')).to have_content %q{Author\\'s name}
     end
   end
 end

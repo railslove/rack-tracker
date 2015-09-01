@@ -35,6 +35,7 @@ class MetalController < ActionController::Metal
       t.google_analytics :ecommerce, { type: 'addItem', id: 1234, name: 'Fluffy Pink Bunnies', sku: 'DD23444', category: 'Party Toys', price: 11.99, quantity: 1 }
       t.google_analytics :send, { type: 'event', category: 'button', action: 'click', label: 'nav-buttons', value: 'X' }
       t.google_analytics :parameter, dimension1: %q{Some escaped \\'value}
+      t.google_analytics :parameter, dimension2: %q{Author's name}
     end
     render "metal/index"
   end
