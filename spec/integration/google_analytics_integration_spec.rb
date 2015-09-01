@@ -29,4 +29,18 @@ RSpec.describe "Google Analytics Integration" do
      expect(page.find("body")).to have_content('ga("ecommerce:addItem",{"id":"1234","name":"Fluffy Pink Bunnies","sku":"DD23444","category":"Party Toys","price":"11.99","quantity":"1"})')
     end
   end
+
+  describe 'values escaping' do
+    before do
+      setup_app(action: :google_analytics) do |tracker|
+        tracker.handler :google_analytics, { tracker: 'U-XXX-Y' }
+      end
+      visit '/'
+    end
+
+    it "will not mess up the html" do
+      expect(page.find('head')).to have_content('U-XXX-Y')
+      expect(page.find('head')).to have_content %q{Some escaped \\'value}
+    end
+  end
 end
