@@ -42,6 +42,10 @@ RSpec.describe Rack::Tracker do
     it { should escape(%(unicode \342\200\250 newline).force_encoding(Encoding::UTF_8).encode!).to %(unicode &#x2028; newline) }
     it { should escape(%(unicode \342\200\251 newline).force_encoding(Encoding::UTF_8).encode!).to %(unicode &#x2029; newline) }
 
+    it 'works with symbols' do
+      expect(subject).to escape(:dimension1).to 'dimension1'
+    end
+
   end
 
 end
