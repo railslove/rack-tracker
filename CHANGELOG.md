@@ -1,3 +1,13 @@
+# 1.0.1
+
+  * [BUGFIX] Fix for adjusted_bounce_rate_timeouts #49 (thx @fabn)
+  * [BUGFIX] Do not pass string in mastertag when should be json #47 (thx @berlintam)
+
+# 1.0.0
+
+  * [BUGFIX] breaking API change: set zanox path extension #45 (thx @berlintam)
+  * [BUGFIX] Fix Google Analytics pageview command arguments #44 (thx @remiprev)
+
 # 0.4.2
 
   * [BUGFIX] proper page track when used with turbolink #40 (thx @remiprev @musaffa)

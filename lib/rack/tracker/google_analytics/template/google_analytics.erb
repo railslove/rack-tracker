@@ -25,7 +25,7 @@
 <% end %>
 <% if options[:adjusted_bounce_rate_timeouts] %>
   <% options[:adjusted_bounce_rate_timeouts].each do |timeout| %>
-      setTimeout(ga('send', 'event', '<%= "#{timeout.to_s}_seconds" %>', 'read'),<%= timeout*1000 %>);
+      setTimeout(function() { ga('send', 'event', '<%= "#{timeout.to_s}_seconds" %>', 'read'); },<%= timeout*1000 %>);
   <% end %>
 <% end %>
 <% end %>
@@ -36,6 +36,6 @@
   ga('ecommerce:send');
 <% end %>
 <% if tracker %>
-  ga('send', 'pageview', {'location': window.location.href});
+  ga('send', 'pageview', window.location.pathname + window.location.search);
 <% end %>
 </script>
