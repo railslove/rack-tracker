@@ -36,12 +36,23 @@ class Hash
   # This includes the keys from the root hash and from all
   # nested hashes.
   def deep_transform_keys!(&block)
-    keys.each do |key|
-      value = delete(key)
-      self[yield(key)] = value.is_a?(Hash) ? value.deep_transform_keys!(&block) : value
-    end
-    self
+    _deep_transform_keys_in_object!(self, &block)
   end unless method_defined? :deep_transform_keys!
+
+  def _deep_transform_keys_in_object!(object, &block)
+    case object
+    when Hash
+      object.keys.each do |key|
+        value = object.delete(key)
+        object[yield(key)] = _deep_transform_keys_in_object!(value, &block)
+      end
+      object
+    when Array
+      object.map! {|e| _deep_transform_keys_in_object!(e, &block)}
+    else
+      object
+    end
+  end unless method_defined? :_deep_transform_keys_in_object!
 
   # NOTE Back ported from Rails 4 to 3
   # Destructively convert all keys to strings.
