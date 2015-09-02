@@ -19,7 +19,7 @@ RSpec.describe "Google Analytics Integration" do
   describe 'adjust tracker position via options' do
     before do
       setup_app(action: :google_analytics) do |tracker|
-        tracker.handler :google_analytics, { tracker: 'U-XXX-Y', position: :body }
+        tracker.handler :google_analytics, { tracker: 'U-XXX-Y', position: { body: :append } }
       end
       visit '/'
     end

@@ -8,9 +8,9 @@ RSpec.describe Rack::Tracker::GoogleTagManager do
   end
 
   it 'will be placed in the body by default' do
-    expect(described_class.position).to eq(:body)
-    expect(described_class.new(env).position).to eq(:body)
-    expect(described_class.new(env, position: :head).position).to eq(:head)
+    expect(described_class.position).to eq({ body: :prepend })
+    expect(described_class.new(env).position).to eq({ body: :prepend })
+    expect(described_class.new(env, position: { head: :append }).position).to eq({ head: :append })
   end
 
   describe "with events" do
@@ -31,10 +31,10 @@ RSpec.describe Rack::Tracker::GoogleTagManager do
     end
   end
 
-  describe "with dynamic tracker" do
+  describe "with dynamic container" do
     subject { described_class.new(env, { container: lambda { |env| return env[:misc] }}).render }
 
-    it 'will call tracker lambdas to obtain tracking codes' do
+    it 'will call container lambdas to obtain container codes' do
       expect(subject).to match(%r{\(window,document,'script','dataLayer','foobar'\)})
     end
   end

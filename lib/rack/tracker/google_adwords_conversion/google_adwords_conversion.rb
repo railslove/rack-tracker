@@ -3,7 +3,7 @@ class Rack::Tracker::GoogleAdwordsConversion < Rack::Tracker::Handler
   class Conversion < OpenStruct
   end
 
-  self.position = :body
+  self.position body: :append
 
   def render
     Tilt.new( File.join( File.dirname(__FILE__), 'template', 'google_adwords_conversion.erb') ).render(self)

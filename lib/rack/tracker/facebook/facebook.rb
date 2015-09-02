@@ -5,7 +5,7 @@ class Rack::Tracker::Facebook < Rack::Tracker::Handler
     end
   end
 
-  self.position = :body
+  self.position body: :append
 
   def render
     Tilt.new( File.join( File.dirname(__FILE__), 'template/facebook.erb') ).render(self)

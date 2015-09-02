@@ -14,7 +14,7 @@ end
 
 
 class AnotherHandler < Rack::Tracker::Handler
-  self.position = :body
+  self.position body: :append
 
   def render
     Tilt.new( File.join( File.dirname(__FILE__), '../fixtures/another_handler.erb') ).render(self)

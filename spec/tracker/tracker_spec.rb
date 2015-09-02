@@ -9,7 +9,11 @@ class DummyHandler < Rack::Tracker::Handler
 end
 
 class BodyHandler < DummyHandler
-  self.position = :body
+  self.position body: :append
+end
+
+class BodyOpeningHandler < DummyHandler
+  self.position body: :prepend
 end
 
 RSpec.describe Rack::Tracker do
@@ -20,6 +24,7 @@ RSpec.describe Rack::Tracker do
       use Rack::Tracker do
         handler DummyHandler, { foo: 'head' }
         handler BodyHandler, { foo: 'body' }
+        handler BodyOpeningHandler, { foo: 'body_opening' }
       end
 
       run lambda {|env|
@@ -28,7 +33,7 @@ RSpec.describe Rack::Tracker do
           when '/' then
             [200, {'Content-Type' => 'application/html'}, ['<head>Hello world</head>']]
           when '/body' then
-            [200, {'Content-Type' => 'application/html'}, ['<body>bob here</body>']]
+            [200, {'Content-Type' => 'application/html'}, ['<body class="dummy">bob here</body>']]
           when '/body-head' then
             [200, {'Content-Type' => 'application/html'}, ['<head></head><body></body>']]
           when '/test.xml' then
@@ -55,6 +60,7 @@ RSpec.describe Rack::Tracker do
       get '/'
       expect(last_response.body).to include("console.log('head');")
       expect(last_response.body).to_not include("console.log('body');")
+      expect(last_response.body).to_not include("console.log('body_opening');")
     end
 
     it 'injects custom variables that was directly assigned' do
@@ -69,10 +75,17 @@ RSpec.describe Rack::Tracker do
   end
 
   describe 'when body is present' do
-    it 'will not inject the body handler code' do
+    it 'will inject only the body handler code' do
       get '/body'
       expect(last_response.body).to include("console.log('body');")
+      expect(last_response.body).to include("console.log('body_opening');")
       expect(last_response.body).to_not include("console.log('head');")
+    end
+
+    it 'will inject the handlers correctly using append or prepend' do
+      get '/body'
+      expect(last_response.body).to include("<body class=\"dummy\"><script type=\"text/javascript\">\n    alert('this is a dummy class');\n\n  console.log('body_opening');\n</script>")
+      expect(last_response.body).to include("<script type=\"text/javascript\">\n    alert('this is a dummy class');\n\n  console.log('body');\n</script>\n</body>")
     end
   end
 
@@ -81,6 +94,7 @@ RSpec.describe Rack::Tracker do
       get '/body-head'
       expect(last_response.body).to include("console.log('head');")
       expect(last_response.body).to include("console.log('body');")
+      expect(last_response.body).to include("console.log('body_opening');")
     end
   end
 
