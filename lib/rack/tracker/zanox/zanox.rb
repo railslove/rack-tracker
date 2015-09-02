@@ -3,7 +3,6 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
   # name of the handler
   # everything after is passed as options
   class Mastertag < OpenStruct
-
     def write
       to_h.except(:id).map do |k,v|
         "var zx_#{k} = #{v.to_json};"
@@ -13,7 +12,6 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
 
   class Lead < OpenStruct
     # Example: OrderID=[[DEFC-4321]]&CurrencySymbol=[[EUR]]&TotalPrice=[[23.40]]
-
     def write
       to_h.map do |k,v|
         "#{k.to_s.camelize}=[[#{v}]]"
@@ -21,13 +19,7 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
     end
   end
 
-  class Sale < OpenStruct
-    def write
-      to_h.map do |k,v|
-        "#{k.to_s.camelize}=[[#{v}]]"
-      end.join('&')
-    end
-  end
+  Sale = Class.new(Lead)
 
   self.position = :body
 
