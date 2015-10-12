@@ -7,6 +7,7 @@ require "active_support/inflector"
 
 require "rack/tracker/version"
 require "rack/tracker/extensions"
+require "rack/tracker/javascript_helper"
 require 'rack/tracker/railtie' if defined?(Rails)
 require "rack/tracker/handler"
 require "rack/tracker/handler_delegator"
@@ -56,7 +57,12 @@ module Rack
 
     def inject(env, response)
       @handlers.each(env) do |handler|
-        response.gsub!(%r{</#{handler.position}>}, handler.render + "</#{handler.position}>")
+        # Sub! is enough, in well formed html there's only one head or body tag.
+        # Block syntax need to be used, otherwise backslashes in input will mess the output.
+        # @see http://stackoverflow.com/a/4149087/518204 and https://github.com/railslove/rack-tracker/issues/50
+        response.sub! %r{</#{handler.position}>} do |m|
+          handler.render << m.to_s
+        end
       end
       response
     end
