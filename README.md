@@ -441,6 +441,7 @@ and the following variables:
 ```
 zx_category = 'Swimming';
 zx_amount = '3.50';
+```
 
 #### Conversion tracking
 
