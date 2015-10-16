@@ -1,17 +1,8 @@
 class Rack::Tracker::GoogleTagManager < Rack::Tracker::Handler
 
   class Push < OpenStruct
-
     def write
-      "'#{event[:name]}': '#{event[:value]}'"
-    end
-
-    def event
-      attributes.stringify_values.compact
-    end
-
-    def attributes
-      to_h.slice(:name, :value)
+      to_h.to_json
     end
   end
 

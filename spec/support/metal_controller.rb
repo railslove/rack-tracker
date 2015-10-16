@@ -42,8 +42,7 @@ class MetalController < ActionController::Metal
 
   def google_tag_manager
     tracker do |t|
-      t.google_tag_manager :push, { name: 'click', value: 'X' }
-      t.google_tag_manager :push, { name: 'price', value: '10' }
+      t.google_tag_manager :push, { click: 'X', price: 10 }
     end
     render "metal/index"
   end
