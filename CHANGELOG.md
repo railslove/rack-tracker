@@ -1,4 +1,4 @@
-# unreleased
+# 1.1.0
 
   * [BREAKING] Google Tag Manager #59
     * change `dataLayer.push` syntax from from `name: 'click', value: 'X'` to just `click: 'X'`
