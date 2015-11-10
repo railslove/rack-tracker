@@ -1,3 +1,10 @@
+# unreleased
+
+  * [BREAKING] Google Tag Manager #59
+    * change `dataLayer.push` syntax from from `name: 'click', value: 'X'` to just `click: 'X'`
+    * this allows to specify a hash with multiple key-value pairs for one push event
+    * this will also correctly handle array values (see issue #57)
+
 # 1.0.2
 
   * Back port deep_stringify_keys! from Rails 4 #55 (thx @jivagoalves)
