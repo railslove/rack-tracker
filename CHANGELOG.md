@@ -1,8 +1,11 @@
+# unreleased
+
+  * setEmail event for criteo #51 (thx @florianeck)
+
 # 1.0.2
 
   * Back port deep_stringify_keys! from Rails 4 #55 (thx @jivagoalves)
   * Javascript escape implementation to prevent XSS #54 (thx @fabn)
-  * setEmail event for criteo #51 (thx @florianeck)
 
 # 1.0.1
 
