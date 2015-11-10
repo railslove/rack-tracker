@@ -12,8 +12,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','<%= container %>');</script>
 
 <script>
-dataLayer.push({
+dataLayer.push(
   <%= events.map(&:write).join(', ') %>
-});
+);
 </script>
 <% end %>
