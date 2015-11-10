@@ -378,6 +378,7 @@ end
 Other global criteo handler options are:
 * `set_customer_id: 'x'`
 * `set_site_type: 'd'` - possible values are `m` (mobile), `t` (tablet), `d` (desktop)
+* `set_email: 'email'`
 
 Option values can be either static or dynamic by providing a lambda being reevaluated for each request, e.g. `set_customer_id: lambda { |env| env['rack.session']['user_id'] }`
 

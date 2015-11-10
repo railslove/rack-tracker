@@ -4,12 +4,12 @@
     * change `dataLayer.push` syntax from from `name: 'click', value: 'X'` to just `click: 'X'`
     * this allows to specify a hash with multiple key-value pairs for one push event
     * this will also correctly handle array values (see issue #57)
+  * setEmail event for criteo #51 (thx @florianeck)
 
 # 1.0.2
 
   * Back port deep_stringify_keys! from Rails 4 #55 (thx @jivagoalves)
   * Javascript escape implementation to prevent XSS #54 (thx @fabn)
-  * setEmail event for criteo #51 (thx @florianeck)
 
 # 1.0.1
 
