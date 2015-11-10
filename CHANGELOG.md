@@ -1,5 +1,9 @@
 # unreleased
 
+  * [BREAKING] Google Tag Manager #59
+    * change `dataLayer.push` syntax from from `name: 'click', value: 'X'` to just `click: 'X'`
+    * this allows to specify a hash with multiple key-value pairs for one push event
+    * this will also correctly handle array values (see issue #57)
   * setEmail event for criteo #51 (thx @florianeck)
 
 # 1.0.2

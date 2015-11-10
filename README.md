@@ -246,7 +246,7 @@ To add events or variables to the dataLayer from the server side, just call the 
 ```ruby
   def show
     tracker do |t|
-      t.google_tag_manager :push, { name: 'price', value: 'X' }
+      t.google_tag_manager :push, { price: 'X', another_variable: ['array', 'values'] }
     end
   end
 ```

@@ -18,15 +18,14 @@ RSpec.describe Rack::Tracker::GoogleTagManager do
       def env
         {'tracker' => {
           'google_tag_manager' => [
-            { 'class_name' => 'Push', 'name' => 'page', 'value' => 'Cart' },
-            { 'class_name' => 'Push', 'name' => 'price', 'value' => 50 }
+            { 'class_name' => 'Push', 'page' => 'Cart', 'price' => 50, 'content_ids' => ['sku_1', 'sku_2', 'sku_3'] }
           ]
         }}
       end
 
       subject { described_class.new(env, container: 'somebody').render }
       it "will show events" do
-        expect(subject).to match(%r{'page': 'Cart', 'price': '50'})
+        expect(subject).to match(%r{"page":"Cart","price":50,"content_ids":\["sku_1","sku_2","sku_3"\]})
       end
     end
   end
