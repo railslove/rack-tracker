@@ -11,7 +11,7 @@ class Rack::Tracker::Facebook < Rack::Tracker::Handler
     end
 
     def options_to_json
-      return nil if self.options.empty?
+      return nil unless self.options.present?
 
       self.options.to_json
     end
