@@ -254,16 +254,26 @@ To add events or variables to the dataLayer from the server side, just call the 
 
 ### Facebook
 
-* `custom_audience` - adds the [Custom audience](https://developers.facebook.com/docs/reference/ads-api/custom-audience-website-faq) segmentation pixel
+* `Facebook Pixel` - adds the [Facebook Pixel](https://www.facebook.com/business/help/952192354843755)
 
-#### Conversions
+Use in conjunction with the [Facebook Helper](https://developers.facebook.com/docs/facebook-pixel/pixel-helper) to confirm your event fires correctly.
 
-To track [Conversions](https://www.facebook.com/help/435189689870514) from the server side just call the `tracker` method in your controller.
+First, add the following to your config:
+
+```ruby
+  config.middleware.use(Rack::Tracker) do
+    handler :facebook, { id: 'PIXEL_ID' }
+  end
+```
+
+#### Standard Events
+
+To track Standard Events from the server side just call the `tracker` method in your controller.
 
 ```ruby
   def show
     tracker do |t|
-      t.facebook :track, { id: '123456789', value: 1, currency: 'EUR' }
+      t.facebook :track, { type: 'Purchase', options: { value: 100, currency: 'USD' } }
     end
   end
 ```
@@ -271,8 +281,9 @@ To track [Conversions](https://www.facebook.com/help/435189689870514) from the s
 Will result in the following:
 
 ```javascript
-  window._fbq.push(["track", "123456789", {'value': 1, 'currency': 'EUR'}]);
+  fbq("track", "Purchase", {"value":"100.0","currency":"USD"});
 ```
+
 ### Visual website Optimizer (VWO)
 Just integrate the handler with your matching account_id and you will be ready to go
 
