@@ -3,7 +3,7 @@ require 'support/capybara_app_helper'
 RSpec.describe "Facebook Pixel Integration" do
   before do
     setup_app(action: :facebook_pixel) do |tracker|
-      tracker.handler :facebook_pixel, { custom_audience: 'my-audience' }
+      tracker.handler :facebook_pixel, { id: 'PIXEL_ID' }
     end
     visit '/'
   end
@@ -11,9 +11,7 @@ RSpec.describe "Facebook Pixel Integration" do
   subject { page }
 
   it "embeds the script tag with tracking event from the controller action" do
-    expect(page).to have_content('window._fbq.push(["addPixelId", "my-audience"]);')
-    expect(page.body).to include('https://www.facebook.com/tr?id=my-audience&amp;ev=PixelInitialized')
-    expect(page).to have_content('window._fbq.push(["track","conversion-event",{"value":"1","currency":"EUR"}]);')
-    expect(page.body).to include('https://www.facebook.com/offsite_event.php?id=conversion-event&amp;value=1&amp;currency=EUR')
+    expect(page).to have_content("fbq('init', 'PIXEL_ID');")
+    expect(page.body).to include('https://www.facebook.com/tr?id=PIXEL_ID&ev=PageView&noscript=1')
   end
 end
