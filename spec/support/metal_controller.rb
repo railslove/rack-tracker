@@ -29,6 +29,13 @@ class MetalController < ActionController::Metal
     render "metal/index"
   end
 
+  def facebook_pixel
+    tracker do |t|
+      t.facebook_pixel :track, { id: 'conversion-event', value: '1', currency: 'EUR' }
+    end
+    render "metal/index"
+  end
+
   def google_analytics
     tracker do |t|
       t.google_analytics :ecommerce, { type: 'addTransaction', id: 1234, affiliation: 'Acme Clothing', revenue: 11.99, shipping: 5, tax: 1.29 }
