@@ -55,7 +55,6 @@ RSpec.describe Rack::Tracker::FacebookPixel do
     end
 
     it 'will add the noscript fallback' do
-      pp subject
       expect(subject).to match(%r{https://www.facebook.com/tr\?id=&ev=PageView&noscript=1})
     end
   end
