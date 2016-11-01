@@ -3,7 +3,7 @@ module Rack
     module Controller
       def tracker(&block)
         if block_given?
-          yield(Rack::Tracker::HandlerDelegator.new(env))
+          yield(Rack::Tracker::HandlerDelegator.new(request.env))
         end
       end
     end
