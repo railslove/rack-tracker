@@ -3,9 +3,22 @@ sudo: false
 rvm:
   - 1.9.3
   - 2.0.0
-  - 2.1.5
-  - 2.2.3
+  - 2.1.9
+  - 2.2.5
+  - 2.3.1
   - jruby
+  - jruby-9.1.5.0
 gemfile:
+  - Gemfile
   - Gemfile.rails-3.2
   - Gemfile.rails-4.2
+matrix:
+  exclude:
+    - rvm: 1.9.3
+      gemfile: Gemfile
+    - rvm: 2.0.0
+      gemfile: Gemfile
+    - rvm: 2.1.9
+      gemfile: Gemfile
+    - rvm: jruby
+      gemfile: Gemfile
