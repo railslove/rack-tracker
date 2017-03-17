@@ -82,4 +82,8 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   def self.track(name, *event)
     { name.to_s => [event.last.merge('class_name' => event.first.to_s.classify)] }
   end
+
+  def default_positions
+    { before_head_close: :render }
+  end
 end

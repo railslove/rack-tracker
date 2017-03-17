@@ -1,9 +1,7 @@
 class Rack::Tracker::Handler
-  class_attribute :position
-  self.position = :head
-
   attr_accessor :options
   attr_accessor :env
+  attr_accessor :positions
 
   # Allow javascript escaping in view templates
   include Rack::Tracker::JavaScriptHelper
@@ -11,7 +9,7 @@ class Rack::Tracker::Handler
   def initialize(env, options = {})
     self.env = env
     self.options  = options
-    self.position = options[:position] if options.has_key?(:position)
+    self.positions = options[:positions] || default_positions
   end
 
   def events
@@ -25,5 +23,9 @@ class Rack::Tracker::Handler
 
   def self.track(name, event)
     raise NotImplementedError.new("class method `#{__callee__}` is not implemented.")
+  end
+
+  def default_positions
+    { before_head_close: :render }
   end
 end

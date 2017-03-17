@@ -5,8 +5,7 @@ RSpec.describe Rack::Tracker::GoSquared do
   end
 
   it 'will be placed in the head' do
-    expect(described_class.position).to eq(:head)
-    expect(described_class.new(env).position).to eq(:head)
+    expect(described_class.new(env).positions.keys.first).to eq(:before_head_close)
   end
 
   describe "with events" do

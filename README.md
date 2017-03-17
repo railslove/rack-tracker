@@ -517,13 +517,35 @@ found right before `</head>`. You can change the position in your handler-code:
 
 ```ruby
 class MyHandler <  Rack::Tracker::Handler
-  self.position = :body
-
-  ...
+  def default_positions
+    { before_body_close: :render }
+  end
 end
 ```
 
-The snippit will then be rendered right before `</body>`.
+The snippit will then be rendered right before `</body>`. Other options are :after_head_open
+and :after_body_open.
+
+I you need to render snippets in different positions. You can do so like this:
+
+```ruby
+class MyHandler <  Rack::Tracker::Handler
+  def render_head
+    Tilt.new( File.join( File.dirname(__FILE__), 'template', 'my_handler.erb') ).render(self)
+  end
+
+  def render
+    Tilt.new( File.join( File.dirname(__FILE__), 'template', 'my_handler.erb') ).render(self)
+  end
+
+  def default_positions
+    { 
+      before_head_close: :render_head,
+      before_body_open:  :render
+    }
+  end
+end
+```
 
 To enable the *tracker dsl* functionality in your controllers
 you need to implement the `track` class method on your handler:

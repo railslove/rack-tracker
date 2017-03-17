@@ -21,8 +21,6 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
 
   Sale = Class.new(Lead)
 
-  self.position = :body
-
   def mastertag
     # First event should be stronger, e.g. one signs up and gets redirected to homepage
     # "sign up" should be tracked instead of "view homepage"
@@ -44,5 +42,9 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
   # this is called with additional arguments to t.zanox
   def self.track(name, *event)
     { name.to_s => [event.last.merge('class_name' => event.first.to_s.capitalize)] }
+  end
+
+  def default_positions
+    { before_body_close: :render }
   end
 end

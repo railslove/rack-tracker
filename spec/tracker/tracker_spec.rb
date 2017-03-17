@@ -9,7 +9,9 @@ class DummyHandler < Rack::Tracker::Handler
 end
 
 class BodyHandler < DummyHandler
-  self.position = :body
+  def default_positions
+    { before_body_close: :render }
+  end
 end
 
 RSpec.describe Rack::Tracker do

@@ -24,6 +24,13 @@ require "rack/tracker/zanox/zanox"
 module Rack
   class Tracker
     EVENT_TRACKING_KEY = 'tracker'
+    POSITION_MAPPINGS = {
+      after_head_open:   "<head>",
+      before_head_close: "</head>",
+      after_body_open:   "<body>",
+      before_body_close: "</body>",
+    }
+
 
     def initialize(app, &block)
       @app = app
@@ -60,8 +67,15 @@ module Rack
         # Sub! is enough, in well formed html there's only one head or body tag.
         # Block syntax need to be used, otherwise backslashes in input will mess the output.
         # @see http://stackoverflow.com/a/4149087/518204 and https://github.com/railslove/rack-tracker/issues/50
-        response.sub! %r{</#{handler.position}>} do |m|
-          handler.render << m.to_s
+        handler.positions.each do |where, what|
+          position = POSITION_MAPPINGS[where]
+          response.sub! %r{#{position}} do |m|
+            if where.to_s =~ /before.*/
+              handler.send(what) << m.to_s
+            else
+              m.to_s << handler.send(what)
+            end 
+          end
         end
       end
       response
