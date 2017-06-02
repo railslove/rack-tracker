@@ -262,9 +262,11 @@ First, add the following to your config:
 
 ```ruby
   config.middleware.use(Rack::Tracker) do
-    handler :facebook, { id: 'PIXEL_ID' }
+    handler :facebook_pixel, { id: 'PIXEL_ID' }
   end
 ```
+
+As Facebook [deprecated the old Conversion Pixel](https://www.facebook.com/business/help/1686199411616919) the [Rack::Tracker :facebook hander](https://github.com/railslove/rack-tracker/tree/master/lib/rack/tracker/facebook) is no longer supported - please use instead the :facebook_pixel handler.
 
 #### Standard Events
 
@@ -273,7 +275,7 @@ To track Standard Events from the server side just call the `tracker` method in 
 ```ruby
   def show
     tracker do |t|
-      t.facebook :track, { type: 'Purchase', options: { value: 100, currency: 'USD' } }
+      t.facebook_pixel :track, { type: 'Purchase', options: { value: 100, currency: 'USD' } }
     end
   end
 ```
