@@ -549,6 +549,12 @@ end
 Checkout the existing handlers in `lib/rack/tracker` for some inspiration. :)
 
 
+## Please note
+
+Most tracking is done using some kind of Javascript and any tracking data is simply passed on.  
+Using unvalidated user input in the tracking might result in [XSS issues](https://en.wikipedia.org/wiki/Cross-site_scripting). Do only use secure data. 
+
+
 ## Contributing
 
 First of all, **thank** you for your help! :green_heart:
