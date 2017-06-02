@@ -1,7 +1,19 @@
 class Rack::Tracker::Facebook < Rack::Tracker::Handler
   class Event < OpenStruct
     def write
-      ['track', self.id, to_h.except(:id).compact].to_json
+      [type_to_json, options_to_json].compact.join(', ')
+    end
+
+    private
+
+    def type_to_json
+      self.type.to_json
+    end
+
+    def options_to_json
+      return nil unless self.options.present?
+
+      self.options.to_json
     end
   end
 
@@ -14,5 +26,4 @@ class Rack::Tracker::Facebook < Rack::Tracker::Handler
   def self.track(name, *event)
     { name.to_s => [event.last.merge('class_name' => 'Event')] }
   end
-
 end
