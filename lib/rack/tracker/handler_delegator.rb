@@ -20,7 +20,8 @@ class Rack::Tracker::HandlerDelegator
   end
 
   def write_event(event)
-    event.deep_stringify_keys! # for consistent hash access use strings (keys from the session are always strings anyway)
+    # for consistent hash access use strings (keys from the session are always strings anyway)
+    event.deep_stringify_keys! if event.respond_to?(:deep_stringify_keys!)
     if env.key?('tracker')
       self.env['tracker'].deep_merge!(event) { |key, old, new| Array.wrap(old) + Array.wrap(new) }
     else
