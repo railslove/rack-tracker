@@ -5,10 +5,13 @@ rvm:
   - 2.2.7
   - 2.3.4
   - 2.4.1
-  - jruby
   - jruby-9.1.10.0
 gemfile:
   - Gemfile
   - Gemfile.rails-3.2
   - Gemfile.rails-4.2
   - Gemfile.rails-5.1
+matrix:
+  exclude:
+    - rvm: 2.1.10
+      gemfile: Gemfile.rails-5.1 # rails 5 needs ruby >= 2.2.2
