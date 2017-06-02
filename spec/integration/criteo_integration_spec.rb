@@ -32,7 +32,7 @@ RSpec.describe "Criteo Integration" do
   describe 'adjust tracker position via options' do
     before do
       setup_app(action: :criteo) do |tracker|
-        tracker.handler :criteo, { set_account: '1234', position: :head }
+        tracker.handler :criteo, { set_account: '1234', positions: { before_head_close: :render } }
       end
       visit '/'
     end

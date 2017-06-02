@@ -13,8 +13,7 @@ RSpec.describe Rack::Tracker::Facebook do
   end
 
   it 'will be placed in the body' do
-    expect(described_class.position).to eq(:body)
-    expect(described_class.new(env).position).to eq(:body)
+    expect(described_class.new(env).positions.keys.first).to eq(:before_body_close)
   end
 
   describe 'with custom audience id' do

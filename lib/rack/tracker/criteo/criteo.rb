@@ -13,9 +13,7 @@ class Rack::Tracker::Criteo <  Rack::Tracker::Handler
       to_h.to_json
     end
   end
-
-  self.position = :body
-
+  
   # global events (setSiteType, setAccount, ...) for each tracker instance
   def tracker_events
     @tracker_events ||= [].tap do |tracker_events|
@@ -33,5 +31,9 @@ class Rack::Tracker::Criteo <  Rack::Tracker::Handler
 
   def self.track(name, event_name, event_args = {})
     { name.to_s => [{ 'class_name' => 'Event', 'event' => event_name.to_s.camelize(:lower) }.merge(event_args)] }
+  end
+
+  def default_positions
+    { before_body_close: :render }
   end
 end

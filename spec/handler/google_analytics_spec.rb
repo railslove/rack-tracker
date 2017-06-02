@@ -7,9 +7,8 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
   end
 
   it 'will be placed in the head' do
-    expect(described_class.position).to eq(:head)
-    expect(described_class.new(env).position).to eq(:head)
-    expect(described_class.new(env, position: :body).position).to eq(:body)
+    expect(described_class.new(env).positions.keys.first).to eq(:before_head_close)
+    expect(described_class.new(env, positions: { after_body_open: :render_body }).positions.keys.first).to eq(:after_body_open)
   end
 
   describe '#ecommerce_events' do
