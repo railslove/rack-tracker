@@ -1,5 +1,5 @@
 module Rack
   class Tracker
-    VERSION = '1.1.0'
+    VERSION = '1.1.6'
   end
 end
