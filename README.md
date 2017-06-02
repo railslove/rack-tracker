@@ -266,8 +266,6 @@ First, add the following to your config:
   end
 ```
 
-As Facebook [deprecated the old Conversion Pixel](https://www.facebook.com/business/help/1686199411616919) the [Rack::Tracker :facebook hander](https://github.com/railslove/rack-tracker/tree/master/lib/rack/tracker/facebook) is no longer supported - please use instead the :facebook_pixel handler.
-
 #### Standard Events
 
 To track Standard Events from the server side just call the `tracker` method in your controller.
