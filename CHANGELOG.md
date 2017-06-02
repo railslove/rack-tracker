@@ -1,3 +1,10 @@
+# 1.2.0
+
+  * Added Facebook Pixel support #75
+  * Datalayer position fix #72
+  * Dropped support for Ruby 1.9
+  * Rails 5.x compatibility
+
 # 1.1.0
 
   * [BREAKING] Google Tag Manager #59
