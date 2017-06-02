@@ -13,15 +13,14 @@
   window._fbq = window._fbq || [];
 
 </script>
-
-<% if options[:custom_audience] %>
+<% if custom_audience %>
 <script type="text/javascript">
-window._fbq.push(["addPixelId", "<%= options[:custom_audience] %>"]);
+window._fbq.push(["addPixelId", "<%= custom_audience %>"]);
 window._fbq.push(["track", "PixelInitialized", {}]);
 </script>
 
 <noscript>
-  <img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?id=<%= options[:custom_audience] %>&amp;ev=PixelInitialized">
+  <img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?id=<%= custom_audience %>&amp;ev=PixelInitialized">
 </noscript>
 <% end %>
 
