@@ -21,6 +21,8 @@ class Rack::Tracker::Handler
 
   def render
     raise NotImplementedError.new('needs implementation')
+  end
+
   def inject(response)
     # Sub! is enough, in well formed html there's only one head or body tag.
     # Block syntax need to be used, otherwise backslashes in input will mess the output.
