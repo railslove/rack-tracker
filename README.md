@@ -502,6 +502,10 @@ def render
 end
 ```
 
+> There might be cases where you need to modify the response at multiple places. To do so you
+can overwrite the `#inject`-method in your handler. For an example please have a look at the
+Google Tag Manager [implementation](https://github.com/railslove/rack-tracker/blob/master/lib/rack/tracker/google_tag_manager/google_tag_manager.rb#L9-L20).
+
 This will render the `template/my_handler.erb` and inject the result into the source. You
 can be creative about where the template is stored, but we tend to have them around
 our actual handler code.
@@ -551,8 +555,8 @@ Checkout the existing handlers in `lib/rack/tracker` for some inspiration. :)
 
 ## Please note
 
-Most tracking is done using some kind of Javascript and any tracking data is simply passed on.  
-Using unvalidated user input in the tracking might result in [XSS issues](https://en.wikipedia.org/wiki/Cross-site_scripting). Do only use secure data. 
+Most tracking is done using some kind of Javascript and any tracking data is simply passed on.
+Using unvalidated user input in the tracking might result in [XSS issues](https://en.wikipedia.org/wiki/Cross-site_scripting). Do only use secure data.
 
 
 ## Contributing

@@ -1,3 +1,7 @@
+# 1.3.0
+
+  * Added handler multiposition support which fixes #80 and
+
 # 1.2.0
 
   * Added Facebook Pixel support #75
