@@ -11,8 +11,9 @@ RSpec.describe "Google Tag Manager Integration" do
   subject { page }
 
   it "embeds the script tag with tracking event from the controller action" do
-    expect(page.find("body")).to have_content 'GTM-ABCDEF'
-    expect(page.find("body")).to have_content "dataLayer.push( {\"click\":\"X\",\"price\":10}, {\"transactionProducts\":[{\"sku\":\"DD44\",\"name\":\"T-shirt\"},{\"sku\":\"DD66\",\"name\":\"Jeans\"}]} );"
+    expect(page.find("head")).to have_content 'GTM-ABCDEF'
+    expect(page.find("head")).to have_content "dataLayer.push( {\"click\":\"X\",\"price\":10}, {\"transactionProducts\":[{\"sku\":\"DD44\",\"name\":\"T-shirt\"},{\"sku\":\"DD66\",\"name\":\"Jeans\"}]} );"
+    expect(page.find("body")).to have_xpath '//body/noscript/iframe[@src="https://www.googletagmanager.com/ns.html?id=GTM-ABCDEF"]'
   end
 
 end
