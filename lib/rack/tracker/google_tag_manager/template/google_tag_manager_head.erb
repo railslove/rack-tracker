@@ -1,12 +1,7 @@
 <% if container %>
 <script>
   dataLayer = [];
-</script>
-
-<script>
-dataLayer.push(
-  <%= events.map(&:write).join(', ') %>
-);
+  dataLayer.push(<%= events.map(&:write).join(', ') %>);
 </script>
 
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
