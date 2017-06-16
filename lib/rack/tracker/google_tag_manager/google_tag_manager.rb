@@ -10,10 +10,10 @@ class Rack::Tracker::GoogleTagManager < Rack::Tracker::Handler
     # Sub! is enough, in well formed html there's only one head or body tag.
     # Block syntax need to be used, otherwise backslashes in input will mess the output.
     # @see http://stackoverflow.com/a/4149087/518204 and https://github.com/railslove/rack-tracker/issues/50
-    response.sub! %r{<head>} do |m|
+    response.sub! %r{<head.*>} do |m|
       m.to_s << self.render_head
     end
-    response.sub! %r{<body>} do |m|
+    response.sub! %r{<body.*>} do |m|
       m.to_s << self.render_body
     end
     response
