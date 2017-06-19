@@ -16,7 +16,7 @@ RSpec.describe "Google Tag Manager Integration" do
     expect(page.find("body")).to have_xpath '//body/noscript/iframe[@src="https://www.googletagmanager.com/ns.html?id=GTM-ABCDEF"]'
   end
 
-  it "does not inject a dataLaye if no events are set " do
+  it "does not inject a dataLayer if no events are set " do
     visit '/?no_events=true'
     expect(page.find("head")).to have_content 'GTM-ABCDEF'
     expect(page.find("head")).to_not have_content "dataLayer.push("
