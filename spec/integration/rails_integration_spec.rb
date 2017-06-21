@@ -21,7 +21,7 @@ RSpec.describe "Rails Integration" do
         myAwesomeFunction("tracks", "like", "no-one-else", "SomeKey123");
       </script>
       </head>
-        <body>
+        <body class="do-we-support-attributes-on-the-body-tag">
           <h1>welcome to metal#index</h1>
         <script type="text/javascript">
         anotherFunction("tracks-event-from-down-under", "AnotherKey42");

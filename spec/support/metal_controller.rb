@@ -48,9 +48,11 @@ class MetalController < ActionController::Metal
   end
 
   def google_tag_manager
-    tracker do |t|
-      t.google_tag_manager :push, { click: 'X', price: 10 }
-      t.google_tag_manager :push, transactionProducts: [{ sku: 'DD44', name: 'T-shirt' }, { sku: 'DD66', name: 'Jeans' }]
+    unless params[:no_events]
+      tracker do |t|
+        t.google_tag_manager :push, { click: 'X', price: 10 }
+        t.google_tag_manager :push, transactionProducts: [{ sku: 'DD44', name: 'T-shirt' }, { sku: 'DD66', name: 'Jeans' }]
+      end
     end
     render "metal/index"
   end
