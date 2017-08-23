@@ -500,7 +500,7 @@ your class needs to implement.
 Start with a plain ruby class that inherits from `Rack::Tracker::Handler`
 
 ```ruby
-class MyHandler <  Rack::Tracker::Handler
+class MyHandler < Rack::Tracker::Handler
   ...
 end
 ```
@@ -542,7 +542,7 @@ Run your application and make a request, the result of the above template can be
 found right before `</head>`. You can change the position in your handler-code:
 
 ```ruby
-class MyHandler <  Rack::Tracker::Handler
+class MyHandler < Rack::Tracker::Handler
   self.position = :body
 
   ...

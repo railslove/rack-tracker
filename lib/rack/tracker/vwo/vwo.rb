@@ -1,2 +1,2 @@
-class Rack::Tracker::Vwo <  Rack::Tracker::Handler
+class Rack::Tracker::Vwo < Rack::Tracker::Handler
 end

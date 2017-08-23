@@ -1,2 +1,2 @@
-class Rack::Tracker::Hotjar <  Rack::Tracker::Handler
+class Rack::Tracker::Hotjar < Rack::Tracker::Handler
 end

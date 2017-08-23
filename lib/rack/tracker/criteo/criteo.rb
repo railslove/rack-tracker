@@ -1,4 +1,4 @@
-class Rack::Tracker::Criteo <  Rack::Tracker::Handler
+class Rack::Tracker::Criteo < Rack::Tracker::Handler
 
   TRACKER_EVENTS = {
     # event name => event key name, e.g. { event: 'setSiteType', type: '' }
