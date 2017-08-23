@@ -493,8 +493,7 @@ class MyHandler <  Rack::Tracker::Handler
 end
 ```
 
-Second we need a method called `#render` which will take care of rendering a
-template.
+If you want to customize the rendering of your template, you can overwrite the handlers `#render` method:
 
 ```ruby
 def render

@@ -7,10 +7,6 @@ class Rack::Tracker::Facebook < Rack::Tracker::Handler
 
   self.position = :body
 
-  def render
-    Tilt.new( File.join( File.dirname(__FILE__), 'template/facebook.erb') ).render(self)
-  end
-
   def self.track(name, *event)
     { name.to_s => [event.last.merge('class_name' => 'Event')] }
   end

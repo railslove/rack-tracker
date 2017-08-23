@@ -19,10 +19,6 @@ class Rack::Tracker::GoSquared < Rack::Tracker::Handler
     options[:trackers]
   end
 
-  def render
-    Tilt.new( File.join( File.dirname(__FILE__), 'template', 'go_squared.erb') ).render(self)
-  end
-
   def visitor_name
     events.select{|e| e.kind_of?(VisitorName) }.first
   end
