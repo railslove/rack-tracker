@@ -94,4 +94,8 @@ class MetalController < ActionController::Metal
     end
     render 'metal/index'
   end
+
+  def hotjar
+    render "metal/index"
+  end
 end

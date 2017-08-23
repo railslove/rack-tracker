@@ -28,6 +28,7 @@ but to get you started we're shipping support for the following services out of 
 * [GoSquared](#gosquared)
 * [Criteo](#criteo)
 * [Zanox](#zanox)
+* [Hotjar](#hotjar)
 
 
 ## Installation
@@ -476,6 +477,17 @@ def show
   end
 end
 ```
+
+### Hotjar
+
+[Hotjar](https://www.hotjar.com/)
+
+```
+config.middleware.use(Rack::Tracker) do
+  handler :hotjar, { side_id: '1234' }
+end
+```
+
 
 ### Custom Handlers
 
