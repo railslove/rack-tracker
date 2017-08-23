@@ -1,4 +1,14 @@
 class Rack::Tracker::Handler
+  class << self
+    def process_track(env, method_name, *args, &block)
+      new(env).write_event(track(method_name, *args, &block))
+    end
+
+    def track(name, event)
+      raise NotImplementedError.new("class method `#{__callee__}` is not implemented.")
+    end
+  end
+
   class_attribute :position
   self.position = :head
 
@@ -33,7 +43,12 @@ class Rack::Tracker::Handler
     response
   end
 
-  def self.track(name, event)
-    raise NotImplementedError.new("class method `#{__callee__}` is not implemented.")
+  def write_event(event)
+    event.deep_stringify_keys! # for consistent hash access use strings (keys from the session are always strings anyway)
+    if env.key?('tracker')
+      self.env['tracker'].deep_merge!(event) { |key, old, new| Array.wrap(old) + Array.wrap(new) }
+    else
+      self.env['tracker'] = event
+    end
   end
 end

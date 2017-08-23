@@ -7,28 +7,19 @@ class Rack::Tracker::HandlerDelegator
 
   attr_accessor :env
 
-  def initialize(env={})
+  def initialize(env = {})
     @env = env
   end
 
   def method_missing(method_name, *args, &block)
     if respond_to?(method_name)
-      write_event(handler(method_name).track(method_name, *args, &block))
+      handler(method_name).process_track(env, method_name, *args, &block)
     else
       super
     end
   end
 
-  def write_event(event)
-    event.deep_stringify_keys! # for consistent hash access use strings (keys from the session are always strings anyway)
-    if env.key?('tracker')
-      self.env['tracker'].deep_merge!(event) { |key, old, new| Array.wrap(old) + Array.wrap(new) }
-    else
-      self.env['tracker'] = event
-    end
-  end
-
-  def respond_to?(method_name, include_private=false)
+  def respond_to?(method_name, include_private = false)
     handler(method_name).respond_to?(:track, include_private)
   end
 

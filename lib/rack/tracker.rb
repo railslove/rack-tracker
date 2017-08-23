@@ -64,28 +64,23 @@ module Rack
     end
 
     class HandlerSet
-      class Handler
-        def initialize(name, options)
-          @name = name
-          @options = options
-        end
-
+      Handler = Struct.new(:name, :configuration) do
         def init(env)
-          @name.new(env, @options)
+          name.new(env, configuration)
         end
       end
 
       def initialize(&block)
         @handlers = []
-        self.instance_exec(&block) if block_given?
+        instance_exec(&block) if block_given?
       end
 
-      def handler(name, opts = {}, &block)
-        @handlers << Handler.new(Rack::Tracker::HandlerDelegator.handler(name), opts)
+      def handler(name, configuration = {}, &block)
+        @handlers << Handler.new(Rack::Tracker::HandlerDelegator.handler(name), configuration)
       end
 
       def each(env = {}, &block)
-        @handlers.map{|h| h.init(env)}.each(&block)
+        @handlers.map { |h| h.init(env) }.each(&block)
       end
     end
   end
