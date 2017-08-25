@@ -37,10 +37,6 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
     events.select{ |event| event.class.to_s.demodulize == 'Sale' }
   end
 
-  def render
-    Tilt.new( File.join( File.dirname(__FILE__), 'template', 'zanox.erb') ).render(self)
-  end
-
   # this is called with additional arguments to t.zanox
   def self.track(name, *event)
     { name.to_s => [event.last.merge('class_name' => event.first.to_s.capitalize)] }

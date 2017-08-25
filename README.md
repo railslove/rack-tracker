@@ -28,6 +28,7 @@ but to get you started we're shipping support for the following services out of 
 * [GoSquared](#gosquared)
 * [Criteo](#criteo)
 * [Zanox](#zanox)
+* [Hotjar](#hotjar)
 
 
 ## Installation
@@ -477,6 +478,17 @@ def show
 end
 ```
 
+### Hotjar
+
+[Hotjar](https://www.hotjar.com/)
+
+```
+config.middleware.use(Rack::Tracker) do
+  handler :hotjar, { site_id: '1234' }
+end
+```
+
+
 ### Custom Handlers
 
 Tough we give you handlers for a few tracking services right out of the box, you might
@@ -488,13 +500,12 @@ your class needs to implement.
 Start with a plain ruby class that inherits from `Rack::Tracker::Handler`
 
 ```ruby
-class MyHandler <  Rack::Tracker::Handler
+class MyHandler < Rack::Tracker::Handler
   ...
 end
 ```
 
-Second we need a method called `#render` which will take care of rendering a
-template.
+If you want to customize the rendering of your template, you can overwrite the handlers `#render` method:
 
 ```ruby
 def render
@@ -531,7 +542,7 @@ Run your application and make a request, the result of the above template can be
 found right before `</head>`. You can change the position in your handler-code:
 
 ```ruby
-class MyHandler <  Rack::Tracker::Handler
+class MyHandler < Rack::Tracker::Handler
   self.position = :body
 
   ...

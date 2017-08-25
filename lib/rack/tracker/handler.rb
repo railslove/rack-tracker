@@ -20,7 +20,7 @@ class Rack::Tracker::Handler
   end
 
   def render
-    raise NotImplementedError.new('needs implementation')
+    Tilt.new(File.join(File.dirname(__FILE__), handler_name, 'template', "#{handler_name}.erb") ).render(self)
   end
 
   def inject(response)
@@ -31,6 +31,10 @@ class Rack::Tracker::Handler
       self.render << m.to_s
     end
     response
+  end
+
+  def handler_name
+    self.class.name.demodulize.underscore
   end
 
   def self.track(name, event)
