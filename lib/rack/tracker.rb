@@ -65,9 +65,9 @@ module Rack
     end
 
     class HandlerSet
-      Handler = Struct.new(:name, :configuration) do
+      Handler = Struct.new(:klass, :configuration) do
         def init(env)
-          name.new(env, configuration)
+          klass.new(env, configuration)
         end
       end
 
