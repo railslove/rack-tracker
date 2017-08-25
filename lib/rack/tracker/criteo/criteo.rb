@@ -1,4 +1,4 @@
-class Rack::Tracker::Criteo <  Rack::Tracker::Handler
+class Rack::Tracker::Criteo < Rack::Tracker::Handler
 
   TRACKER_EVENTS = {
     # event name => event key name, e.g. { event: 'setSiteType', type: '' }
@@ -25,10 +25,6 @@ class Rack::Tracker::Criteo <  Rack::Tracker::Handler
         end
       end
     end
-  end
-
-  def render
-    Tilt.new( File.join( File.dirname(__FILE__), 'template', 'criteo.erb') ).render(self)
   end
 
   def self.track(name, event_name, event_args = {})

@@ -28,6 +28,7 @@ but to get you started we're shipping support for the following services out of 
 * [GoSquared](#gosquared)
 * [Criteo](#criteo)
 * [Zanox](#zanox)
+* [Hotjar](#hotjar)
 
 
 ## Installation
@@ -229,11 +230,19 @@ You can also specify a different value from default options:
 
 ### Google Tag Manager
 
-Google Tag manager code snippet doesn't support any option other than the container id
+Google Tag manager code snippet supports the container id
 
 ```ruby
   config.middleware.use(Rack::Tracker) do
     handler :google_tag_manager, { container: 'GTM-XXXXXX' }
+  end
+```
+
+You can also use an experimental feature to track pageviews under turbolinks, which adds a `pageView` event with a `virtualUrl` of the current url.
+
+```ruby
+  config.middleware.use(Rack::Tracker) do
+    handler :google_tag_manager, { container: 'GTM-XXXXXX', turbolinks: true }
   end
 ```
 
@@ -477,6 +486,17 @@ def show
 end
 ```
 
+### Hotjar
+
+[Hotjar](https://www.hotjar.com/)
+
+```
+config.middleware.use(Rack::Tracker) do
+  handler :hotjar, { site_id: '1234' }
+end
+```
+
+
 ### Custom Handlers
 
 Tough we give you handlers for a few tracking services right out of the box, you might
@@ -488,13 +508,12 @@ your class needs to implement.
 Start with a plain ruby class that inherits from `Rack::Tracker::Handler`
 
 ```ruby
-class MyHandler <  Rack::Tracker::Handler
+class MyHandler < Rack::Tracker::Handler
   ...
 end
 ```
 
-Second we need a method called `#render` which will take care of rendering a
-template.
+If you want to customize the rendering of your template, you can overwrite the handlers `#render` method:
 
 ```ruby
 def render
@@ -531,7 +550,7 @@ Run your application and make a request, the result of the above template can be
 found right before `</head>`. You can change the position in your handler-code:
 
 ```ruby
-class MyHandler <  Rack::Tracker::Handler
+class MyHandler < Rack::Tracker::Handler
   self.position = :body
 
   ...
