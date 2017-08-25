@@ -230,11 +230,19 @@ You can also specify a different value from default options:
 
 ### Google Tag Manager
 
-Google Tag manager code snippet doesn't support any option other than the container id
+Google Tag manager code snippet supports the container id
 
 ```ruby
   config.middleware.use(Rack::Tracker) do
     handler :google_tag_manager, { container: 'GTM-XXXXXX' }
+  end
+```
+
+You can also use an experimental feature to track pageviews under turbolinks, which adds a `pageView` event with a `virtualUrl` of the current url.
+
+```ruby
+  config.middleware.use(Rack::Tracker) do
+    handler :google_tag_manager, { container: 'GTM-XXXXXX', turbolinks: true }
   end
 ```
 
