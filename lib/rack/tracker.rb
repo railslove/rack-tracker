@@ -75,7 +75,18 @@ module Rack
         instance_exec(&block) if block_given?
       end
 
+      # setup the handler class with configuration options and make it ready for receiving the env during injection
+      #
+      # usage:
+      #
+      #   use Rack::Tracker do
+      #     handler :google_analytics, { tracker: 'U-XXXXX-Y' }
+      #   end
+      #
       def handler(name, configuration = {}, &block)
+        # we need here "something" (which is atm the handler struct)
+        # to postpone the initialization of the handler,
+        # to give it the env and configuration options when the result of the handler is injected into the response.
         @handlers << Handler.new(Rack::Tracker::HandlerDelegator.handler(name), configuration)
       end
 
