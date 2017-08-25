@@ -484,7 +484,7 @@ end
 
 ```
 config.middleware.use(Rack::Tracker) do
-  handler :hotjar, { side_id: '1234' }
+  handler :hotjar, { site_id: '1234' }
 end
 ```
 
