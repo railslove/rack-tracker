@@ -1,3 +1,14 @@
+# 1.4.0
+
+  * [ENHANCEMENT] welcome Hotjar! #90
+  * [ENHANCEMENT] experimental turbolinks option for Google Tag manager #88
+  * small refactorings
+  * benchmark setup
+
+# 1.3.1
+
+  * [BUGFIX] google tag manager now supports body/head tags with attributes #86
+
 # 1.3.0
 
   * Added handler multiposition support which fixes #80 and
