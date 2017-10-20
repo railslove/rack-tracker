@@ -26,8 +26,4 @@ class Rack::Tracker::GoSquared < Rack::Tracker::Handler
   def visitor_info
     events.select{|e| e.kind_of?(VisitorInfo) }.first
   end
-
-  def self.track(name, *event)
-    { name.to_s => [event.last.merge('class_name' => event.first.to_s.classify)] }
-  end
 end
