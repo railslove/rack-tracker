@@ -26,8 +26,8 @@ class Rack::Tracker::Handler
   end
 
   def events
-    events = env.fetch('tracker', {})[self.class.to_s.demodulize.underscore] || []
-    events.map{ |ev| "#{self.class}::#{ev['class_name']}".constantize.new(ev.except('class_name')) }
+    events = env.fetch('tracker', {})[handler_name] || []
+    events.map { |ev| "#{self.class}::#{ev['class_name']}".constantize.new(ev.except('class_name')) }
   end
 
   def render
