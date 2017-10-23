@@ -1,3 +1,7 @@
+# 1.5.0
+
+  * [ENHANCEMENT] facebook pixel now supports non-standard (custom) event names #93
+
 # 1.4.0
 
   * [ENHANCEMENT] welcome Hotjar! #90
