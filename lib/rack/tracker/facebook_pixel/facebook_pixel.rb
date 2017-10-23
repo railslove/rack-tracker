@@ -1,4 +1,6 @@
 class Rack::Tracker::FacebookPixel < Rack::Tracker::Handler
+  self.position = :body
+
   class Event < OpenStruct
     def write
       options.present? ? type_to_json << options_to_json : type_to_json
@@ -15,9 +17,15 @@ class Rack::Tracker::FacebookPixel < Rack::Tracker::Handler
     end
   end
 
-  self.position = :body
+  class Track < Event
+    def name
+      'track'
+    end
+  end
 
-  def self.track(name, *event)
-    { name.to_s => [event.last.merge('class_name' => 'Event')] }
+  class TrackCustom < Event
+    def name
+      'trackCustom'
+    end
   end
 end

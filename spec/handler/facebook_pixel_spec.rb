@@ -1,13 +1,4 @@
 RSpec.describe Rack::Tracker::FacebookPixel do
-  # describe Rack::Tracker::FacebookPixel::Event do
-
-  #   subject { described_class.new({id: 'id', foo: 'bar'}) }
-
-  #   describe '#write' do
-  #     specify { expect(subject.write).to eq(['track', 'id', {foo: 'bar'}].to_json) }
-  #   end
-  # end
-
   def env
     {}
   end
@@ -37,11 +28,19 @@ RSpec.describe Rack::Tracker::FacebookPixel do
           [
             {
               'type' => 'Purchase',
-              'class_name' => 'Event',
+              'class_name' => 'Track',
               'options' =>
                 {
                   'value' => '23',
                   'currency' => 'EUR'
+                }
+            },{
+              'type' => 'FrequentShopper',
+              'class_name' => 'TrackCustom',
+              'options' =>
+                {
+                  'purchases' => 8,
+                  'category' => 'Sport'
                 }
             }
           ]
@@ -52,6 +51,7 @@ RSpec.describe Rack::Tracker::FacebookPixel do
 
     it 'will push the tracking events to the queue' do
       expect(subject).to match(%r{"track", "Purchase", \{"value":"23","currency":"EUR"\}})
+      expect(subject).to match(%r{"trackCustom", "FrequentShopper", \{"purchases":8,"category":"Sport"\}})
     end
 
     it 'will add the noscript fallback' do

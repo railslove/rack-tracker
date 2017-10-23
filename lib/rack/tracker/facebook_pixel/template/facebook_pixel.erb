@@ -18,7 +18,7 @@
 <% if events.any? %>
   <script type="text/javascript">
     <% events.each do |event| %>
-      fbq("track", <%= event.write %>);
+      fbq("<%= event.name %>", <%= event.write %>);
     <% end %>
   </script>
 <% end %>

@@ -36,9 +36,4 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
   def sale_events
     events.select{ |event| event.class.to_s.demodulize == 'Sale' }
   end
-
-  # this is called with additional arguments to t.zanox
-  def self.track(name, *event)
-    { name.to_s => [event.last.merge('class_name' => event.first.to_s.capitalize)] }
-  end
 end

@@ -4,8 +4,9 @@ class Rack::Tracker::Handler
       new(env).write_event(track(method_name, *args, &block))
     end
 
-    def track(name, event)
-      raise NotImplementedError.new("class method `#{__callee__}` is not implemented.")
+    # overwrite me in the handler subclass if you need more control over the event
+    def track(name, *event)
+      { name.to_s => [event.last.merge('class_name' => event.first.to_s.classify)] }
     end
   end
 
@@ -25,8 +26,8 @@ class Rack::Tracker::Handler
   end
 
   def events
-    events = env.fetch('tracker', {})[self.class.to_s.demodulize.underscore] || []
-    events.map{ |ev| "#{self.class}::#{ev['class_name']}".constantize.new(ev.except('class_name')) }
+    events = env.fetch('tracker', {})[handler_name] || []
+    events.map { |ev| "#{self.class}::#{ev['class_name']}".constantize.new(ev.except('class_name')) }
   end
 
   def render

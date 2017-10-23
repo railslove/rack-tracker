@@ -43,7 +43,9 @@ class MetalController < ActionController::Metal
 
   def facebook_pixel
     tracker do |t|
-      t.facebook_pixel :track, { id: 'conversion-event', value: '1', currency: 'EUR' }
+      t.facebook_pixel :track, { type: 'Purchase', options: { value: 42, currency: 'USD' } }
+      t.facebook_pixel :track, { type: 'CompleteRegistration', options: { value: 0.75, currency: 'EUR' } }
+      t.facebook_pixel :track_custom, { type: 'FrequentShopper', options: { purchases: 24, category: 'Sport' } }
     end
     render "metal/index"
   end

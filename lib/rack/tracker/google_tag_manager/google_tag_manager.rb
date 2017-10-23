@@ -30,8 +30,4 @@ class Rack::Tracker::GoogleTagManager < Rack::Tracker::Handler
   def render_body
     Tilt.new( File.join( File.dirname(__FILE__), 'template', 'google_tag_manager_body.erb') ).render(self)
   end
-
-  def self.track(name, *event)
-    { name.to_s => [event.last.merge('class_name' => event.first.to_s.capitalize)] }
-  end
 end

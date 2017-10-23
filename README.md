@@ -293,6 +293,15 @@ Will result in the following:
   fbq("track", "Purchase", {"value":"100.0","currency":"USD"});
 ```
 
+You can also use non-standard (custom) event names for audience building when you do not need to track or optimize for conversions.
+
+```
+  tracker do |t|
+    t.facebook_pixel :track_custom, { type: 'FrequentShopper', options: { purchases: 24, category: 'Sport' } }
+  end
+```
+
+
 ### Visual website Optimizer (VWO)
 Just integrate the handler with your matching account_id and you will be ready to go
 

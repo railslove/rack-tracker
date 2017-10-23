@@ -74,8 +74,4 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   def enhanced_ecommerce_events
     events.select {|e| e.kind_of?(EnhancedEcommerce) }
   end
-
-  def self.track(name, *event)
-    { name.to_s => [event.last.merge('class_name' => event.first.to_s.classify)] }
-  end
 end
