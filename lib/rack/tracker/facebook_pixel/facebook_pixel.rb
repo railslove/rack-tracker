@@ -1,6 +1,16 @@
 class Rack::Tracker::FacebookPixel < Rack::Tracker::Handler
   self.position = :body
 
+  def tracker_options
+    @_tracker_options ||= {}.tap do |tracker_options|
+      options.each do |key, value|
+        if option_value = value.respond_to?(:call) ? value.call(env) : value
+          tracker_options[key] = option_value
+        end
+      end
+    end
+  end
+
   class Event < OpenStruct
     def write
       options.present? ? type_to_json << options_to_json : type_to_json
