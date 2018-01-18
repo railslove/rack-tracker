@@ -1,15 +1,7 @@
 class Rack::Tracker::FacebookPixel < Rack::Tracker::Handler
   self.position = :body
 
-  def tracker_options
-    @_tracker_options ||= {}.tap do |tracker_options|
-      options.each do |key, value|
-        if option_value = value.respond_to?(:call) ? value.call(env) : value
-          tracker_options[key] = option_value
-        end
-      end
-    end
-  end
+  ALLOWED_TRACKER_OPTIONS = [:id]
 
   class Event < OpenStruct
     def write
