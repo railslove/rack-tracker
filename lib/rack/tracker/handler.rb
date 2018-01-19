@@ -78,6 +78,6 @@ class Rack::Tracker::Handler
   # Transformations to be applied to tracker option values.
   # Override in descendants, if necessary.
   def tracker_option_value(value)
-    value.to_s
+    value
   end
 end

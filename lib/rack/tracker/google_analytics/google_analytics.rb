@@ -70,4 +70,8 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   def tracker_option_key(key)
     key.to_s.camelize(:lower).to_sym
   end
+
+  def tracker_option_value(value)
+    value.to_s
+  end
 end
