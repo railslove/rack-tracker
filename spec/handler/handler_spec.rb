@@ -4,39 +4,34 @@ RSpec.describe Rack::Tracker::Handler do
   end
 
   describe '#tracker_options' do
-    before do
-      stub_const("#{described_class}::ALLOWED_TRACKER_OPTIONS", [:some_option])
-    end
-
-    context 'with an allowed option configured with a static value' do
+    context 'without overriding allowed_tracker_options' do
       subject { described_class.new(env, { some_option: 'value' }) }
 
-      it 'returns hash with option set' do
-        expect(subject.tracker_options).to eql ({ some_option: 'value' })
-      end
-    end
-
-    context 'with an allowed option configured with a block' do
-      subject { described_class.new(env, { some_option: lambda { |env| return env[:misc] } }) }
-
-      it 'returns hash with option set' do
-        expect(subject.tracker_options).to eql ({ some_option: 'foobar' })
-      end
-    end
-
-    context 'with an allowed option configured with a block returning nil' do
-      subject { described_class.new(env, { some_option: lambda { |env| return env[:non_existing_key] } }) }
-
       it 'returns an empty hash' do
         expect(subject.tracker_options).to eql ({})
       end
     end
 
-    context 'with a non allowed option' do
-      subject { described_class.new(env, { new_option: 'value' }) }
+    context 'with overridden allowed_tracker_options' do
+      subject do
+        handler = described_class.new(env, {
+          static_option: 'value',
+          dynamic_option: lambda { |env| return env[:misc] },
+          dynamic_nil_option: lambda { |env| return env[:non_existent_key] },
+          non_allowed_option: 'value'
+        })
 
-      it 'returns an empty hash' do
-        expect(subject.tracker_options).to eql ({})
+        handler.allowed_tracker_options =
+          [:static_option, :dynamic_option, :dynamic_nil_option]
+
+        handler
+      end
+
+      it 'evaluates dynamic options, rejecting nonallowed and nil ones' do
+        expect(subject.tracker_options).to eql ({
+          static_option: 'value',
+          dynamic_option: 'foobar'
+        })
       end
     end
   end

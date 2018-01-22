@@ -13,6 +13,9 @@ class Rack::Tracker::Handler
   class_attribute :position
   self.position = :head
 
+  class_attribute :allowed_tracker_options
+  self.allowed_tracker_options = []
+
   attr_accessor :options
   attr_accessor :env
 
@@ -59,7 +62,7 @@ class Rack::Tracker::Handler
 
   def tracker_options
     @_tracker_options ||= {}.tap do |tracker_options|
-      options.slice(*self.class::ALLOWED_TRACKER_OPTIONS).each do |key, value|
+      options.slice(*allowed_tracker_options).each do |key, value|
         if option_value = value.respond_to?(:call) ? value.call(env) : value
           tracker_options[tracker_option_key(key)] = tracker_option_value(option_value)
         end
