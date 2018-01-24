@@ -13,6 +13,9 @@ class Rack::Tracker::Handler
   class_attribute :position
   self.position = :head
 
+  class_attribute :allowed_tracker_options
+  self.allowed_tracker_options = []
+
   attr_accessor :options
   attr_accessor :env
 
@@ -55,5 +58,29 @@ class Rack::Tracker::Handler
 
   def handler_name
     self.class.name.demodulize.underscore
+  end
+
+  def tracker_options
+    @_tracker_options ||= {}.tap do |tracker_options|
+      options.slice(*allowed_tracker_options).each do |key, value|
+        if option_value = value.respond_to?(:call) ? value.call(env) : value
+          tracker_options[tracker_option_key(key)] = tracker_option_value(option_value)
+        end
+      end
+    end
+  end
+
+  private
+
+  # Transformations to be applied to tracker option keys.
+  # Override in descendants, if necessary.
+  def tracker_option_key(key)
+    key.to_sym
+  end
+
+  # Transformations to be applied to tracker option values.
+  # Override in descendants, if necessary.
+  def tracker_option_value(value)
+    value
   end
 end

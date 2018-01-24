@@ -1,6 +1,6 @@
 class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
 
-  ALLOWED_TRACKER_OPTIONS = [:cookie_domain, :user_id]
+  self.allowed_tracker_options = [:cookie_domain, :user_id]
 
   class Send < OpenStruct
     def initialize(attrs = {})
@@ -57,21 +57,21 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
     options[:tracker].respond_to?(:call) ? options[:tracker].call(env) : options[:tracker]
   end
 
-  def tracker_options
-    @tracker_options ||= {}.tap do |tracker_options|
-      options.slice(*ALLOWED_TRACKER_OPTIONS).each do |key, value|
-        if option_value = value.respond_to?(:call) ? value.call(env) : value
-          tracker_options[key.to_s.camelize(:lower).to_sym] = option_value.to_s
-        end
-      end
-    end
-  end
-
   def ecommerce_events
     events.select {|e| e.kind_of?(Ecommerce) }
   end
 
   def enhanced_ecommerce_events
     events.select {|e| e.kind_of?(EnhancedEcommerce) }
+  end
+
+  private
+
+  def tracker_option_key(key)
+    key.to_s.camelize(:lower).to_sym
+  end
+
+  def tracker_option_value(value)
+    value.to_s
   end
 end
