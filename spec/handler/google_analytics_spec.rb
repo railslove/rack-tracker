@@ -188,7 +188,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
   describe "with custom domain" do
     subject { described_class.new(env, tracker: 'somebody', cookie_domain: "railslabs.com").render }
 
-    it "will show asyncronous tracker with cookieDomain" do
+    it "will show asynchronous tracker with cookieDomain" do
       expect(subject).to match(%r{ga\('create', 'somebody', {\"cookieDomain\":\"railslabs.com\"}\)})
       expect(subject).to match(%r{ga\('send', 'pageview', window\.location\.pathname \+ window\.location\.search\)})
     end
@@ -197,7 +197,7 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
   describe "with user_id tracking" do
     subject { described_class.new(env, tracker: 'somebody', user_id: lambda { |env| return env[:user_id] } ).render }
 
-    it "will show asyncronous tracker with userId" do
+    it "will show asynchronous tracker with userId" do
       expect(subject).to match(%r{ga\('create', 'somebody', {\"userId\":\"123\"}\)})
       expect(subject).to match(%r{ga\('send', 'pageview', window\.location\.pathname \+ window\.location\.search\)})
     end
