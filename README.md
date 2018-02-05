@@ -96,6 +96,7 @@ request.env['tracker'] = {
 * `:advertising` - Enables [Display Features](https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features).
 * `:ecommerce` - Enables [Ecommerce Tracking](https://developers.google.com/analytics/devguides/collection/analyticsjs/ecommerce).
 * `:enhanced_ecommerce` - Enables [Enhanced Ecommerce Tracking](https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-ecommerce)
+* `:optimize` - pass [Google Optimize container ID](https://support.google.com/360suite/optimize/answer/6262084#example-combined-snippet) as value (e.g. `optimize: 'GTM-1234'`).
 
 #### Events
 

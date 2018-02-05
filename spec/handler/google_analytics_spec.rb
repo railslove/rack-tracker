@@ -235,6 +235,14 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
     end
   end
 
+  describe "with optimize" do
+    subject { described_class.new(env, tracker: 'happy', optimize: 'GTM-1234').render }
+
+    it "will require the optimize plugin with container ID" do
+      expect(subject).to match(%r{ga\('require', 'GTM-1234'\)})
+    end
+  end
+
   describe "with anonymizeIp" do
     subject { described_class.new(env, tracker: 'happy', anonymize_ip: true).render }
 
