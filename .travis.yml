@@ -2,9 +2,10 @@ language: ruby
 sudo: false
 rvm:
   - 2.1.10
-  - 2.2.7
-  - 2.3.4
-  - 2.4.1
+  - 2.2.9
+  - 2.3.6
+  - 2.4.3
+  - 2.5.0
   - jruby-9.1.10.0
 gemfile:
   - Gemfile
