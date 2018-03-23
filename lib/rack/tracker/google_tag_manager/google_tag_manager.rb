@@ -13,7 +13,7 @@ class Rack::Tracker::GoogleTagManager < Rack::Tracker::Handler
     response.sub! %r{<head.*>} do |m|
       m.to_s << self.render_head
     end
-    response.sub! %r{<body.*>} do |m|
+    response.sub! %r{<body.*?>} do |m|
       m.to_s << self.render_body
     end
     response
