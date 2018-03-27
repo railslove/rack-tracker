@@ -1,3 +1,10 @@
+# 1.6.0
+
+  * [BUGFIX] set wildcard to non-greedy for GTM body insertion #107
+  * [ENHANCEMENT] Test against Ruby 2.5 #104
+  * [ENHANCEMENT] Google Optimize container ID #103
+  * [ENHANCEMENT] Allow for dynamic Facebook Pixel options #101
+
 # 1.5.0
 
   * [ENHANCEMENT] facebook pixel now supports non-standard (custom) event names #93
