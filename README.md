@@ -285,7 +285,7 @@ If you need to have different pixel ids e.g. based on the request or serving pag
   end
 ```
 
-and set the pixel id within the request `env` variable. Here an example how it can be done in a rails action:
+and set the pixel id within the request `env` variable. Here an example on how it can be done in a rails action:
 
 ```ruby
   class MyController < ApplicationController
