@@ -276,6 +276,25 @@ First, add the following to your config:
   end
 ```
 
+#### Dynamic Pixel Configuration
+If you need to have different pixel ids e.g. based on the request or serving pages for different accounts, you have the possibility to achieve this with a [lambda expression](https://gist.github.com/Integralist/9994331). Change the config to something like:
+
+```ruby
+  config.middleware.use(Rack::Tracker) do
+    handler :facebook_pixel, {id: lambda {|env| env['PIXEL_ID']}}
+  end
+```
+
+and set the pixel id within the request `env` variable. Here an example on how it can be done in a rails action:
+
+```ruby
+  class MyController < ApplicationController
+    def show
+      request.env['PIXEL_ID'] = 'DYNAMIC_PIXEL_ID'
+    end
+  end
+```
+
 #### Standard Events
 
 To track Standard Events from the server side just call the `tracker` method in your controller.
