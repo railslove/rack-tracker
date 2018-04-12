@@ -30,6 +30,32 @@ but to get you started we're shipping support for the following services out of 
 * [Zanox](#zanox)
 * [Hotjar](#hotjar)
 
+## Respecting the Do Not Track (DNT) HTTP header
+
+The Do Not Track (DNT) HTTP header is a HTTP header that requests the server to disable its tracking of the individual user.  
+This is an opt-out option supported by most browsers. This option is disabled by default and has to be explicitly enabled to indicate the user's request to opt-out. 
+We believe evey application should respect the user's choice to opt-out and respect this HTTP header. 
+
+Since version 2.0.0 rack-tracker respects that request header by default. That means NO tracker is injected IF the DNT header is set to "1".
+
+This option can be overwriten using the `DO_NOT_RESPECT_THE_USERS_CHOICE_TO_OPT_OUT => true` option which must be set on any handler that should ignore the DNT header. (but please think twice before doing that)
+
+### Example on how to not respect the DNT header
+
+```ruby
+use Rack::Tracker do
+  # this tracker will be injected EVEN IF the DNT header is set to 1
+  handler :maybe_a_friendly_tracker, { tracker: 'U-XXXXX-Y', DO_NOT_RESPECT_THE_USERS_CHOICE_TO_OPT_OUT: true }
+  # this tracker will NOT be injected if the DNT header is set to 1
+  handler :google_analytics, { tracker: 'U-XXXXX-Y' }
+end
+```
+
+Further reading on the DNT header: 
+
+* [Wikipedia Do Not Track](https://en.wikipedia.org/wiki/Do_Not_Track)
+* [EFF: Do Not Track](https://www.eff.org/issues/do-not-track)
+
 
 ## Installation
 

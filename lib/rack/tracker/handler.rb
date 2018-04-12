@@ -38,6 +38,11 @@ class Rack::Tracker::Handler
   end
 
   def inject(response)
+    # default to not inject this tracker if the DNT HTTP header is set
+    # if the DO_NOT_RESPECT_THE_USERS_CHOICE_TO_OPT_OUT config is set the DNT header is ignored :( - please do respect the DNT header!
+    if self.dnt_header_opt_out? && !self.options.has_key?(:DO_NOT_RESPECT_THE_USERS_CHOICE_TO_OPT_OUT)
+      return response
+    end
     # Sub! is enough, in well formed html there's only one head or body tag.
     # Block syntax need to be used, otherwise backslashes in input will mess the output.
     # @see http://stackoverflow.com/a/4149087/518204 and https://github.com/railslove/rack-tracker/issues/50
@@ -68,6 +73,11 @@ class Rack::Tracker::Handler
         end
       end
     end
+  end
+
+  # the request has set the DO NOT TRACK (DNT) and has opted to get not tracked (DNT=1)
+  def dnt_header_opt_out?
+    self.env['DNT'] && self.env['DNT'].to_s == '1'
   end
 
   private
