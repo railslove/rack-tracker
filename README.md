@@ -32,9 +32,9 @@ but to get you started we're shipping support for the following services out of 
 
 ## Respecting the Do Not Track (DNT) HTTP header
 
-The Do Not Track (DNT) HTTP header is a HTTP header that requests the server to disable its tracking of the individual user.  
-This is an opt-out option supported by most browsers. This option is disabled by default and has to be explicitly enabled to indicate the user's request to opt-out. 
-We believe evey application should respect the user's choice to opt-out and respect this HTTP header. 
+The Do Not Track (DNT) HTTP header is a HTTP header that requests the server to disable its tracking of the individual user.
+This is an opt-out option supported by most browsers. This option is disabled by default and has to be explicitly enabled to indicate the user's request to opt-out.
+We believe evey application should respect the user's choice to opt-out and respect this HTTP header.
 
 Since version 2.0.0 rack-tracker respects that request header by default. That means NO tracker is injected IF the DNT header is set to "1".
 
@@ -51,7 +51,7 @@ use Rack::Tracker do
 end
 ```
 
-Further reading on the DNT header: 
+Further reading on the DNT header:
 
 * [Wikipedia Do Not Track](https://en.wikipedia.org/wiki/Do_Not_Track)
 * [EFF: Do Not Track](https://www.eff.org/issues/do-not-track)
@@ -303,11 +303,12 @@ First, add the following to your config:
 ```
 
 #### Dynamic Pixel Configuration
-If you need to have different pixel ids e.g. based on the request or serving pages for different accounts, you have the possibility to achieve this with a [lambda expression](https://gist.github.com/Integralist/9994331). Change the config to something like:
+
+If you need to have different pixel ids e.g. based on the request or serving pages for different accounts, you have the possibility to achieve this by passing a lambda:
 
 ```ruby
   config.middleware.use(Rack::Tracker) do
-    handler :facebook_pixel, {id: lambda {|env| env['PIXEL_ID']}}
+    handler :facebook_pixel, { id: lambda { |env| env['PIXEL_ID'] } }
   end
 ```
 
