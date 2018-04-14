@@ -77,7 +77,7 @@ class Rack::Tracker::Handler
 
   # the request has set the DO NOT TRACK (DNT) and has opted to get not tracked (DNT=1)
   def dnt_header_opt_out?
-    self.env['DNT'] && self.env['DNT'].to_s == '1'
+    self.env['HTTP_DNT'] && self.env['HTTP_DNT'].to_s == '1'
   end
 
   private
