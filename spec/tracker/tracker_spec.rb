@@ -110,14 +110,14 @@ RSpec.describe Rack::Tracker do
   describe 'do not track' do
     context 'DNT header set to 1' do
       it 'will not inject any tracker' do
-        get '/', {}, {'DNT' => 1 }
+        get '/', {}, {'HTTP_DNT' => 1 }
 
         # the DummyHandler respects the DNT
         expect(last_response.body).to_not include("console.log('head');")
       end
 
       it 'will allow the DO_NOT_RESPECT_THE_USERS_CHOICE_TO_OPT_OUT overwrite' do
-        get '/', {}, {'DNT' => 1 }
+        get '/', {}, {'HTTP_DNT' => 1 }
 
         # the EvilHandler respects the DNT
         expect(last_response.body).to include("console.log('I am evil');")
@@ -126,7 +126,7 @@ RSpec.describe Rack::Tracker do
 
     context 'DNT header set to 0' do
       it 'injects all trackers' do
-        get '/', {}, {'DNT' => 0 }
+        get '/', {}, {'HTTP_DNT' => 0 }
         expect(last_response.body).to include("console.log('head');")
         expect(last_response.body).to include("console.log('I am evil');")
       end
