@@ -38,14 +38,14 @@ We believe evey application should respect the user's choice to opt-out and resp
 
 Since version 2.0.0 rack-tracker respects that request header by default. That means NO tracker is injected IF the DNT header is set to "1".
 
-This option can be overwriten using the `DO_NOT_RESPECT_THE_USERS_CHOICE_TO_OPT_OUT => true` option which must be set on any handler that should ignore the DNT header. (but please think twice before doing that)
+This option can be overwriten using the `DO_NOT_RESPECT_DNT_HEADER => true` option which must be set on any handler that should ignore the DNT header. (but please think twice before doing that)
 
 ### Example on how to not respect the DNT header
 
 ```ruby
 use Rack::Tracker do
   # this tracker will be injected EVEN IF the DNT header is set to 1
-  handler :maybe_a_friendly_tracker, { tracker: 'U-XXXXX-Y', DO_NOT_RESPECT_THE_USERS_CHOICE_TO_OPT_OUT: true }
+  handler :maybe_a_friendly_tracker, { tracker: 'U-XXXXX-Y', DO_NOT_RESPECT_DNT_HEADER: true }
   # this tracker will NOT be injected if the DNT header is set to 1
   handler :google_analytics, { tracker: 'U-XXXXX-Y' }
 end

@@ -20,7 +20,7 @@ RSpec.describe Rack::Tracker do
       use Rack::Tracker do
         handler DummyHandler, { foo: 'head' }
         handler BodyHandler, { foo: 'body' }
-        handler DummyHandler, { foo: 'I am evil', DO_NOT_RESPECT_THE_USERS_CHOICE_TO_OPT_OUT: true }
+        handler DummyHandler, { foo: 'I am evil', DO_NOT_RESPECT_DNT_HEADER: true }
       end
 
       run lambda {|env|
@@ -116,7 +116,7 @@ RSpec.describe Rack::Tracker do
         expect(last_response.body).to_not include("console.log('head');")
       end
 
-      it 'will allow the DO_NOT_RESPECT_THE_USERS_CHOICE_TO_OPT_OUT overwrite' do
+      it 'will allow the DO_NOT_RESPECT_DNT_HEADER overwrite' do
         get '/', {}, {'HTTP_DNT' => 1 }
 
         # the EvilHandler respects the DNT

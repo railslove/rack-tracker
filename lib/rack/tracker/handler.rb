@@ -39,8 +39,8 @@ class Rack::Tracker::Handler
 
   def inject(response)
     # default to not inject this tracker if the DNT HTTP header is set
-    # if the DO_NOT_RESPECT_THE_USERS_CHOICE_TO_OPT_OUT config is set the DNT header is ignored :( - please do respect the DNT header!
-    if self.dnt_header_opt_out? && !self.options.has_key?(:DO_NOT_RESPECT_THE_USERS_CHOICE_TO_OPT_OUT)
+    # if the DO_NOT_RESPECT_DNT_HEADER config is set the DNT header is ignored :( - please do respect the DNT header!
+    if self.dnt_header_opt_out? && !self.options.has_key?(:DO_NOT_RESPECT_DNT_HEADER)
       return response
     end
     # Sub! is enough, in well formed html there's only one head or body tag.
