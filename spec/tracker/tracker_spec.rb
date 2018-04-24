@@ -27,19 +27,19 @@ RSpec.describe Rack::Tracker do
         request = Rack::Request.new(env)
         case request.path
           when '/' then
-            [200, {'Content-Type' => 'application/html'}, ['<head>Hello world</head>']]
+            [200, {'Content-Type' => 'application/html'}, ['<head>Hello world</head>'.freeze]]
           when '/body' then
-            [200, {'Content-Type' => 'application/html'}, ['<body>bob here</body>']]
+            [200, {'Content-Type' => 'application/html'}, ['<body>bob here</body>'.freeze]]
           when '/body-head' then
-            [200, {'Content-Type' => 'application/html'}, ['<head></head><body></body>']]
+            [200, {'Content-Type' => 'application/html'}, ['<head></head><body></body>'.freeze]]
           when '/test.xml' then
-            [200, {'Content-Type' => 'application/xml'}, ['Xml here']]
+            [200, {'Content-Type' => 'application/xml'}, ['Xml here'.freeze]]
           when '/redirect' then
-            [302, {'Content-Type' => 'application/html', 'Location' => '/'}, ['<body>redirection</body>']]
+            [302, {'Content-Type' => 'application/html', 'Location' => '/'}, ['<body>redirection</body>.freeze']]
           when '/moved' then
-            [301, {'Content-Type' => 'application/html', 'Location' => '/redirect'}, ['<body>redirection</body>']]
+            [301, {'Content-Type' => 'application/html', 'Location' => '/redirect'}, ['<body>redirection</body>'.freeze]]
           else
-            [404, 'Nothing here']
+            [404, 'Nothing here'.freeze]
         end
       }
     end
