@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class DummyHandler < Rack::Tracker::Handler
   def render
     Tilt.new( File.join( File.dirname(__FILE__), '../fixtures/dummy.erb') ).render(self)
@@ -27,19 +28,19 @@ RSpec.describe Rack::Tracker do
         request = Rack::Request.new(env)
         case request.path
           when '/' then
-            [200, {'Content-Type' => 'application/html'}, ['<head>Hello world</head>'.freeze]]
+            [200, {'Content-Type' => 'application/html'}, ['<head>Hello world</head>']]
           when '/body' then
-            [200, {'Content-Type' => 'application/html'}, ['<body>bob here</body>'.freeze]]
+            [200, {'Content-Type' => 'application/html'}, ['<body>bob here</body>']]
           when '/body-head' then
-            [200, {'Content-Type' => 'application/html'}, ['<head></head><body></body>'.freeze]]
+            [200, {'Content-Type' => 'application/html'}, ['<head></head><body></body>']]
           when '/test.xml' then
-            [200, {'Content-Type' => 'application/xml'}, ['Xml here'.freeze]]
+            [200, {'Content-Type' => 'application/xml'}, ['Xml here']]
           when '/redirect' then
-            [302, {'Content-Type' => 'application/html', 'Location' => '/'}, ['<body>redirection</body>.freeze']]
+            [302, {'Content-Type' => 'application/html', 'Location' => '/'}, ['<body>redirection</body>']]
           when '/moved' then
-            [301, {'Content-Type' => 'application/html', 'Location' => '/redirect'}, ['<body>redirection</body>'.freeze]]
+            [301, {'Content-Type' => 'application/html', 'Location' => '/redirect'}, ['<body>redirection</body>']]
           else
-            [404, 'Nothing here'.freeze]
+            [404, 'Nothing here']
         end
       }
     end
