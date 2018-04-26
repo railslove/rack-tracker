@@ -58,10 +58,11 @@ module Rack
     def html?; @headers['Content-Type'] =~ /html/; end
 
     def inject(env, response)
+      duplicated_response = response.dup
       @handlers.each(env) do |handler|
-        handler.inject(response)
+        handler.inject(duplicated_response)
       end
-      response
+      duplicated_response
     end
 
     class HandlerSet
