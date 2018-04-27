@@ -1,3 +1,7 @@
+# 1.7.0
+
+  * [ENHANCEMENT] support frozen string literals (also: avoid RuntimeError in Rack::Tracker#inject #114 thx @zpfled)
+
 # 1.6.0
 
   * [BUGFIX] set wildcard to non-greedy for GTM body insertion #107
