@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Rack::Tracker::Zanox < Rack::Tracker::Handler
 
   # name of the handler

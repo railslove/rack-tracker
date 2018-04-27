@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ostruct'
 
 # Backport of 2.0.0 stdlib ostruct#to_h

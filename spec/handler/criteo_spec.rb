@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Rack::Tracker::Criteo do
 
   describe Rack::Tracker::Criteo::Event do

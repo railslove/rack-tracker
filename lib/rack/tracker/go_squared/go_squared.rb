@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Rack::Tracker::GoSquared < Rack::Tracker::Handler
   class VisitorName < OpenStruct
     def write

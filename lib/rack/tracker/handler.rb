@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Rack::Tracker::Handler
   class << self
     def process_track(env, method_name, *args, &block)

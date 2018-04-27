@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TrackAllTheThings < Rack::Tracker::Handler
   def render
     Tilt.new( File.join( File.dirname(__FILE__), '../fixtures/track_all_the_things.erb') ).render(self)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rack"
 require "tilt"
 require "active_support/core_ext/class/attribute"

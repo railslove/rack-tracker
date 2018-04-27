@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Rack::Tracker::Criteo < Rack::Tracker::Handler
 
   TRACKER_EVENTS = {

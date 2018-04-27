@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Rack::Tracker::Facebook do
   describe Rack::Tracker::Facebook::Event do
 

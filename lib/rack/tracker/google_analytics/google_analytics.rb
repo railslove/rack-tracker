@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
 
   self.allowed_tracker_options = [:cookie_domain, :user_id]

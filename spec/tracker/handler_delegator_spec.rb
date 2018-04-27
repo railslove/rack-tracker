@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Foo = Class.new
 Bar = Class.new
 

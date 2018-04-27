@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Rack::Tracker::Zanox do
 
   describe Rack::Tracker::Zanox::Sale do

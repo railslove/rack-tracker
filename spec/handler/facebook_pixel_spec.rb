@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Rack::Tracker::FacebookPixel do
   def env
     { 'PIXEL_ID' => 'DYNAMIC_PIXEL_ID' }

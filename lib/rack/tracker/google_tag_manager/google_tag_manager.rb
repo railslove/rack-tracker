@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Rack::Tracker::GoogleTagManager < Rack::Tracker::Handler
 
   class Push < OpenStruct

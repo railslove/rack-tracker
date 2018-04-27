@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'support/metal_controller'
 
 # helper to configure the middleware stack with custom handlers

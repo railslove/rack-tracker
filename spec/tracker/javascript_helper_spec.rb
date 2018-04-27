@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Rack::Tracker do
 
   let(:escaper) do
@@ -39,13 +41,11 @@ RSpec.describe Rack::Tracker do
     it { should escape(%(This "thing" is really\n netos')).to %(This \\"thing\\" is really\\n netos\\') }
     it { should escape(%(backslash\\test)).to %(backslash\\\\test) }
     it { should escape(%(dont </close> tags)).to %(dont <\\/close> tags) }
-    it { should escape(%(unicode \342\200\250 newline).force_encoding(Encoding::UTF_8).encode!).to %(unicode &#x2028; newline) }
-    it { should escape(%(unicode \342\200\251 newline).force_encoding(Encoding::UTF_8).encode!).to %(unicode &#x2029; newline) }
+    it { should escape(%(unicode \342\200\250 newline).dup.force_encoding(Encoding::UTF_8).encode!).to %(unicode &#x2028; newline) }
+    it { should escape(%(unicode \342\200\251 newline).dup.force_encoding(Encoding::UTF_8).encode!).to %(unicode &#x2029; newline) }
 
     it 'works with symbols' do
       expect(subject).to escape(:dimension1).to 'dimension1'
     end
-
   end
-
 end

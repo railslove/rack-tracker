@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'support/capybara_app_helper'
 
 RSpec.describe "Rails Integration" do

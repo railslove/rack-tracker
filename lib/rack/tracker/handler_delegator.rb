@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Rack::Tracker::HandlerDelegator
   class << self
     def handler(method_name)

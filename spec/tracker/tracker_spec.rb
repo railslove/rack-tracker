@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class DummyHandler < Rack::Tracker::Handler
   def render
     Tilt.new( File.join( File.dirname(__FILE__), '../fixtures/dummy.erb') ).render(self)
