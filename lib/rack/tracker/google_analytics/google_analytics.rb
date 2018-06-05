@@ -65,6 +65,10 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
     events.select {|e| e.kind_of?(EnhancedEcommerce) }
   end
 
+  def pageview_url_script
+    options[:pageview_url_script] || 'window.location.pathname + window.location.search'
+  end
+
   private
 
   def tracker_option_key(key)
@@ -73,9 +77,5 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
 
   def tracker_option_value(value)
     value.to_s
-  end
-
-  def pageview_url_script
-    options[:pageview_url_script] || 'window.location.pathname + window.location.search'
   end
 end

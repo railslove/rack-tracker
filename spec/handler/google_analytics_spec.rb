@@ -267,4 +267,22 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
       expect(subject).to include %q{setTimeout(function() { ga('send', 'event', '30_seconds', 'read'); },30000)}
     end
   end
+
+  describe '#pageview_url_script' do
+    context 'without custom pageview url script' do
+      subject { described_class.new(env, {} ) }
+
+      it 'returns return the custom pageview url script' do
+        expect(subject.pageview_url_script).to eql ("window.location.pathname + window.location.search")
+      end
+    end
+
+    context 'with a custom pageview url script' do
+      subject { described_class.new(env, { pageview_url_script: "{ 'page': location.pathname + location.search + location.hash }"}) }
+
+      it 'returns return the custom pageview url script' do
+        expect(subject.pageview_url_script).to eql ("{ 'page': location.pathname + location.search + location.hash }")
+      end
+    end
+  end
 end
