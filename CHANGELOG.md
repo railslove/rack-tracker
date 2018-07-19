@@ -1,3 +1,8 @@
+# 1.7.0
+
+  * [BUGFIX] dup response string in Rack::Tracker#inject to avoid RuntimeError #114 (thx @zpfled)
+  * [ENHANCEMENT] Allow to use custom pageview url script for GoogleAnalytics tracker. #119 (thx @Haerezis)
+
 # 1.6.0
 
   * [BUGFIX] set wildcard to non-greedy for GTM body insertion #107
