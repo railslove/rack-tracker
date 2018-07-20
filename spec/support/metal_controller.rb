@@ -61,6 +61,10 @@ class MetalController < ActionController::Metal
     render "metal/index"
   end
 
+  def google_global
+    render "metal/index"
+  end
+
   def google_tag_manager
     unless params[:no_events]
       tracker do |t|

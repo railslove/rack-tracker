@@ -1,0 +1,12 @@
+<% if trackers %>
+<script async src='https://www.googletagmanager.com/gtag/js?id=<%= trackers[0][:id] %>'></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  <% trackers.each do |tracker| %>
+    gtag('config', '<%= tracker[:id] %>', <%= tracker_options(tracker).to_json %>);
+  <% end %>
+</script>
+<% end %>

@@ -20,6 +20,7 @@ to the middleware stack the second part are the service-handlers that you're goi
 in your application. It's easy to add your own [custom handlers](#custom-handlers),
 but to get you started we're shipping support for the following services out of the box:
 
+* [Google Global Site Tag](#google-global)
 * [Google Analytics](#google-analytics)
 * [Google Adwords Conversion](#google-adwords-conversion)
 * [Google Tag Manager](#google-tag-manager)
@@ -110,6 +111,14 @@ request.env['tracker'] = {
   ]
 }
 ```
+
+### Google Global
+
+* `:anonymize_ip` -  sets the tracker to remove the last octet from all IP addresses, see https://developers.google.com/analytics/devguides/collection/gtagjs/ip-anonymization for details.
+* `:cookie_domain` -  sets the domain name for the [GATC cookies](https://developers.google.com/analytics/devguides/collection/gtagjs/cookies-user-id). If not set its the website domain, with the www. prefix removed.
+* `:user_id` -  defines a proc to set the [userId](https://developers.google.com/analytics/devguides/collection/gtagjs/cookies-user-id). Ex: `user_id: lambda { |env| env['rack.session']['user_id'] }` would return the user_id from the session.
+* `:link_attribution` - Enables [Enhanced Link Attribution](https://developers.google.com/analytics/devguides/collection/gtagjs/enhanced-link-attribution).
+* `:allow_display_features` - Can be used to disable [Display Features](https://developers.google.com/analytics/devguides/collection/gtagjs/display-features).
 
 ### Google Analytics
 
