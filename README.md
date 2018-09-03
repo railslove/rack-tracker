@@ -112,13 +112,24 @@ request.env['tracker'] = {
 }
 ```
 
-### Google Global
+### Google Global Site Tag (gtag.js)
 
 * `:anonymize_ip` -  sets the tracker to remove the last octet from all IP addresses, see https://developers.google.com/analytics/devguides/collection/gtagjs/ip-anonymization for details.
 * `:cookie_domain` -  sets the domain name for the [GATC cookies](https://developers.google.com/analytics/devguides/collection/gtagjs/cookies-user-id). If not set its the website domain, with the www. prefix removed.
 * `:user_id` -  defines a proc to set the [userId](https://developers.google.com/analytics/devguides/collection/gtagjs/cookies-user-id). Ex: `user_id: lambda { |env| env['rack.session']['user_id'] }` would return the user_id from the session.
 * `:link_attribution` - Enables [Enhanced Link Attribution](https://developers.google.com/analytics/devguides/collection/gtagjs/enhanced-link-attribution).
 * `:allow_display_features` - Can be used to disable [Display Features](https://developers.google.com/analytics/devguides/collection/gtagjs/display-features).
+
+#### Trackers
+
+Google Global Site tag allows configuring multiple trackers. Use the tracker option to configure the ids:
+
+
+```ruby
+config.middleware.use(Rack::Tracker) do
+  handler :google_global, { trackers: [ { id: 'U-XXXXX-Y' }, { id: 'U-WWWWWW-Z'} ] }
+end
+```
 
 ### Google Analytics
 
