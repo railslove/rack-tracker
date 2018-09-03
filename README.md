@@ -119,6 +119,7 @@ request.env['tracker'] = {
 * `:user_id` -  defines a proc to set the [userId](https://developers.google.com/analytics/devguides/collection/gtagjs/cookies-user-id). Ex: `user_id: lambda { |env| env['rack.session']['user_id'] }` would return the user_id from the session.
 * `:link_attribution` - Enables [Enhanced Link Attribution](https://developers.google.com/analytics/devguides/collection/gtagjs/enhanced-link-attribution).
 * `:allow_display_features` - Can be used to disable [Display Features](https://developers.google.com/analytics/devguides/collection/gtagjs/display-features).
+* `:custom_map` - Used to [Configure and send custom dimensions](https://developers.google.com/analytics/devguides/collection/gtagjs/custom-dims-mets)
 
 #### Trackers
 
