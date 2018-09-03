@@ -6,7 +6,7 @@
   gtag('js', new Date());
 
   <% trackers.each do |tracker| %>
-    gtag('config', '<%= tracker[:id] %>', <%= tracker_options(tracker).to_json %>);
+    gtag('config', '<%= tracker[:id] %>', <%= tracker_options.to_json %>);
   <% end %>
 </script>
 <% end %>
