@@ -131,6 +131,18 @@ RSpec.describe Rack::Tracker::GoogleGlobal do
     end
   end
 
+  describe "with empty tracker" do
+    let(:present_tracker) { { id: 'present' }}
+    let(:empty_tracker) { { id: lambda { |env| return } }}
+    let(:options) { { trackers: [present_tracker, empty_tracker] } }
+    subject { described_class.new(env, options).render }
+
+    it 'will not render config' do
+      expect(subject).to match(%r{gtag\('config', 'present', {}\)})
+      expect(subject).not_to match(%r{gtag\('config', '', {}\)})
+    end
+  end
+
   describe "with set options" do
     let(:tracker) { { id: 'with_options' } }
     let(:options) { { trackers: [tracker], set: { foo: 'bar' } } }

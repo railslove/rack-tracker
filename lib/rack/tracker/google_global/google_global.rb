@@ -4,8 +4,10 @@ class Rack::Tracker::GoogleGlobal < Rack::Tracker::Handler
     :custom_map]
 
   def trackers
-    options[:trackers].map do |tracker| 
+    options[:trackers].map do |tracker|
       tracker[:id].respond_to?(:call) ? tracker.merge(id: tracker[:id].call(env)) : tracker
+    end.select do |tracker|
+      !tracker[:id].nil?
     end
   end
 
