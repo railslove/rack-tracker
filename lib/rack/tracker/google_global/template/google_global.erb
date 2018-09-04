@@ -5,6 +5,10 @@
   function gtag(){dataLayer.push(arguments)};
   gtag('js', new Date());
 
+  <% if set_options %>
+    gtag('set', <%= set_options.to_json %>);
+  <% end %>
+
   <% trackers.each do |tracker| %>
     gtag('config', '<%= tracker[:id] %>', <%= tracker_options.to_json %>);
   <% end %>

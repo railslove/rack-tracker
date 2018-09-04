@@ -46,6 +46,31 @@ RSpec.describe Rack::Tracker::GoogleGlobal do
     end
   end
 
+  describe '#set_options' do
+    context 'with option configured with a static value' do
+      subject { described_class.new(env, set: { option: 'value' }) }
+
+      it 'returns hash with option set' do
+        expect(subject.set_options).to eql ({ option: 'value' })
+      end
+    end
+
+    context 'with option configured with a block' do
+      subject { described_class.new(env, set: lambda { |env| return { option: env[:misc] } }) }
+
+      it 'returns hash with option set' do
+        expect(subject.set_options).to eql ({ option: 'foobar' })
+      end
+    end
+
+    context 'with option configured with a block returning nil' do
+      subject { described_class.new(env, set: lambda { |env| return env[:non_existing_key] }) }
+
+      it 'returns nil' do
+        expect(subject.set_options).to be nil
+      end
+    end
+  end
   describe "with custom domain" do
     let(:tracker) { { id: 'somebody'}}
     let(:options) { { cookie_domain: "railslabs.com", trackers: [tracker] } }
@@ -103,6 +128,16 @@ RSpec.describe Rack::Tracker::GoogleGlobal do
 
     it 'will call tracker lambdas to obtain tracking codes' do
       expect(subject).to match(%r{gtag\('config', 'foobar', {}\)})
+    end
+  end
+
+  describe "with set options" do
+    let(:tracker) { { id: 'with_options' } }
+    let(:options) { { trackers: [tracker], set: { foo: 'bar' } } }
+    subject { described_class.new(env, options).render }
+
+    it 'will show set command' do
+      expect(subject).to match(%r{gtag\('set', {\"foo\":\"bar\"}\)})
     end
   end
 end
