@@ -10,6 +10,9 @@
   <% end %>
 
   <% trackers.each do |tracker| %>
+    <% pages.each do |page| %>
+      gtag('config', '<%= tracker[:id] %>', <%= tracker_options.merge(page.params).to_json %>);
+    <% end %>
     gtag('config', '<%= tracker[:id] %>', <%= tracker_options.to_json %>);
   <% end %>
 </script>

@@ -3,6 +3,16 @@ class Rack::Tracker::GoogleGlobal < Rack::Tracker::Handler
     :link_attribution, :allow_display_features, :anonymize_ip,
     :custom_map]
 
+  class Page < OpenStruct
+    def params
+      Hash[to_h.slice(:title, :location, :path).map { |key, value| ["page_#{key}", value] }]
+    end
+  end
+
+  def pages
+    events # TODO: Filter pages after Event is implemented
+  end
+
   def trackers
     options[:trackers].map do |tracker|
       tracker[:id].respond_to?(:call) ? tracker.merge(id: tracker[:id].call(env)) : tracker

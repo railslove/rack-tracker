@@ -152,4 +152,36 @@ RSpec.describe Rack::Tracker::GoogleGlobal do
       expect(subject).to match(%r{gtag\('set', {\"foo\":\"bar\"}\)})
     end
   end
+
+  describe "with virtual pages" do
+    subject { described_class.new(env, trackers: [{ id: 'somebody' }]).render }
+
+    describe "default" do
+      def env
+        {'tracker' => {
+          'google_global' => [
+            { 'class_name' => 'Page', 'path' => '/virtual_page' }
+          ]
+        }}
+      end
+
+      it "will show virtual page" do
+        expect(subject).to match(%r{gtag\('config', 'somebody', {\"page_path\":\"/virtual_page\"}\);})
+      end
+    end
+
+    describe "with a event value" do
+      def env
+        {'tracker' => {
+          'google_global' => [
+            { 'class_name' => 'Page', 'path' => '/virtual_page', 'location' => 'https://example.com/virtual_page', 'title' => 'Virtual Page' }
+          ]
+        }}
+      end
+
+      it "will show virtual page" do
+        expect(subject).to match(%r{gtag\('config', 'somebody', {\"page_title\":\"Virtual Page\",\"page_location\":\"https:\/\/example.com\/virtual_page\",\"page_path\":\"/virtual_page\"}\);})
+      end
+    end
+  end
 end
