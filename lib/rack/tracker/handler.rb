@@ -68,7 +68,8 @@ class Rack::Tracker::Handler
   def tracker_options
     @_tracker_options ||= {}.tap do |tracker_options|
       options.slice(*allowed_tracker_options).each do |key, value|
-        if option_value = value.respond_to?(:call) ? value.call(env) : value
+        option_value = value.respond_to?(:call) ? value.call(env) : value
+        unless option_value.nil? 
           tracker_options[tracker_option_key(key)] = tracker_option_value(option_value)
         end
       end

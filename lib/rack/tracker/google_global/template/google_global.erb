@@ -1,0 +1,19 @@
+<% if trackers %>
+<script async src='https://www.googletagmanager.com/gtag/js?id=<%= trackers[0][:id] %>'></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  <% if set_options %>
+    gtag('set', <%= set_options.to_json %>);
+  <% end %>
+
+  <% trackers.each do |tracker| %>
+    <% pages.each do |page| %>
+      gtag('config', '<%= tracker[:id] %>', <%= tracker_options.merge(page.params).to_json %>);
+    <% end %>
+    gtag('config', '<%= tracker[:id] %>', <%= tracker_options.to_json %>);
+  <% end %>
+</script>
+<% end %>
