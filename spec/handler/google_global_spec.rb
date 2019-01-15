@@ -184,4 +184,40 @@ RSpec.describe Rack::Tracker::GoogleGlobal do
       end
     end
   end
+
+  describe "with events" do
+    subject { described_class.new(env, trackers: [{ id: 'somebody' }]).render }
+
+    describe "default" do
+      def env
+        {'tracker' => {
+          'google_global' => [
+            { 'class_name' => 'Event', 'action' => 'login' }
+          ]
+        }}
+      end
+
+      it "will show the event" do
+        expect(subject).to match(%r{gtag\('event', 'login', {}\);})
+      end
+    end
+
+    describe "with event parameters" do
+      def env
+        {'tracker' => {
+          'google_global' => [
+            { 'class_name' => 'Event',
+              'action'     => 'login',
+              'category'   => 'engagement',
+              'label'      => 'Github',
+              'value'      => 5 }
+          ]
+        }}
+      end
+
+      it "will show event" do
+        expect(subject).to match(%r{gtag\('event', 'login', {\"event_category\":\"engagement\",\"event_label\":\"Github\",\"value\":5}\);})
+      end
+    end
+  end
 end

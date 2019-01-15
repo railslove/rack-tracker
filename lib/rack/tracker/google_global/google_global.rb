@@ -9,8 +9,30 @@ class Rack::Tracker::GoogleGlobal < Rack::Tracker::Handler
     end
   end
 
+  class Event < OpenStruct
+    PREFIXED_PARAMS = %i[category label]
+    LITERAL_PARAMS  = %i[value]
+    PARAMS = PREFIXED_PARAMS + LITERAL_PARAMS
+
+    def params
+      Hash[to_h.slice(*PARAMS).map { |key, value| [param_key(key), value] }]
+    end
+
+    private
+
+    def param_key(key)
+      PREFIXED_PARAMS.include?(key) ? "event_#{key}" : key.to_s
+    end
+  end
+
   def pages
-    events # TODO: Filter pages after Event is implemented
+    select_handler_events(Page)
+  end
+
+  alias handler_events events
+
+  def events
+    select_handler_events(Event)
   end
 
   def trackers
@@ -28,5 +50,9 @@ class Rack::Tracker::GoogleGlobal < Rack::Tracker::Handler
   def build_set_options
     value = options[:set]
     value.respond_to?(:call) ? value.call(env) : value
+  end
+
+  def select_handler_events(klass)
+    handler_events.select { |event| event.is_a?(klass) }
   end
 end
