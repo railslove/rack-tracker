@@ -1,3 +1,7 @@
+# 1.8.0
+
+ * [ENHANCEMENT] Google Global Site Tag: basic integration with support for pageviews to Google global tag #123 (thx @atd)
+
 # 1.7.0
 
   * [BUGFIX] dup response string in Rack::Tracker#inject to avoid RuntimeError #114 (thx @zpfled)
