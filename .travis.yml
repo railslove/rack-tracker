@@ -1,18 +1,13 @@
 language: ruby
 sudo: false
 rvm:
-  - 2.1.10
-  - 2.2.9
-  - 2.3.6
-  - 2.4.3
-  - 2.5.0
+  - 2.3.8
+  - 2.4.5
+  - 2.5.3
+  - 2.6.1
   - jruby-9.1.10.0
 gemfile:
   - Gemfile
   - Gemfile.rails-3.2
   - Gemfile.rails-4.2
-  - Gemfile.rails-5.1
-matrix:
-  exclude:
-    - rvm: 2.1.10
-      gemfile: Gemfile.rails-5.1 # rails 5 needs ruby >= 2.2.2
+  - Gemfile.rails-5.2
