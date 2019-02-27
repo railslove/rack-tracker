@@ -120,6 +120,7 @@ request.env['tracker'] = {
 * `:link_attribution` - Enables [Enhanced Link Attribution](https://developers.google.com/analytics/devguides/collection/gtagjs/enhanced-link-attribution).
 * `:allow_display_features` - Can be used to disable [Display Features](https://developers.google.com/analytics/devguides/collection/gtagjs/display-features).
 * `:custom_map` - Used to [Configure and send custom dimensions](https://developers.google.com/analytics/devguides/collection/gtagjs/custom-dims-mets)
+* `:optimize_id` - Used to [Deploy Optimize using gtag](https://support.google.com/optimize/answer/7513085)
 * `:set` - Used in the [set command to configure multiple properties](https://developers.google.com/analytics/devguides/collection/gtagjs/setting-values)
 
 #### Trackers

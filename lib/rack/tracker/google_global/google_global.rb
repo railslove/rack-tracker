@@ -1,7 +1,7 @@
 class Rack::Tracker::GoogleGlobal < Rack::Tracker::Handler
   self.allowed_tracker_options = [:cookie_domain, :user_id,
     :link_attribution, :allow_display_features, :anonymize_ip,
-    :custom_map]
+    :custom_map, :optimize_id]
 
   class Page < OpenStruct
     def params
