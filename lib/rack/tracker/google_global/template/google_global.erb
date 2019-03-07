@@ -15,5 +15,9 @@
     <% end %>
     gtag('config', '<%= tracker[:id] %>', <%= tracker_options.to_json %>);
   <% end %>
+
+  <% events.each do |event| %>
+    gtag('event', '<%= event.action %>', <%= event.params.to_json %>);
+  <% end %>
 </script>
 <% end %>
