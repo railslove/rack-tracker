@@ -23,6 +23,7 @@ require "rack/tracker/go_squared/go_squared"
 require "rack/tracker/criteo/criteo"
 require "rack/tracker/zanox/zanox"
 require "rack/tracker/hotjar/hotjar"
+require "rack/tracker/bing/bing"
 
 module Rack
   class Tracker
