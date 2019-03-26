@@ -116,4 +116,8 @@ class MetalController < ActionController::Metal
   def hotjar
     render "metal/index"
   end
+
+  def bing
+    render "metal/index"
+  end
 end

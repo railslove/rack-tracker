@@ -576,6 +576,31 @@ config.middleware.use(Rack::Tracker) do
 end
 ```
 
+### Bing
+
+[Bing](https://bingads.microsoft.com/)
+
+To add the tracking snippet:
+
+```
+config.middleware.use(Rack::Tracker) do
+  handler :bing, { tracker: '12345678' }
+end
+```
+
+To send conversion events:
+```
+tracker do |t|
+  t.bing :conversion, {
+    type: 'event',
+    category: 'Users',
+    action: 'Login',
+    label: 'Standard',
+    value: 10
+  }
+end
+```
+
 
 ### Custom Handlers
 
