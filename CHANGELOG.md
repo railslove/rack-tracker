@@ -1,3 +1,9 @@
+# 1.9.0
+
+ * [ENHANCEMENT] Integration for Bing tracking #131 (thx @pcraston)
+ * [ENHANCEMENT] Possibility to integrate Google Optimize ID into the allowed tracker options #127 (thx @nachoabad)
+ * [ENHANCEMENT] Support for google global events #126 (thx @atd)
+
 # 1.8.0
 
  * [ENHANCEMENT] Google Global Site Tag: basic integration with support for pageviews to Google global tag #123 (thx @atd)
