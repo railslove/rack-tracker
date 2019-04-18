@@ -18,18 +18,9 @@ rack middleware that can be hooked up to multiple services and exposing them in 
 fashion. It comes in two parts, the first one is the actual middleware that you can add
 to the middleware stack the second part are the service-handlers that you're going to use
 in your application. It's easy to add your own [custom handlers](#custom-handlers),
-but to get you started we're shipping support for the following services out of the box:
+but to get you started we're shipping support for the services [mentioned below](#services) 
+out of the box:
 
-* [Google Global Site Tag](#google-global)
-* [Google Analytics](#google-analytics)
-* [Google Adwords Conversion](#google-adwords-conversion)
-* [Google Tag Manager](#google-tag-manager)
-* [Facebook](#facebook)
-* [Visual Website Optimizer (VWO)](#visual-website-optimizer-vwo)
-* [GoSquared](#gosquared)
-* [Criteo](#criteo)
-* [Zanox](#zanox)
-* [Hotjar](#hotjar)
 
 ## Respecting the Do Not Track (DNT) HTTP header
 
@@ -111,6 +102,8 @@ request.env['tracker'] = {
   ]
 }
 ```
+
+## Services
 
 ### Google Global Site Tag (gtag.js)
 
