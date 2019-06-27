@@ -1,3 +1,7 @@
+# 1.10.0
+
+ * [ENHANCEMENT] Hubspot integration #136 (thx @ChrisCoffey)
+
 # 1.9.0
 
  * [ENHANCEMENT] Integration for Bing tracking #131 (thx @pcraston)
