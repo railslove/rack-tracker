@@ -18,7 +18,7 @@ rack middleware that can be hooked up to multiple services and exposing them in 
 fashion. It comes in two parts, the first one is the actual middleware that you can add
 to the middleware stack the second part are the service-handlers that you're going to use
 in your application. It's easy to add your own [custom handlers](#custom-handlers),
-but to get you started we're shipping support for the services [mentioned below](#services) 
+but to get you started we're shipping support for the services [mentioned below](#services)
 out of the box:
 
 
@@ -591,6 +591,16 @@ tracker do |t|
     label: 'Standard',
     value: 10
   }
+end
+```
+
+### Hubspot
+
+[Hubspot](https://www.hubspot.com/)
+
+```
+config.middleware.use(Rack::Tracker) do
+  handler :hubspot, { site_id: '1234' }
 end
 ```
 

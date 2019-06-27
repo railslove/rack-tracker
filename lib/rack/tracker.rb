@@ -24,6 +24,7 @@ require "rack/tracker/criteo/criteo"
 require "rack/tracker/zanox/zanox"
 require "rack/tracker/hotjar/hotjar"
 require "rack/tracker/bing/bing"
+require "rack/tracker/hubspot/hubspot"
 
 module Rack
   class Tracker
