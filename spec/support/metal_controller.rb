@@ -117,6 +117,10 @@ class MetalController < ActionController::Metal
     render "metal/index"
   end
 
+  def hubspot
+    render "metal/index"
+  end
+
   def bing
     render "metal/index"
   end
