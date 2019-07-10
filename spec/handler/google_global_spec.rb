@@ -210,13 +210,15 @@ RSpec.describe Rack::Tracker::GoogleGlobal do
               'action'     => 'login',
               'category'   => 'engagement',
               'label'      => 'Github',
-              'value'      => 5 }
+              'value'      => 5,
+              'transaction_id' => 1001,
+            }
           ]
         }}
       end
 
       it "will show event" do
-        expect(subject).to match(%r{gtag\('event', 'login', {\"event_category\":\"engagement\",\"event_label\":\"Github\",\"value\":5}\);})
+        expect(subject).to match(%r{gtag\('event', 'login', {\"event_category\":\"engagement\",\"event_label\":\"Github\",\"value\":5,\"transaction_id\":1001}\);})
       end
     end
   end
