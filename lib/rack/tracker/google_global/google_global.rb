@@ -11,11 +11,10 @@ class Rack::Tracker::GoogleGlobal < Rack::Tracker::Handler
 
   class Event < OpenStruct
     PREFIXED_PARAMS = %i[category label]
-    LITERAL_PARAMS  = %i[value]
-    PARAMS = PREFIXED_PARAMS + LITERAL_PARAMS
+    SKIP_PARAMS  = %i[action]
 
     def params
-      Hash[to_h.slice(*PARAMS).map { |key, value| [param_key(key), value] }]
+      Hash[to_h.except(*SKIP_PARAMS).map { |key, value| [param_key(key), value] }]
     end
 
     private
