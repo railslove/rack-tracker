@@ -11,7 +11,6 @@ class Rack::Tracker::GoogleGlobal < Rack::Tracker::Handler
 
   class Event < OpenStruct
     PREFIXED_PARAMS = %i[category label]
-    LITERAL_PARAMS  = %i[value]
     SKIP_PARAMS  = %i[action]
 
     def params
