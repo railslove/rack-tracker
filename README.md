@@ -604,6 +604,15 @@ config.middleware.use(Rack::Tracker) do
 end
 ```
 
+### Drift
+
+[Drift](https://www.drift.com/)
+
+```
+config.middleware.use(Rack::Tracker) do
+  handler :drift, account_id: 'DRIFT_ID'
+end
+```
 
 ### Custom Handlers
 
