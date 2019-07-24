@@ -25,6 +25,7 @@ require "rack/tracker/zanox/zanox"
 require "rack/tracker/hotjar/hotjar"
 require "rack/tracker/bing/bing"
 require "rack/tracker/hubspot/hubspot"
+require "rack/tracker/drift/drift"
 
 module Rack
   class Tracker
