@@ -124,4 +124,8 @@ class MetalController < ActionController::Metal
   def bing
     render "metal/index"
   end
+
+  def drift
+    render "metal/index"
+  end
 end
