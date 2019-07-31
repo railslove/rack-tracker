@@ -13,6 +13,6 @@ RSpec.describe 'Drift Integration' do
 
   it 'embeds the script with account_id' do
     expect(page.find('script')).to have_content('js.driftt.com')
-    expect(page.find('script')).to have_content('DRIFT_ID')
+    expect(page.find('script')).to have_content('drift.load(\'DRIFT_ID\')')
   end
 end
