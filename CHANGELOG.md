@@ -1,3 +1,7 @@
+# 1.11.0
+
+ * [ENHANCEMENT] Add support for Drift #139 (thx @sassela)
+
 # 1.10.0
 
  * [ENHANCEMENT] Hubspot integration #136 (thx @ChrisCoffey)
