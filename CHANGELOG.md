@@ -1,3 +1,7 @@
+# 1.11.1
+
+ * [BUGFIX] Uncaught ReferenceError Fix: wrap Drift account ID in quotes #140 (thx @sassela)
+
 # 1.11.0
 
  * [ENHANCEMENT] Add support for Drift #139 (thx @sassela)
