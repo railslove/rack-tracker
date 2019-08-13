@@ -1,3 +1,7 @@
+# 1.11.2
+
+ * [ENHANCEMENT] Allows disabling the Google Analytics pageview send. Defaults to true.
+
 # 1.11.1
 
  * [BUGFIX] Uncaught ReferenceError Fix: wrap Drift account ID in quotes #140 (thx @sassela)
