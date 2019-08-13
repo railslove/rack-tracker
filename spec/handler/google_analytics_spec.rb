@@ -284,5 +284,21 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
         expect(subject.pageview_url_script).to eql ("{ 'page': location.pathname + location.search + location.hash }")
       end
     end
+
+    context 'with explicit_pageview disabled' do
+      subject { described_class.new(env, {tracker: 'afake', explicit_pageview: false }).render }
+
+      it 'does not send a pageview event' do
+        expect(subject).not_to include %q{ga('send', 'pageview',}
+      end
+    end
+
+    context 'defaults to sending the pageview event' do
+      subject { described_class.new(env, {tracker: 'afake'}).render }
+
+      it 'does not send a pageview event' do
+        expect(subject).to include "ga('send', 'pageview'"
+      end
+    end
   end
 end
