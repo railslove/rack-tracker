@@ -35,9 +35,7 @@ class Rack::Tracker::GoogleGlobal < Rack::Tracker::Handler
   end
 
   def trackers
-    @_trackers ||= options[:trackers].map { |tracker|
-      tracker[:id].respond_to?(:call) ? tracker.merge(id: tracker[:id].call(env)) : tracker
-    }.reject { |tracker| tracker[:id].nil? || "" == tracker[:id].to_s.strip }
+    @_trackers ||= build_trackers
   end
 
   def set_options
@@ -45,6 +43,22 @@ class Rack::Tracker::GoogleGlobal < Rack::Tracker::Handler
   end
 
   private
+
+  def build_trackers
+    options[:trackers].map(&method(:call_tracker)).reject(&method(:invalid_tracker?))
+  end
+
+  def call_tracker tracker
+    if tracker[:id].respond_to?(:call)
+      tracker.merge(id: tracker[:id].call(env))
+    else
+      tracker
+    end
+  end
+
+  def invalid_tracker? tracker
+    tracker[:id].nil? || "" == tracker[:id].to_s.strip
+  end
 
   def build_set_options
     value = options[:set]
