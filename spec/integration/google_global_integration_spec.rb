@@ -30,4 +30,12 @@ RSpec.describe "Google Global Integration Integration" do
       expect(page.find("head")).to_not have_content("<script async src='https://www.googletagmanager.com/gtag/js?id=")
     end
   end
+
+  describe "callable tracker id" do
+    let(:tracker_options) { { trackers: [{ id: proc { "U-XXX-Y" } }] } }
+
+    it "is injected into head with id from proc" do
+      expect(page.find("head")).to have_content('U-XXX-Y')
+    end
+  end
 end
