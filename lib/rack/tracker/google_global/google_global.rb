@@ -37,7 +37,7 @@ class Rack::Tracker::GoogleGlobal < Rack::Tracker::Handler
   def trackers
     options[:trackers].map { |tracker|
       tracker[:id].respond_to?(:call) ? tracker.merge(id: tracker[:id].call(env)) : tracker
-    }.reject { |tracker| tracker[:id].nil? }
+    }.reject { |tracker| tracker[:id].nil? || "" == tracker[:id].to_s.strip }
   end
 
   def set_options

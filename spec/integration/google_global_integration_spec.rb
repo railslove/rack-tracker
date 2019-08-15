@@ -27,4 +27,17 @@ RSpec.describe "Google Global Integration Integration" do
      expect(page.find("body")).to have_content('U-XXX-Y')
     end
   end
+
+  describe "handles empty tracker id" do
+    before do
+      setup_app(action: :google_global) do |tracker|
+        tracker.handler :google_global, trackers: [{ id: nil }, { id: "" }, { id: "  " }]
+      end
+      visit '/'
+    end
+
+    it "does not inject scripts" do
+      expect(page.find("head")).not_to have_content("<script async src='https://www.googletagmanager.com/gtag/js?id=")
+    end
+  end
 end

@@ -1,4 +1,4 @@
-<% if trackers %>
+<% if trackers.any? %>
 <script async src='https://www.googletagmanager.com/gtag/js?id=<%= trackers[0][:id] %>'></script>
 <script>
   window.dataLayer = window.dataLayer || [];
