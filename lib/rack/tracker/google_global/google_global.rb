@@ -57,7 +57,7 @@ class Rack::Tracker::GoogleGlobal < Rack::Tracker::Handler
   end
 
   def invalid_tracker?(tracker)
-    tracker[:id].nil? || "" == tracker[:id].to_s.strip
+    tracker[:id].to_s.strip == ''
   end
 
   def build_set_options
