@@ -11,3 +11,4 @@ gemfile:
   - Gemfile.rails-3.2
   - Gemfile.rails-4.2
   - Gemfile.rails-5.2
+  - Gemfile.rails-6.0
