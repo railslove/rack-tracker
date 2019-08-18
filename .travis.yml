@@ -12,3 +12,9 @@ gemfile:
   - Gemfile.rails-4.2
   - Gemfile.rails-5.2
   - Gemfile.rails-6.0
+matrix:
+  exclude:
+  - rvm: 2.3.8
+    gemfile: Gemfile.rails-6.0
+  - rvm: 2.4.5
+    gemfile: Gemfile.rails-6.0
