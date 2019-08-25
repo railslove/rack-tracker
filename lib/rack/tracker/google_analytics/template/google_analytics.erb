@@ -38,7 +38,7 @@
 <% if options[:ecommerce] && ecommerce_events.any? %>
   ga('ecommerce:send');
 <% end %>
-<% if tracker %>
+<% if tracker && options[:explicit_pageview] %>
   ga('send', 'pageview', <%= pageview_url_script %>);
 <% end %>
 </script>

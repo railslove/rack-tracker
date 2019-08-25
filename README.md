@@ -140,6 +140,7 @@ end
 * `:enhanced_ecommerce` - Enables [Enhanced Ecommerce Tracking](https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-ecommerce)
 * `:optimize` - pass [Google Optimize container ID](https://support.google.com/360suite/optimize/answer/6262084#example-combined-snippet) as value (e.g. `optimize: 'GTM-1234'`).
 * `:pageview_url_script` - a String containing a custom js script evaluating to the url that shoudl be given to the pageview event. Default to `window.location.pathname + window.location.search`.
+* `:explicit_pageview` - A boolean that controls whether to send the `pageview` event on pageload. This defaults to true.
 
 #### Events
 

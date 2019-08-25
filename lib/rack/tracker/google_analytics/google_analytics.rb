@@ -2,6 +2,11 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
 
   self.allowed_tracker_options = [:cookie_domain, :user_id]
 
+  def initialize(env, options = {})
+    options[:explicit_pageview] = true if !options.has_key?(:explicit_pageview)
+    super(env, options)
+  end
+
   class Send < OpenStruct
     def initialize(attrs = {})
       attrs.reverse_merge!(type: 'event')
