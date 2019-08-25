@@ -1,6 +1,6 @@
-# 1.11.2
+# 1.12.0
 
- * [ENHANCEMENT] Allows disabling the Google Analytics pageview send. Defaults to true.
+ * [ENHANCEMENT] Allows disabling the Google Analytics pageview send. Defaults to true #131 (thx @ChrisCoffey)
 
 # 1.11.1
 
