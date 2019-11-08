@@ -57,7 +57,16 @@ class Rack::Tracker::GoogleGlobal < Rack::Tracker::Handler
   end
 
   def invalid_tracker?(tracker)
-    tracker[:id].to_s.strip == ''
+    if tracker[:id].to_s.strip == ''
+      $stdout.puts <<~WARN
+      WARNING: One of the trackers specified for Rack::Tracker handler 'google_global' is empty.
+               Trackers: #{options[:trackers]}
+      WARN
+
+      true
+    else
+      false
+    end
   end
 
   def build_set_options
