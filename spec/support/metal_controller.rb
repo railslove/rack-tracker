@@ -128,4 +128,8 @@ class MetalController < ActionController::Metal
   def drift
     render "metal/index"
   end
+
+  def heap
+    render "metal/index"
+  end
 end

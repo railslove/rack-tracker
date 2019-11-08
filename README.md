@@ -615,6 +615,18 @@ config.middleware.use(Rack::Tracker) do
 end
 ```
 
+### Heap
+
+[Heap](https://heap.io/). Heap has Projects (e.g. "Main") which have multiple
+Environments (e.g. "Production" or "Development"). `env_id` is therefore the numerical ID
+that represents the Environment. See Settings -> Projects -> Environments in your dashboard.
+
+```
+config.middleware.use(Rack::Tracker) do
+  handler :heap, env_id: 'HEAP_ID'
+end
+```
+
 ### Custom Handlers
 
 Tough we give you handlers for a few tracking services right out of the box, you might
