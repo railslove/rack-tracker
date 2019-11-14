@@ -1,5 +1,5 @@
-<script type="text/javascript">
 <% if tracker %>
+<script type="text/javascript">
   if(typeof ga === 'undefined') {
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -40,5 +40,5 @@
 <% end %>
 <% if tracker && options[:explicit_pageview] %>
   ga('send', 'pageview', <%= pageview_url_script %>);
-<% end %>
 </script>
+<% end %>
