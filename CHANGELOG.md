@@ -1,3 +1,7 @@
+# 1.12.0
+
+* [ENHANCEMENT] Add support for Heap #147 (thx @mohanzhang)
+
 # 1.11.2
 
  * [ENHANCEMENT] Allows disabling the Google Analytics pageview send. Defaults to true #131 (thx @ChrisCoffey)
