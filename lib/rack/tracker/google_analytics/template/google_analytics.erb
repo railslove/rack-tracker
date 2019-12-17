@@ -8,37 +8,37 @@
 
     ga('create', '<%= tracker %>', <%= tracker_options.to_json %>);
   }
-<% if options[:enhanced_link_attribution] %>
-  ga('require', 'linkid', 'linkid.js');
-<% end %>
-<% if options[:advertising] %>
-  ga('require', 'displayfeatures');
-<% end %>
-<% if options[:enhanced_ecommerce] %>
-  ga('require', 'ec');
-<% end %>
-<% if options[:ecommerce] %>
-  ga('require', 'ecommerce', 'ecommerce.js');
-<% end %>
-<% if options[:optimize] %>
-  ga('require', '<%= options[:optimize] %>');
-<% end %>
-<% if options[:anonymize_ip] %>
-  ga('set', 'anonymizeIp', true);
-<% end %>
-<% if options[:adjusted_bounce_rate_timeouts] %>
-  <% options[:adjusted_bounce_rate_timeouts].each do |timeout| %>
-      setTimeout(function() { ga('send', 'event', '<%= "#{timeout.to_s}_seconds" %>', 'read'); },<%= timeout*1000 %>);
+  <% if options[:enhanced_link_attribution] %>
+    ga('require', 'linkid', 'linkid.js');
   <% end %>
-<% end %>
-<% end %>
-<% events.each do |var| %>
-  ga(<%= var.write() %>);
-<% end %>
-<% if options[:ecommerce] && ecommerce_events.any? %>
-  ga('ecommerce:send');
-<% end %>
-<% if tracker && options[:explicit_pageview] %>
-  ga('send', 'pageview', <%= pageview_url_script %>);
+  <% if options[:advertising] %>
+    ga('require', 'displayfeatures');
+  <% end %>
+  <% if options[:enhanced_ecommerce] %>
+    ga('require', 'ec');
+  <% end %>
+  <% if options[:ecommerce] %>
+    ga('require', 'ecommerce', 'ecommerce.js');
+  <% end %>
+  <% if options[:optimize] %>
+    ga('require', '<%= options[:optimize] %>');
+  <% end %>
+  <% if options[:anonymize_ip] %>
+    ga('set', 'anonymizeIp', true);
+  <% end %>
+  <% if options[:adjusted_bounce_rate_timeouts] %>
+    <% options[:adjusted_bounce_rate_timeouts].each do |timeout| %>
+        setTimeout(function() { ga('send', 'event', '<%= "#{timeout.to_s}_seconds" %>', 'read'); },<%= timeout*1000 %>);
+    <% end %>
+  <% end %>
+  <% events.each do |var| %>
+    ga(<%= var.write() %>);
+  <% end %>
+  <% if options[:ecommerce] && ecommerce_events.any? %>
+    ga('ecommerce:send');
+  <% end %>
+  <% if tracker && options[:explicit_pageview] %>
+    ga('send', 'pageview', <%= pageview_url_script %>);
+  <% end %>
 </script>
 <% end %>
