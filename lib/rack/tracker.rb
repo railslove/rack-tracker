@@ -38,6 +38,10 @@ module Rack
     end
 
     def call(env)
+      dup._call(env)
+    end
+
+    def _call(env)
       @status, @headers, @body = @app.call(env)
       return [@status, @headers, @body] unless html?
       response = Rack::Response.new([], @status, @headers)
