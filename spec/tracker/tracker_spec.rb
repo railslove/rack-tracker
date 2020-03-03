@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 class DummyHandler < Rack::Tracker::Handler
   def render
-    Tilt.new( File.join( File.dirname(__FILE__), '../fixtures/dummy.erb') ).render(self)
+    Tilt.new(File.join(File.dirname(__FILE__), '../fixtures/dummy.erb')).render(self)
   end
 
   def dummy_alert
@@ -16,7 +17,7 @@ end
 RSpec.describe Rack::Tracker do
   def app
     Rack::Builder.new do
-      use Rack::Session::Cookie, secret: "FOO"
+      use Rack::Session::Cookie, secret: 'FOO'
 
       use Rack::Tracker do
         handler DummyHandler, { foo: 'head' }
@@ -24,23 +25,23 @@ RSpec.describe Rack::Tracker do
         handler DummyHandler, { foo: 'I am evil', DO_NOT_RESPECT_DNT_HEADER: true }
       end
 
-      run lambda {|env|
+      run lambda { |env|
         request = Rack::Request.new(env)
         case request.path
-          when '/' then
-            [200, {'Content-Type' => 'application/html'}, ['<head>Hello world</head>']]
-          when '/body' then
-            [200, {'Content-Type' => 'application/html'}, ['<body>bob here</body>']]
-          when '/body-head' then
-            [200, {'Content-Type' => 'application/html'}, ['<head></head><body></body>']]
-          when '/test.xml' then
-            [200, {'Content-Type' => 'application/xml'}, ['Xml here']]
-          when '/redirect' then
-            [302, {'Content-Type' => 'application/html', 'Location' => '/'}, ['<body>redirection</body>']]
-          when '/moved' then
-            [301, {'Content-Type' => 'application/html', 'Location' => '/redirect'}, ['<body>redirection</body>']]
-          else
-            [404, 'Nothing here']
+        when '/' then
+          [200, { 'Content-Type' => 'application/html' }, ['<head>Hello world</head>']]
+        when '/body' then
+          [200, { 'Content-Type' => 'application/html' }, ['<body>bob here</body>']]
+        when '/body-head' then
+          [200, { 'Content-Type' => 'application/html' }, ['<head></head><body></body>']]
+        when '/test.xml' then
+          [200, { 'Content-Type' => 'application/xml' }, ['Xml here']]
+        when '/redirect' then
+          [302, { 'Content-Type' => 'application/html', 'Location' => '/' }, ['<body>redirection</body>']]
+        when '/moved' then
+          [301, { 'Content-Type' => 'application/html', 'Location' => '/redirect' }, ['<body>redirection</body>']]
+        else
+          [404, 'Nothing here']
         end
       }
     end
@@ -56,16 +57,16 @@ RSpec.describe Rack::Tracker do
     it 'will pass options to the Handler' do
       get '/'
       expect(last_response.body).to include("console.log('head');")
-      expect(last_response.body).to_not include("console.log('body');")
+      expect(last_response.body).not_to include("console.log('body');")
     end
 
     it 'injects custom variables that was directly assigned' do
-      get '/', {}, {'tracker' => { 'dummy' => 'foo bar'}}
+      get '/', session: { 'tracker' => { 'dummy' => 'foo bar' } }
       expect(last_response.body).to include("alert('foo bar');")
     end
 
     it 'injects custom variables that lives in the session' do
-      get '/', {}, {'rack.session' => {'tracker' => { 'dummy' => 'bar foo'}}}
+      get '/', session: { 'rack.session' => { 'tracker' => { 'dummy' => 'bar foo' } } }
       expect(last_response.body).to include("alert('bar foo');")
     end
   end
@@ -74,7 +75,7 @@ RSpec.describe Rack::Tracker do
     it 'will not inject the body handler code' do
       get '/body'
       expect(last_response.body).to include("console.log('body');")
-      expect(last_response.body).to_not include("console.log('head');")
+      expect(last_response.body).not_to include("console.log('head');")
     end
   end
 
@@ -88,13 +89,13 @@ RSpec.describe Rack::Tracker do
 
   describe 'when a redirect' do
     it 'will keep the tracker attributes and show them on the new location' do
-      get '/redirect', {}, { 'tracker' => { 'dummy' => 'Keep this!' } }
+      get '/redirect', session: { 'tracker' => { 'dummy' => 'Keep this!' } }
       follow_redirect!
       expect(last_response.body).to include("alert('Keep this!');")
     end
 
     it 'will keep the tracker attributes over multiple redirects' do
-      get '/moved', {}, { 'tracker' => { 'dummy' => 'Keep this twice!' } }
+      get '/moved', session: { 'tracker' => { 'dummy' => 'Keep this twice!' } }
       follow_redirect!
       expect(last_response.body).to include("alert('Keep this twice!');")
     end
@@ -104,21 +105,21 @@ RSpec.describe Rack::Tracker do
     it 'will not inject the handler code' do
       get '/test.xml'
 
-      expect(last_response.body).to_not include("alert('this is a dummy class');")
+      expect(last_response.body).not_to include("alert('this is a dummy class');")
     end
   end
 
   describe 'do not track' do
     context 'DNT header set to 1' do
       it 'will not inject any tracker' do
-        get '/', {}, {'HTTP_DNT' => 1 }
+        get '/', session: { 'HTTP_DNT' => 1 }
 
         # the DummyHandler respects the DNT
-        expect(last_response.body).to_not include("console.log('head');")
+        expect(last_response.body).not_to include("console.log('head');")
       end
 
       it 'will allow the DO_NOT_RESPECT_DNT_HEADER overwrite' do
-        get '/', {}, {'HTTP_DNT' => 1 }
+        get '/', session: { 'HTTP_DNT' => 1 }
 
         # the EvilHandler respects the DNT
         expect(last_response.body).to include("console.log('I am evil');")
@@ -127,7 +128,7 @@ RSpec.describe Rack::Tracker do
 
     context 'DNT header set to 0' do
       it 'injects all trackers' do
-        get '/', {}, {'HTTP_DNT' => 0 }
+        get '/', session: { 'HTTP_DNT' => 0 }
         expect(last_response.body).to include("console.log('head');")
         expect(last_response.body).to include("console.log('I am evil');")
       end
@@ -140,6 +141,5 @@ RSpec.describe Rack::Tracker do
         expect(last_response.body).to include("console.log('I am evil');")
       end
     end
-
   end
 end

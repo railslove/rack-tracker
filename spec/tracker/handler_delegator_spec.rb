@@ -1,10 +1,10 @@
+# frozen_string_literal: true
+
 Foo = Class.new
 Bar = Class.new
 
 RSpec.describe Rack::Tracker::HandlerDelegator do
-
   describe '#handler' do
-
     it 'will find handler in the Rack::Tracker namespace' do
       expect(described_class.handler(:google_analytics)).to eq(Rack::Tracker::GoogleAnalytics)
     end
@@ -18,9 +18,7 @@ RSpec.describe Rack::Tracker::HandlerDelegator do
     end
 
     it 'will raise when no handler is found' do
-      expect { described_class.handler(:baz)}.to raise_error(ArgumentError, "No such Handler: Baz")
+      expect { described_class.handler(:baz) }.to raise_error(ArgumentError, 'No such Handler: Baz')
     end
-
   end
-
 end

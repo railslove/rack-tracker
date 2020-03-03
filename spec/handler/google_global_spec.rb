@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Rack::Tracker::GoogleGlobal do
   def env
     {
@@ -22,7 +24,7 @@ RSpec.describe Rack::Tracker::GoogleGlobal do
     end
 
     context 'with an allowed option configured with a block' do
-      subject { described_class.new(env, user_id: lambda { |env| return env[:misc] }) }
+      subject { described_class.new(env, user_id: ->(env) { return env[:misc] }) }
 
       it 'returns hash with option set' do
         expect(subject.tracker_options).to eql ({ user_id: 'foobar' })
@@ -30,7 +32,7 @@ RSpec.describe Rack::Tracker::GoogleGlobal do
     end
 
     context 'with an allowed option configured with a block returning nil' do
-      subject { described_class.new(env, user_id: lambda { |env| return env[:non_existing_key] }) }
+      subject { described_class.new(env, user_id: ->(env) { return env[:non_existing_key] }) }
 
       it 'returns an empty hash' do
         expect(subject.tracker_options).to eql ({})
@@ -56,7 +58,7 @@ RSpec.describe Rack::Tracker::GoogleGlobal do
     end
 
     context 'with option configured with a block' do
-      subject { described_class.new(env, set: lambda { |env| return { option: env[:misc] } }) }
+      subject { described_class.new(env, set: ->(env) { return { option: env[:misc] } }) }
 
       it 'returns hash with option set' do
         expect(subject.set_options).to eql ({ option: 'foobar' })
@@ -64,161 +66,169 @@ RSpec.describe Rack::Tracker::GoogleGlobal do
     end
 
     context 'with option configured with a block returning nil' do
-      subject { described_class.new(env, set: lambda { |env| return env[:non_existing_key] }) }
+      subject { described_class.new(env, set: ->(env) { return env[:non_existing_key] }) }
 
       it 'returns nil' do
         expect(subject.set_options).to be nil
       end
     end
   end
-  describe "with custom domain" do
-    let(:tracker) { { id: 'somebody'}}
-    let(:options) { { cookie_domain: "railslabs.com", trackers: [tracker] } }
+
+  describe 'with custom domain' do
+    let(:tracker) { { id: 'somebody' } }
+    let(:options) { { cookie_domain: 'railslabs.com', trackers: [tracker] } }
+
     subject { described_class.new(env, options).render }
 
-    it "will show asyncronous tracker with cookie_domain" do
-      expect(subject).to match(%r{gtag\('config', 'somebody', {\"cookie_domain\":\"railslabs.com\"}\)})
+    it 'will show asyncronous tracker with cookie_domain' do
+      expect(subject).to match(/gtag\('config', 'somebody', {\"cookie_domain\":\"railslabs.com\"}\)/)
     end
   end
 
-  describe "with user_id tracking" do
-    let(:tracker) { { id: 'somebody'}}
-    let(:options) { { user_id: lambda { |env| return env[:user_id] }, trackers: [tracker] } }
+  describe 'with user_id tracking' do
+    let(:tracker) { { id: 'somebody' } }
+    let(:options) { { user_id: ->(env) { return env[:user_id] }, trackers: [tracker] } }
+
     subject { described_class.new(env, options).render }
 
-    it "will show asyncronous tracker with userId" do
-      expect(subject).to match(%r{gtag\('config', 'somebody', {\"user_id\":\"123\"}\)})
+    it 'will show asyncronous tracker with userId' do
+      expect(subject).to match(/gtag\('config', 'somebody', {\"user_id\":\"123\"}\)/)
     end
   end
 
-  describe "with link_attribution" do
-    let(:tracker) { { id: 'happy'}}
+  describe 'with link_attribution' do
+    let(:tracker) { { id: 'happy' } }
     let(:options) { { link_attribution: true, trackers: [tracker] } }
+
     subject { described_class.new(env, options).render }
 
-    it "will show asyncronous tracker with link_attribution" do
-      expect(subject).to match(%r{gtag\('config', 'happy', {\"link_attribution\":true}\)})
+    it 'will show asyncronous tracker with link_attribution' do
+      expect(subject).to match(/gtag\('config', 'happy', {\"link_attribution\":true}\)/)
     end
   end
 
-  describe "with allow_display_features" do
-    let(:tracker) { { id: 'happy'}}
+  describe 'with allow_display_features' do
+    let(:tracker) { { id: 'happy' } }
     let(:options) { { allow_display_features: false, trackers: [tracker] } }
+
     subject { described_class.new(env, options).render }
 
-    it "will disable display features" do
-      expect(subject).to match(%r{gtag\('config', 'happy', {\"allow_display_features\":false}\)})
+    it 'will disable display features' do
+      expect(subject).to match(/gtag\('config', 'happy', {\"allow_display_features\":false}\)/)
     end
   end
 
-  describe "with anonymizeIp" do
-    let(:tracker) { { id: 'happy'}}
+  describe 'with anonymizeIp' do
+    let(:tracker) { { id: 'happy' } }
     let(:options) { { anonymize_ip: true, trackers: [tracker] } }
+
     subject { described_class.new(env, options).render }
 
-    it "will set anonymizeIp to true" do
-      expect(subject).to match(%r{gtag\('config', 'happy', {\"anonymize_ip\":true}\)})
+    it 'will set anonymizeIp to true' do
+      expect(subject).to match(/gtag\('config', 'happy', {\"anonymize_ip\":true}\)/)
     end
   end
 
-  describe "with dynamic tracker" do
-    let(:tracker) { { id: lambda { |env| return env[:misc] } }}
+  describe 'with dynamic tracker' do
+    let(:tracker) { { id: ->(env) { return env[:misc] } } }
     let(:options) { { trackers: [tracker] } }
+
     subject { described_class.new(env, options).render }
 
     it 'will call tracker lambdas to obtain tracking codes' do
-      expect(subject).to match(%r{gtag\('config', 'foobar', {}\)})
+      expect(subject).to match(/gtag\('config', 'foobar', {}\)/)
     end
   end
 
-  describe "with empty tracker" do
-    let(:present_tracker) { { id: 'present' }}
-    let(:empty_tracker) { { id: lambda { |env| return } }}
+  describe 'with empty tracker' do
+    let(:present_tracker) { { id: 'present' } }
+    let(:empty_tracker) { { id: ->(_env) { return } } }
     let(:options) { { trackers: [present_tracker, empty_tracker] } }
+
     subject { described_class.new(env, options).render }
 
     it 'will not render config' do
-      expect(subject).to match(%r{gtag\('config', 'present', {}\)})
-      expect(subject).not_to match(%r{gtag\('config', '', {}\)})
+      expect(subject).to match(/gtag\('config', 'present', {}\)/)
+      expect(subject).not_to match(/gtag\('config', '', {}\)/)
     end
   end
 
-  describe "with set options" do
+  describe 'with set options' do
     let(:tracker) { { id: 'with_options' } }
     let(:options) { { trackers: [tracker], set: { foo: 'bar' } } }
+
     subject { described_class.new(env, options).render }
 
     it 'will show set command' do
-      expect(subject).to match(%r{gtag\('set', {\"foo\":\"bar\"}\)})
+      expect(subject).to match(/gtag\('set', {\"foo\":\"bar\"}\)/)
     end
   end
 
-  describe "with virtual pages" do
+  describe 'with virtual pages' do
     subject { described_class.new(env, trackers: [{ id: 'somebody' }]).render }
 
-    describe "default" do
+    describe 'default' do
       def env
-        {'tracker' => {
+        { 'tracker' => {
           'google_global' => [
             { 'class_name' => 'Page', 'path' => '/virtual_page' }
           ]
-        }}
+        } }
       end
 
-      it "will show virtual page" do
+      it 'will show virtual page' do
         expect(subject).to match(%r{gtag\('config', 'somebody', {\"page_path\":\"/virtual_page\"}\);})
       end
     end
 
-    describe "with a event value" do
+    describe 'with a event value' do
       def env
-        {'tracker' => {
+        { 'tracker' => {
           'google_global' => [
             { 'class_name' => 'Page', 'path' => '/virtual_page', 'location' => 'https://example.com/virtual_page', 'title' => 'Virtual Page' }
           ]
-        }}
+        } }
       end
 
-      it "will show virtual page" do
+      it 'will show virtual page' do
         expect(subject).to match(%r{gtag\('config', 'somebody', {\"page_title\":\"Virtual Page\",\"page_location\":\"https:\/\/example.com\/virtual_page\",\"page_path\":\"/virtual_page\"}\);})
       end
     end
   end
 
-  describe "with events" do
+  describe 'with events' do
     subject { described_class.new(env, trackers: [{ id: 'somebody' }]).render }
 
-    describe "default" do
+    describe 'default' do
       def env
-        {'tracker' => {
+        { 'tracker' => {
           'google_global' => [
             { 'class_name' => 'Event', 'action' => 'login' }
           ]
-        }}
+        } }
       end
 
-      it "will show the event" do
-        expect(subject).to match(%r{gtag\('event', 'login', {}\);})
+      it 'will show the event' do
+        expect(subject).to match(/gtag\('event', 'login', {}\);/)
       end
     end
 
-    describe "with event parameters" do
+    describe 'with event parameters' do
       def env
-        {'tracker' => {
+        { 'tracker' => {
           'google_global' => [
             { 'class_name' => 'Event',
-              'action'     => 'login',
-              'category'   => 'engagement',
-              'label'      => 'Github',
-              'value'      => 5,
-              'transaction_id' => 1001,
-            }
+              'action' => 'login',
+              'category' => 'engagement',
+              'label' => 'Github',
+              'value' => 5,
+              'transaction_id' => 1001 }
           ]
-        }}
+        } }
       end
 
-      it "will show event" do
-        expect(subject).to match(%r{gtag\('event', 'login', {\"event_category\":\"engagement\",\"event_label\":\"Github\",\"value\":5,\"transaction_id\":1001}\);})
+      it 'will show event' do
+        expect(subject).to match(/gtag\('event', 'login', {\"event_category\":\"engagement\",\"event_label\":\"Github\",\"value\":5,\"transaction_id\":1001}\);/)
       end
     end
   end

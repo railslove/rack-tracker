@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'support/capybara_app_helper'
 
-RSpec.describe "Hotjar Integration" do
+RSpec.describe 'Hotjar Integration' do
   before do
     setup_app(action: :hotjar) do |tracker|
       tracker.handler :hotjar, { site_id: '4711' }

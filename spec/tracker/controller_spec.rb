@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 TestController = Struct.new(:env) do
   include Rack::Tracker::Controller
 
@@ -8,7 +10,7 @@ TestController = Struct.new(:env) do
         type: 'addTransaction',
         some: 'thing'
       }
-      %w(foo bar).each do |item|
+      %w[foo bar].each do |item|
         t.google_analytics :ecommerce, {
           type: 'addItem',
           name: item
@@ -18,7 +20,6 @@ TestController = Struct.new(:env) do
     end
   end
 end
-
 
 RSpec.describe Rack::Tracker::Controller do
   describe '#tracker' do
@@ -31,11 +32,9 @@ RSpec.describe Rack::Tracker::Controller do
 
     context 'controller' do
       it 'writes the event into env' do
-        expect {
+        expect do
           controller.index
-        }.to change {
-          controller.env
-        }.from({}).to('tracker' => {'google_analytics' => [send, trx, item_foo, item_bar], 'facebook' => [fb_event]})
+        end.to change(controller, :env).from({}).to('tracker' => { 'google_analytics' => [send, trx, item_foo, item_bar], 'facebook' => [fb_event] })
       end
     end
   end

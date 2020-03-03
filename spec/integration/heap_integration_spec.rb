@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'support/capybara_app_helper'
 
-RSpec.describe "Heap Integration" do
+RSpec.describe 'Heap Integration' do
   before do
     setup_app(action: :heap) do |tracker|
       tracker.handler :heap, { env_id: '12341234' }

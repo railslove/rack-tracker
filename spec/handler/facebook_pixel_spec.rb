@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Rack::Tracker::FacebookPixel do
   def env
     { 'PIXEL_ID' => 'DYNAMIC_PIXEL_ID' }
@@ -12,7 +14,7 @@ RSpec.describe Rack::Tracker::FacebookPixel do
     subject { described_class.new(env, id: 'PIXEL_ID').render }
 
     it 'will push the tracking events to the queue' do
-      expect(subject).to match(%r{fbq\('init', 'PIXEL_ID'\)})
+      expect(subject).to match(/fbq\('init', 'PIXEL_ID'\)/)
     end
 
     it 'will add the noscript fallback' do
@@ -21,10 +23,10 @@ RSpec.describe Rack::Tracker::FacebookPixel do
   end
 
   describe 'with dynamic id' do
-    subject { described_class.new(env, id: lambda { |env| env['PIXEL_ID'] }).render }
+    subject { described_class.new(env, id: ->(env) { env['PIXEL_ID'] }).render }
 
     it 'will push the tracking events to the queue' do
-      expect(subject).to match(%r{fbq\('init', 'DYNAMIC_PIXEL_ID'\)})
+      expect(subject).to match(/fbq\('init', 'DYNAMIC_PIXEL_ID'\)/)
     end
 
     it 'will add the noscript fallback' do
@@ -36,34 +38,34 @@ RSpec.describe Rack::Tracker::FacebookPixel do
     def env
       {
         'tracker' => {
-        'facebook_pixel' =>
-          [
-            {
-              'type' => 'Purchase',
-              'class_name' => 'Track',
-              'options' =>
-                {
-                  'value' => '23',
-                  'currency' => 'EUR'
-                }
-            },{
-              'type' => 'FrequentShopper',
-              'class_name' => 'TrackCustom',
-              'options' =>
-                {
-                  'purchases' => 8,
-                  'category' => 'Sport'
-                }
-            }
-          ]
+          'facebook_pixel' =>
+                              [
+                                {
+                                  'type' => 'Purchase',
+                                  'class_name' => 'Track',
+                                  'options' =>
+                                                  {
+                                                    'value' => '23',
+                                                    'currency' => 'EUR'
+                                                  }
+                                }, {
+                                  'type' => 'FrequentShopper',
+                                  'class_name' => 'TrackCustom',
+                                  'options' =>
+                                                  {
+                                                    'purchases' => 8,
+                                                    'category' => 'Sport'
+                                                  }
+                                }
+                              ]
         }
       }
     end
     subject { described_class.new(env).render }
 
     it 'will push the tracking events to the queue' do
-      expect(subject).to match(%r{"track", "Purchase", \{"value":"23","currency":"EUR"\}})
-      expect(subject).to match(%r{"trackCustom", "FrequentShopper", \{"purchases":8,"category":"Sport"\}})
+      expect(subject).to match(/"track", "Purchase", \{"value":"23","currency":"EUR"\}/)
+      expect(subject).to match(/"trackCustom", "FrequentShopper", \{"purchases":8,"category":"Sport"\}/)
     end
 
     it 'will add the noscript fallback' do

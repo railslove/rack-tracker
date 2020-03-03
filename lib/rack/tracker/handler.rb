@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Rack::Tracker::Handler
   class << self
     def process_track(env, method_name, *args, &block)
@@ -25,7 +27,7 @@ class Rack::Tracker::Handler
   def initialize(env, options = {})
     self.env = env
     self.options  = options
-    self.position = options[:position] if options.has_key?(:position)
+    self.position = options[:position] if options.key?(:position)
   end
 
   def events
@@ -34,20 +36,19 @@ class Rack::Tracker::Handler
   end
 
   def render
-    Tilt.new(File.join(File.dirname(__FILE__), handler_name, 'template', "#{handler_name}.erb") ).render(self)
+    Tilt.new(File.join(File.dirname(__FILE__), handler_name, 'template', "#{handler_name}.erb")).render(self)
   end
 
   def inject(response)
     # default to not inject this tracker if the DNT HTTP header is set
     # if the DO_NOT_RESPECT_DNT_HEADER config is set the DNT header is ignored :( - please do respect the DNT header!
-    if self.dnt_header_opt_out? && !self.options.has_key?(:DO_NOT_RESPECT_DNT_HEADER)
-      return response
-    end
+    return response if dnt_header_opt_out? && !options.key?(:DO_NOT_RESPECT_DNT_HEADER)
+
     # Sub! is enough, in well formed html there's only one head or body tag.
     # Block syntax need to be used, otherwise backslashes in input will mess the output.
     # @see http://stackoverflow.com/a/4149087/518204 and https://github.com/railslove/rack-tracker/issues/50
-    response.sub! %r{</#{self.position}>} do |m|
-      self.render << m.to_s
+    response.sub! %r{</#{position}>} do |m|
+      render << m.to_s
     end
     response
   end
@@ -55,9 +56,9 @@ class Rack::Tracker::Handler
   def write_event(event)
     event.deep_stringify_keys! # for consistent hash access use strings (keys from the session are always strings anyway)
     if env.key?('tracker')
-      self.env['tracker'].deep_merge!(event) { |key, old, new| Array.wrap(old) + Array.wrap(new) }
+      env['tracker'].deep_merge!(event) { |_key, old, new| Array.wrap(old) + Array.wrap(new) }
     else
-      self.env['tracker'] = event
+      env['tracker'] = event
     end
   end
 
@@ -69,16 +70,14 @@ class Rack::Tracker::Handler
     @_tracker_options ||= {}.tap do |tracker_options|
       options.slice(*allowed_tracker_options).each do |key, value|
         option_value = value.respond_to?(:call) ? value.call(env) : value
-        unless option_value.nil? 
-          tracker_options[tracker_option_key(key)] = tracker_option_value(option_value)
-        end
+        tracker_options[tracker_option_key(key)] = tracker_option_value(option_value) unless option_value.nil?
       end
     end
   end
 
   # the request has set the DO NOT TRACK (DNT) and has opted to get not tracked (DNT=1)
   def dnt_header_opt_out?
-    self.env['HTTP_DNT'] && self.env['HTTP_DNT'].to_s == '1'
+    env['HTTP_DNT'] && env['HTTP_DNT'].to_s == '1'
   end
 
   private

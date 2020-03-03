@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class TrackAllTheThings < Rack::Tracker::Handler
   def render
-    Tilt.new( File.join( File.dirname(__FILE__), '../fixtures/track_all_the_things.erb') ).render(self)
+    Tilt.new(File.join(File.dirname(__FILE__), '../fixtures/track_all_the_things.erb')).render(self)
   end
 
   def self.track(name, event)
@@ -12,12 +14,11 @@ class TrackAllTheThings < Rack::Tracker::Handler
   end
 end
 
-
 class AnotherHandler < Rack::Tracker::Handler
   self.position = :body
 
   def render
-    Tilt.new( File.join( File.dirname(__FILE__), '../fixtures/another_handler.erb') ).render(self)
+    Tilt.new(File.join(File.dirname(__FILE__), '../fixtures/another_handler.erb')).render(self)
   end
 
   def self.track(name, event)

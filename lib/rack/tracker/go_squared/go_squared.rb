@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class Rack::Tracker::GoSquared < Rack::Tracker::Handler
   class VisitorName < OpenStruct
     def write
-      ['set', 'visitorName', self.name].to_json.gsub(/\[|\]/, '')
+      ['set', 'visitorName', name].to_json.gsub(/\[|\]/, '')
     end
   end
 
@@ -20,10 +22,10 @@ class Rack::Tracker::GoSquared < Rack::Tracker::Handler
   end
 
   def visitor_name
-    events.select{|e| e.kind_of?(VisitorName) }.first
+    events.select { |e| e.is_a?(VisitorName) }.first
   end
 
   def visitor_info
-    events.select{|e| e.kind_of?(VisitorInfo) }.first
+    events.select { |e| e.is_a?(VisitorInfo) }.first
   end
 end

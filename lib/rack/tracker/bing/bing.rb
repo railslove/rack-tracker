@@ -1,5 +1,6 @@
-class Rack::Tracker::Bing < Rack::Tracker::Handler
+# frozen_string_literal: true
 
+class Rack::Tracker::Bing < Rack::Tracker::Handler
   class Conversion < OpenStruct
   end
 
@@ -8,5 +9,4 @@ class Rack::Tracker::Bing < Rack::Tracker::Handler
   def tracker
     options[:tracker].respond_to?(:call) ? options[:tracker].call(env) : options[:tracker]
   end
-
 end

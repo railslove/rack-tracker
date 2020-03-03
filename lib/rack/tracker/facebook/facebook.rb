@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class Rack::Tracker::Facebook < Rack::Tracker::Handler
   class Event < OpenStruct
     def write
-      ['track', self.id, to_h.except(:id).compact].to_json
+      ['track', id, to_h.except(:id).compact].to_json
     end
   end
 
@@ -10,5 +12,4 @@ class Rack::Tracker::Facebook < Rack::Tracker::Handler
   def self.track(name, *event)
     { name.to_s => [event.last.merge('class_name' => 'Event')] }
   end
-
 end

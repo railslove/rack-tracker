@@ -1,11 +1,11 @@
+# frozen_string_literal: true
+
 RSpec.describe Rack::Tracker::Criteo do
-
   describe Rack::Tracker::Criteo::Event do
-
-    subject { described_class.new(event: "viewItem", item: 'P001') }
+    subject { described_class.new(event: 'viewItem', item: 'P001') }
 
     describe '#write' do
-      specify { expect(subject.write).to eq("{\"event\":\"viewItem\",\"item\":\"P001\"}") }
+      specify { expect(subject.write).to eq('{"event":"viewItem","item":"P001"}') }
     end
   end
 
@@ -20,20 +20,20 @@ RSpec.describe Rack::Tracker::Criteo do
 
   describe '#render' do
     context 'with events' do
-      let(:env) {
+      let(:env) do
         {
           'tracker' => {
-          'criteo' =>
-            [
-              {
-                'event' => 'viewItem',
-                'item' => 'P001',
-                'class_name' => 'Event'
-              }
-            ]
+            'criteo' =>
+                        [
+                          {
+                            'event' => 'viewItem',
+                            'item' => 'P001',
+                            'class_name' => 'Event'
+                          }
+                        ]
           }
         }
-      }
+      end
 
       subject { described_class.new(env).render }
 
@@ -43,18 +43,18 @@ RSpec.describe Rack::Tracker::Criteo do
     end
 
     context 'without events' do
-      let(:env) {
+      let(:env) do
         {
           'tracker' => {
             'criteo' => []
           }
         }
-      }
+      end
 
-      subject { described_class.new(env, { user_id: ->(env){ '123' } }).render }
+      subject { described_class.new(env, { user_id: ->(_env) { '123' } }).render }
 
-      it 'should render nothing' do
-        expect(subject).to eql ""
+      it 'renders nothing' do
+        expect(subject).to eql ''
       end
     end
   end
@@ -65,7 +65,7 @@ RSpec.describe Rack::Tracker::Criteo do
     context 'nil value' do
       let(:options) { { set_account: nil } }
 
-      it 'should ignore option' do
+      it 'ignores option' do
         expect(subject.tracker_events).to match_array []
       end
     end
@@ -73,7 +73,7 @@ RSpec.describe Rack::Tracker::Criteo do
     context 'static string value' do
       let(:options) { { set_account: '1234' } }
 
-      it 'should set the value' do
+      it 'sets the value' do
         expect(subject.tracker_events).to match_array [
           Rack::Tracker::Criteo::Event.new(event: 'setAccount', account: '1234')
         ]
@@ -83,7 +83,7 @@ RSpec.describe Rack::Tracker::Criteo do
     context 'static integer value' do
       let(:options) { { set_customer_id: 1234 } }
 
-      it 'should set the value as string' do
+      it 'sets the value as string' do
         expect(subject.tracker_events).to match_array [
           Rack::Tracker::Criteo::Event.new(event: 'setCustomerId', id: '1234')
         ]
@@ -91,19 +91,19 @@ RSpec.describe Rack::Tracker::Criteo do
     end
 
     context 'unsupported option' do
-      let(:options) { { unsupported: "option" } }
+      let(:options) { { unsupported: 'option' } }
 
       subject { described_class.new(env, options) }
 
-      it 'should ignore the option' do
+      it 'ignores the option' do
         expect(subject.tracker_events).to match_array []
       end
     end
 
     context 'proc returning value' do
-      let(:options) { { set_site_type: ->(env){ 'm' } } }
+      let(:options) { { set_site_type: ->(_env) { 'm' } } }
 
-      it 'should set the value' do
+      it 'sets the value' do
         expect(subject.tracker_events).to match_array [
           Rack::Tracker::Criteo::Event.new(event: 'setSiteType', type: 'm')
         ]
@@ -111,12 +111,11 @@ RSpec.describe Rack::Tracker::Criteo do
     end
 
     context 'proc returning nil' do
-      let(:options) { { set_account: ->(env){ nil } } }
+      let(:options) { { set_account: ->(_env) { nil } } }
 
-      it 'should ignore the option' do
+      it 'ignores the option' do
         expect(subject.tracker_events).to match_array []
       end
     end
   end
-
 end

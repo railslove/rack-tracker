@@ -1,9 +1,10 @@
-class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
+# frozen_string_literal: true
 
-  self.allowed_tracker_options = [:cookie_domain, :user_id]
+class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
+  self.allowed_tracker_options = %i[cookie_domain user_id]
 
   def initialize(env, options = {})
-    options[:explicit_pageview] = true if !options.has_key?(:explicit_pageview)
+    options[:explicit_pageview] = true unless options.key?(:explicit_pageview)
     super(env, options)
   end
 
@@ -18,22 +19,22 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
     end
 
     def event
-      { hitType: self.type }.merge(attributes.stringify_values).compact
+      { hitType: type }.merge(attributes.stringify_values).compact
     end
 
     def attributes
-      Hash[to_h.slice(:category, :action, :label, :value).map { |k,v| [self.type.to_s + k.to_s.capitalize, v] }]
+      Hash[to_h.slice(:category, :action, :label, :value).map { |k, v| [type.to_s + k.to_s.capitalize, v] }]
     end
   end
 
   class EnhancedEcommerce < OpenStruct
     def write
-      hash = self.to_h
+      hash = to_h
       label = hash[:label]
       attributes = hash.except(:label, :type).compact.stringify_values
 
       [
-        "ec:#{self.type}",
+        "ec:#{type}",
         label,
         attributes.empty? ? nil : attributes
       ].compact.to_json.gsub(/\[|\]/, '')
@@ -42,10 +43,10 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
 
   class Ecommerce < OpenStruct
     def write
-      attributes = self.to_h.except(:type).compact.stringify_values
+      attributes = to_h.except(:type).compact.stringify_values
 
       [
-        "ecommerce:#{self.type}",
+        "ecommerce:#{type}",
         attributes
       ].to_json.gsub(/\[|\]/, '')
     end
@@ -54,7 +55,7 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   class Parameter < OpenStruct
     include Rack::Tracker::JavaScriptHelper
     def write
-      ['set', self.to_h.to_a].flatten.map { |v| %Q{'#{j(v)}'} }.join ', '
+      ['set', to_h.to_a].flatten.map { |v| %('#{j(v)}') }.join ', '
     end
   end
 
@@ -63,11 +64,11 @@ class Rack::Tracker::GoogleAnalytics < Rack::Tracker::Handler
   end
 
   def ecommerce_events
-    events.select {|e| e.kind_of?(Ecommerce) }
+    events.select { |e| e.is_a?(Ecommerce) }
   end
 
   def enhanced_ecommerce_events
-    events.select {|e| e.kind_of?(EnhancedEcommerce) }
+    events.select { |e| e.is_a?(EnhancedEcommerce) }
   end
 
   def pageview_url_script

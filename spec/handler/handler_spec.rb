@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Rack::Tracker::Handler do
   def env
     { misc: 'foobar' }
@@ -15,14 +17,14 @@ RSpec.describe Rack::Tracker::Handler do
     context 'with overridden allowed_tracker_options' do
       subject do
         handler = described_class.new(env, {
-          static_option: 'value',
-          dynamic_option: lambda { |env| return env[:misc] },
-          dynamic_nil_option: lambda { |env| return env[:non_existent_key] },
-          non_allowed_option: 'value'
-        })
+                                        static_option: 'value',
+                                        dynamic_option: ->(env) { return env[:misc] },
+                                        dynamic_nil_option: ->(env) { return env[:non_existent_key] },
+                                        non_allowed_option: 'value'
+                                      })
 
         handler.allowed_tracker_options =
-          [:static_option, :dynamic_option, :dynamic_nil_option]
+          %i[static_option dynamic_option dynamic_nil_option]
 
         handler
       end

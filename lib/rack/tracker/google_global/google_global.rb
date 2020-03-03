@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class Rack::Tracker::GoogleGlobal < Rack::Tracker::Handler
-  self.allowed_tracker_options = [:cookie_domain, :user_id,
-    :link_attribution, :allow_display_features, :anonymize_ip,
-    :custom_map, :optimize_id]
+  self.allowed_tracker_options = %i[cookie_domain user_id
+                                    link_attribution allow_display_features anonymize_ip
+                                    custom_map optimize_id]
 
   class Page < OpenStruct
     def params
@@ -10,8 +12,8 @@ class Rack::Tracker::GoogleGlobal < Rack::Tracker::Handler
   end
 
   class Event < OpenStruct
-    PREFIXED_PARAMS = %i[category label]
-    SKIP_PARAMS  = %i[action]
+    PREFIXED_PARAMS = %i[category label].freeze
+    SKIP_PARAMS = %i[action].freeze
 
     def params
       Hash[to_h.except(*SKIP_PARAMS).map { |key, value| [param_key(key), value] }]
@@ -59,8 +61,8 @@ class Rack::Tracker::GoogleGlobal < Rack::Tracker::Handler
   def invalid_tracker?(tracker)
     if tracker[:id].to_s.strip == ''
       $stdout.puts <<~WARN
-      WARNING: One of the trackers specified for Rack::Tracker handler 'google_global' is empty.
-               Trackers: #{options[:trackers]}
+        WARNING: One of the trackers specified for Rack::Tracker handler 'google_global' is empty.
+                 Trackers: #{options[:trackers]}
       WARN
 
       true

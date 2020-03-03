@@ -1,17 +1,18 @@
+# frozen_string_literal: true
+
 # This module is extracted from Rails to provide reliable javascript escaping.
 #
 # @see https://github.com/rails/rails/blob/master/actionview/lib/action_view/helpers/javascript_helper.rb
 module Rack::Tracker::JavaScriptHelper
-
   JS_ESCAPE_MAP = {
-      '\\' => '\\\\',
-      '</' => '<\/',
-      "\r\n" => '\n',
-      "\n" => '\n',
-      "\r" => '\n',
-      '"' => '\\"',
-      "'" => "\\'"
-  }
+    '\\' => '\\\\',
+    '</' => '<\/',
+    "\r\n" => '\n',
+    "\n" => '\n',
+    "\r" => '\n',
+    '"' => '\\"',
+    "'" => "\\'"
+  }.freeze
 
   JS_ESCAPE_MAP["\342\200\250".force_encoding(Encoding::UTF_8).encode!] = '&#x2028;'
   JS_ESCAPE_MAP["\342\200\251".force_encoding(Encoding::UTF_8).encode!] = '&#x2029;'
@@ -24,11 +25,11 @@ module Rack::Tracker::JavaScriptHelper
   #   $('some_element').replaceWith('<%=j render 'some/element_template' %>');
   def escape_javascript(javascript)
     if javascript
-      javascript.to_s.gsub(/(\\|<\/|\r\n|\342\200\250|\342\200\251|[\n\r"'])/u) { |match| JS_ESCAPE_MAP[match] }
+      javascript.to_s.gsub(%r{(\\|</|\r\n|\342\200\250|\342\200\251|[\n\r"'])}u) { |match| JS_ESCAPE_MAP[match] }
     else
       ''
     end
   end
 
-  alias_method :j, :escape_javascript
+  alias j escape_javascript
 end

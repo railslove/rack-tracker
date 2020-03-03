@@ -1,10 +1,11 @@
-class Rack::Tracker::Zanox < Rack::Tracker::Handler
+# frozen_string_literal: true
 
+class Rack::Tracker::Zanox < Rack::Tracker::Handler
   # name of the handler
   # everything after is passed as options
   class Mastertag < OpenStruct
     def write
-      to_h.except(:id).map do |k,v|
+      to_h.except(:id).map do |k, v|
         "var zx_#{k} = #{v.to_json};"
       end.join("\n")
     end
@@ -13,7 +14,7 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
   class Lead < OpenStruct
     # Example: OrderID=[[DEFC-4321]]&CurrencySymbol=[[EUR]]&TotalPrice=[[23.40]]
     def write
-      to_h.map do |k,v|
+      to_h.map do |k, v|
         "#{k.to_s.camelize}=[[#{v}]]"
       end.join('&')
     end
@@ -26,14 +27,14 @@ class Rack::Tracker::Zanox < Rack::Tracker::Handler
   def mastertag
     # First event should be stronger, e.g. one signs up and gets redirected to homepage
     # "sign up" should be tracked instead of "view homepage"
-    events.select{ |event| event.class.to_s.demodulize == 'Mastertag' }.first
+    events.select { |event| event.class.to_s.demodulize == 'Mastertag' }.first
   end
 
   def lead_events
-    events.select{ |event| event.class.to_s.demodulize == 'Lead' }
+    events.select { |event| event.class.to_s.demodulize == 'Lead' }
   end
 
   def sale_events
-    events.select{ |event| event.class.to_s.demodulize == 'Sale' }
+    events.select { |event| event.class.to_s.demodulize == 'Sale' }
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'support/metal_controller'
 
 # helper to configure the middleware stack with custom handlers
@@ -14,7 +16,7 @@ require 'support/metal_controller'
 #
 # By default this dispatches to a metal controller as a simple rack endpoint
 # like rails would do, but without booting up a full rails environment.
-def setup_app(options={}, &block)
+def setup_app(options = {}, &block)
   rack_endpoint     = options[:endpoint] || MetalController
   controller_action = options[:action]
 

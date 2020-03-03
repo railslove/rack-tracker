@@ -1,5 +1,6 @@
-RSpec.describe Rack::Tracker::Hubspot do
+# frozen_string_literal: true
 
+RSpec.describe Rack::Tracker::Hubspot do
   def env
     { misc: '42' }
   end

@@ -1,8 +1,8 @@
+# frozen_string_literal: true
+
 class Rack::Tracker::HandlerDelegator
   class << self
-    def handler(method_name)
-      new.handler(method_name)
-    end
+    delegate :handler, to: :new
   end
 
   attr_accessor :env
@@ -24,15 +24,13 @@ class Rack::Tracker::HandlerDelegator
   end
 
   def handler(method_name)
-    return method_name if method_name.kind_of?(Class)
+    return method_name if method_name.is_a?(Class)
 
     _handler = method_name.to_s.camelize
     ["Rack::Tracker::#{_handler}", _handler].detect do |const|
-      begin
-        return const.constantize
-      rescue NameError
-        false
-      end
+      return const.constantize
+    rescue NameError
+      false
     end
 
     raise ArgumentError, "No such Handler: #{_handler}"

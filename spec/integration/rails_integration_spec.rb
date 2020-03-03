@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'support/capybara_app_helper'
 
-RSpec.describe "Rails Integration" do
+RSpec.describe 'Rails Integration' do
   let(:callable_skip_inject) do
-    lambda do |env|
+    lambda do |_env|
       # check for anything in the env hash to decide
       # if you return the `tracker id` or `nil` to skip injection
       nil
@@ -40,7 +42,7 @@ RSpec.describe "Rails Integration" do
     HTML
   end
 
-  it "embeds the script tag with tracking event from the controller action" do
+  it 'embeds the script tag with tracking event from the controller action' do
     expect(subject).to eql(expected_html)
   end
 end

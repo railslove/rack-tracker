@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Rack::Tracker::Hotjar do
   def env
     { foo: 'bar' }

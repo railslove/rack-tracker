@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 RSpec.describe Rack::Tracker::Facebook do
   describe Rack::Tracker::Facebook::Event do
-
-    subject { described_class.new({id: 'id', foo: 'bar'}) }
+    subject { described_class.new({ id: 'id', foo: 'bar' }) }
 
     describe '#write' do
-      specify { expect(subject.write).to eq(['track', 'id', {foo: 'bar'}].to_json) }
+      specify { expect(subject.write).to eq(['track', 'id', { foo: 'bar' }].to_json) }
     end
   end
 
@@ -21,8 +22,8 @@ RSpec.describe Rack::Tracker::Facebook do
     subject { described_class.new(env, custom_audience: 'custom_audience_id').render }
 
     it 'will push the tracking events to the queue' do
-      expect(subject).to match(%r{window._fbq.push\(\["addPixelId", "custom_audience_id"\]\)})
-      expect(subject).to match(%r{window._fbq.push\(\["track", "PixelInitialized", \{\}\]\)})
+      expect(subject).to match(/window._fbq.push\(\["addPixelId", "custom_audience_id"\]\)/)
+      expect(subject).to match(/window._fbq.push\(\["track", "PixelInitialized", \{\}\]\)/)
     end
 
     it 'will add the noscript fallback' do
@@ -34,22 +35,22 @@ RSpec.describe Rack::Tracker::Facebook do
     def env
       {
         'tracker' => {
-        'facebook' =>
-          [
-            {
-              'id' => '123456789',
-              'value' => '23',
-              'currency' => 'EUR',
-              'class_name' => 'Event'
-            }
-          ]
+          'facebook' =>
+                        [
+                          {
+                            'id' => '123456789',
+                            'value' => '23',
+                            'currency' => 'EUR',
+                            'class_name' => 'Event'
+                          }
+                        ]
         }
       }
     end
     subject { described_class.new(env).render }
 
     it 'will push the tracking events to the queue' do
-      expect(subject).to match(%r{\["track","123456789",\{"value":"23","currency":"EUR"\}\]})
+      expect(subject).to match(/\["track","123456789",\{"value":"23","currency":"EUR"\}\]/)
     end
 
     it 'will add the noscript fallback' do
