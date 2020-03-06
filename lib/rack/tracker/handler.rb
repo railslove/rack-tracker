@@ -26,10 +26,11 @@ class Rack::Tracker::Handler
     self.env = env
     self.options  = options
     self.position = options[:position] if options.has_key?(:position)
+    @session = session = env['rack.session']
   end
 
   def events
-    events = env.fetch('tracker', {})[handler_name] || []
+    events = @session.fetch('tracker', {})[handler_name] || []
     events.map { |ev| "#{self.class}::#{ev['class_name']}".constantize.new(ev.except('class_name')) }
   end
 
@@ -54,10 +55,11 @@ class Rack::Tracker::Handler
 
   def write_event(event)
     event.deep_stringify_keys! # for consistent hash access use strings (keys from the session are always strings anyway)
-    if env.key?('tracker')
-      self.env['tracker'].deep_merge!(event) { |key, old, new| Array.wrap(old) + Array.wrap(new) }
+
+    if @session.key?('tracker')
+      @session['tracker'].deep_merge!(event) { |key, old, new| Array.wrap(old) + Array.wrap(new) }
     else
-      self.env['tracker'] = event
+      @session['tracker'] = event
     end
   end
 
@@ -69,7 +71,7 @@ class Rack::Tracker::Handler
     @_tracker_options ||= {}.tap do |tracker_options|
       options.slice(*allowed_tracker_options).each do |key, value|
         option_value = value.respond_to?(:call) ? value.call(env) : value
-        unless option_value.nil? 
+        unless option_value.nil?
           tracker_options[tracker_option_key(key)] = tracker_option_value(option_value)
         end
       end
