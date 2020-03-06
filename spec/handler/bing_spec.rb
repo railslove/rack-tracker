@@ -9,11 +9,11 @@ RSpec.describe Rack::Tracker::Bing do
 
     describe "default" do
       def env
-        {'tracker' => {
+        { 'rack.session' => {'tracker' => {
           'bing' => [
             { 'class_name' => 'Conversion', 'category' => 'Users', 'action' => 'Login', 'label' => 'Standard', 'value' => 10 }
           ]
-        }}
+        }}}
       end
 
       it "will show event initialiser" do
@@ -31,12 +31,12 @@ RSpec.describe Rack::Tracker::Bing do
 
     describe "default" do
       def env
-        {'tracker' => {
+        { 'rack.session' => {'tracker' => {
           'bing' => [
             { 'class_name' => 'Conversion', 'category' => 'Users', 'action' => 'Login', 'label' => 'Standard', 'value' => 10 },
             { 'class_name' => 'Conversion', 'category' => 'Users', 'action' => 'Logout', 'label' => 'Standard', 'value' => 5 }
           ]
-        }}
+        }}}
       end
 
       it "will show event initialiser" do

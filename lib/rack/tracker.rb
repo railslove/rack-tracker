@@ -42,10 +42,13 @@ module Rack
       return [@status, @headers, @body] unless html?
       response = Rack::Response.new([], @status, @headers)
 
+      session = env['rack.session']
+      session[EVENT_TRACKING_KEY] ||= {} if session
+
       @body.each { |fragment| response.write inject(env, fragment) }
       @body.close if @body.respond_to?(:close)
 
-      env['rack.session'].delete(EVENT_TRACKING_KEY)
+      session.delete(EVENT_TRACKING_KEY) if session && !response.redirection?
 
       response.finish
     end

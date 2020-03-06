@@ -10,7 +10,7 @@ RSpec.describe Rack::Tracker::Criteo do
   end
 
   def env
-    {}
+    { 'rack.session': {} }
   end
 
   it 'will be placed in the body' do
@@ -22,15 +22,17 @@ RSpec.describe Rack::Tracker::Criteo do
     context 'with events' do
       let(:env) {
         {
-          'tracker' => {
-          'criteo' =>
-            [
-              {
-                'event' => 'viewItem',
-                'item' => 'P001',
-                'class_name' => 'Event'
-              }
-            ]
+          'rack.session' => {
+            'tracker' => {
+            'criteo' =>
+              [
+                {
+                  'event' => 'viewItem',
+                  'item' => 'P001',
+                  'class_name' => 'Event'
+                }
+              ]
+            }
           }
         }
       }

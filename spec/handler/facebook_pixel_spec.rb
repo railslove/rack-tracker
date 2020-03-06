@@ -35,27 +35,29 @@ RSpec.describe Rack::Tracker::FacebookPixel do
   describe 'with events' do
     def env
       {
-        'tracker' => {
-        'facebook_pixel' =>
-          [
-            {
-              'type' => 'Purchase',
-              'class_name' => 'Track',
-              'options' =>
-                {
-                  'value' => '23',
-                  'currency' => 'EUR'
-                }
-            },{
-              'type' => 'FrequentShopper',
-              'class_name' => 'TrackCustom',
-              'options' =>
-                {
-                  'purchases' => 8,
-                  'category' => 'Sport'
-                }
-            }
-          ]
+        'rack.session' => {
+          'tracker' => {
+          'facebook_pixel' =>
+            [
+              {
+                'type' => 'Purchase',
+                'class_name' => 'Track',
+                'options' =>
+                  {
+                    'value' => '23',
+                    'currency' => 'EUR'
+                  }
+              },{
+                'type' => 'FrequentShopper',
+                'class_name' => 'TrackCustom',
+                'options' =>
+                  {
+                    'purchases' => 8,
+                    'category' => 'Sport'
+                  }
+              }
+            ]
+          }
         }
       }
     end

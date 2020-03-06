@@ -158,11 +158,11 @@ RSpec.describe Rack::Tracker::GoogleGlobal do
 
     describe "default" do
       def env
-        {'tracker' => {
+        { 'rack.session' => {'tracker' => {
           'google_global' => [
             { 'class_name' => 'Page', 'path' => '/virtual_page' }
           ]
-        }}
+        }}}
       end
 
       it "will show virtual page" do
@@ -172,11 +172,11 @@ RSpec.describe Rack::Tracker::GoogleGlobal do
 
     describe "with a event value" do
       def env
-        {'tracker' => {
+        { 'rack.session' => {'tracker' => {
           'google_global' => [
             { 'class_name' => 'Page', 'path' => '/virtual_page', 'location' => 'https://example.com/virtual_page', 'title' => 'Virtual Page' }
           ]
-        }}
+        }}}
       end
 
       it "will show virtual page" do
@@ -190,11 +190,11 @@ RSpec.describe Rack::Tracker::GoogleGlobal do
 
     describe "default" do
       def env
-        {'tracker' => {
+        { 'rack.session' => {'tracker' => {
           'google_global' => [
             { 'class_name' => 'Event', 'action' => 'login' }
           ]
-        }}
+        }}}
       end
 
       it "will show the event" do
@@ -204,7 +204,7 @@ RSpec.describe Rack::Tracker::GoogleGlobal do
 
     describe "with event parameters" do
       def env
-        {'tracker' => {
+        { 'rack.session' => {'tracker' => {
           'google_global' => [
             { 'class_name' => 'Event',
               'action'     => 'login',
@@ -214,7 +214,7 @@ RSpec.describe Rack::Tracker::GoogleGlobal do
               'transaction_id' => 1001,
             }
           ]
-        }}
+        }}}
       end
 
       it "will show event" do

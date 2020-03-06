@@ -8,7 +8,8 @@ class TrackAllTheThings < Rack::Tracker::Handler
   end
 
   def track_me
-    env['tracker']['track_all_the_things']
+    session = env['rack.session'] ||= {}
+    session['tracker']['track_all_the_things']
   end
 end
 
@@ -25,6 +26,7 @@ class AnotherHandler < Rack::Tracker::Handler
   end
 
   def track_me
-    env['tracker']['another_handler']
+    session = env['rack.session'] ||= {}
+    session['tracker']['another_handler']
   end
 end

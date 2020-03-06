@@ -26,7 +26,7 @@ class Rack::Tracker::Handler
     self.env = env
     self.options  = options
     self.position = options[:position] if options.has_key?(:position)
-    @session = session = env['rack.session']
+    @session = env['rack.session'] ||= {}
   end
 
   def events
@@ -55,7 +55,6 @@ class Rack::Tracker::Handler
 
   def write_event(event)
     event.deep_stringify_keys! # for consistent hash access use strings (keys from the session are always strings anyway)
-
     if @session.key?('tracker')
       @session['tracker'].deep_merge!(event) { |key, old, new| Array.wrap(old) + Array.wrap(new) }
     else
