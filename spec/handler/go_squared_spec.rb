@@ -12,11 +12,11 @@ RSpec.describe Rack::Tracker::GoSquared do
   describe "with events" do
     describe "visitor name" do
       def env
-        {'tracker' => {
+        { 'rack.session' => {'tracker' => {
           'go_squared' => [
             { 'class_name' => 'VisitorName', 'name' => 'John Doe' }
           ]
-        }}
+        }}}
       end
 
       subject { described_class.new(env, tracker: '12345').render }
@@ -28,11 +28,11 @@ RSpec.describe Rack::Tracker::GoSquared do
 
     describe "visitor details" do
       def env
-        {'tracker' => {
+        { 'rack.session' => {'tracker' => {
           'go_squared' => [
             { 'class_name' => 'VisitorInfo', 'age' => 35, 'favorite_food' => 'pizza' }
           ]
-        }}
+        }}}
       end
 
       subject { described_class.new(env, tracker: '12345').render }

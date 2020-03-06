@@ -42,18 +42,13 @@ module Rack
       return [@status, @headers, @body] unless html?
       response = Rack::Response.new([], @status, @headers)
 
-      env[EVENT_TRACKING_KEY] ||= {}
-
-      if session = env["rack.session"]
-        env[EVENT_TRACKING_KEY].deep_merge!(session.delete(EVENT_TRACKING_KEY) || {}) { |key, old, new| Array.wrap(old) + Array.wrap(new) }
-      end
-
-      if response.redirection? && session
-        session[EVENT_TRACKING_KEY] = env[EVENT_TRACKING_KEY]
-      end
+      session = env['rack.session']
+      session[EVENT_TRACKING_KEY] ||= {} if session
 
       @body.each { |fragment| response.write inject(env, fragment) }
       @body.close if @body.respond_to?(:close)
+
+      session.delete(EVENT_TRACKING_KEY) if session && !response.redirection?
 
       response.finish
     end
