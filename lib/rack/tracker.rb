@@ -42,10 +42,10 @@ module Rack
     end
 
     def _call(env)
-      @status, @headers, @body = @app.call(env)
-      return [@status, @headers, @body] unless html?
-      response = Rack::Response.new([], @status, @headers)
+      status, headers, body = @app.call(env)
+      return [status, headers, body] unless headers['Content-Type'] =~ /html/
 
+      response = Rack::Response.new([], status, headers)
       env[EVENT_TRACKING_KEY] ||= {}
 
       if session = env["rack.session"]
@@ -56,15 +56,13 @@ module Rack
         session[EVENT_TRACKING_KEY] = env[EVENT_TRACKING_KEY]
       end
 
-      @body.each { |fragment| response.write inject(env, fragment) }
-      @body.close if @body.respond_to?(:close)
+      body.each { |fragment| response.write inject(env, fragment) }
+      body.close if body.respond_to?(:close)
 
       response.finish
     end
 
     private
-
-    def html?; @headers['Content-Type'] =~ /html/; end
 
     def inject(env, response)
       duplicated_response = response.dup
