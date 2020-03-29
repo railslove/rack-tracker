@@ -38,15 +38,19 @@ module Rack
     end
 
     def call(env)
-      @status, @headers, @body = @app.call(env)
-      return [@status, @headers, @body] unless html?
-      response = Rack::Response.new([], @status, @headers)
+      dup._call(env)
+    end
+
+    def _call(env)
+      status, headers, body = @app.call(env)
+      return [status, headers, body] unless headers['Content-Type'] =~ /html/
+      response = Rack::Response.new([], status, headers)
 
       session = env['rack.session']
       session[EVENT_TRACKING_KEY] ||= {} if session
 
-      @body.each { |fragment| response.write inject(env, fragment) }
-      @body.close if @body.respond_to?(:close)
+      body.each { |fragment| response.write inject(env, fragment) }
+      body.close if body.respond_to?(:close)
 
       session.delete(EVENT_TRACKING_KEY) if session && !response.redirection?
 
@@ -54,8 +58,6 @@ module Rack
     end
 
     private
-
-    def html?; @headers['Content-Type'] =~ /html/; end
 
     def inject(env, response)
       duplicated_response = response.dup

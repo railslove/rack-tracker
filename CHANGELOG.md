@@ -1,3 +1,8 @@
+# 1.12.1
+
+* [ENHANCEMENT] Use local variables to prevent instance state #151 (thx @bumi)
+* [ENHANCEMENT] Make middleware thread safe #150 (thx @kspe)
+
 # 1.12.0
 
 * [ENHANCEMENT] Add support for Heap #147 (thx @mohanzhang)
