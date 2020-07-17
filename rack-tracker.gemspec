@@ -28,6 +28,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.2"
   spec.add_development_dependency "capybara", "~> 2.4"
   spec.add_development_dependency "pry"
+  spec.add_development_dependency "fuubar"
+
   if RUBY_VERSION < "2.0"
     spec.add_development_dependency "mime-types", "< 3.0"
     spec.add_development_dependency "addressable", "< 2.5"

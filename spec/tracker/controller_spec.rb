@@ -1,6 +1,10 @@
 TestController = Struct.new(:env) do
   include Rack::Tracker::Controller
 
+  def initialize(env: { 'rack.session' => {} })
+    super(env)
+  end
+
   def index
     tracker do |t|
       t.google_analytics :send, category: 'foo'
@@ -34,7 +38,7 @@ RSpec.describe Rack::Tracker::Controller do
         expect {
           controller.index
         }.to change {
-          controller.env
+          controller.env['rack.session']
         }.from({}).to('tracker' => {'google_analytics' => [send, trx, item_foo, item_bar], 'facebook' => [fb_event]})
       end
     end

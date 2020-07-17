@@ -31,17 +31,19 @@ RSpec.describe Rack::Tracker::Zanox do
     context 'with events' do
       let(:env) {
         {
-          'tracker' => {
-          'zanox' =>
-            [
-              {
-                'CustomerID' => '123456',
-                'OrderId' => 'DEFC-4321',
-                'CurrencySymbol' => 'EUR',
-                'TotalPrice' => '150.00',
-                'class_name' => 'Sale',
-              }
-            ]
+          'rack.session' => {
+            'tracker' => {
+            'zanox' =>
+              [
+                {
+                  'CustomerID' => '123456',
+                  'OrderId' => 'DEFC-4321',
+                  'CurrencySymbol' => 'EUR',
+                  'TotalPrice' => '150.00',
+                  'class_name' => 'Sale',
+                }
+              ]
+            }
           }
         }
       }
@@ -59,14 +61,16 @@ RSpec.describe Rack::Tracker::Zanox do
     context 'with events' do
       let(:env) {
         {
-          'tracker' => {
-          'zanox' =>
-            [
-              {
-                'OrderId' => 'DEFC-4321',
-                'class_name' => 'Lead'
-              }
-            ]
+          'rack.session' => {
+            'tracker' => {
+            'zanox' =>
+              [
+                {
+                  'OrderId' => 'DEFC-4321',
+                  'class_name' => 'Lead'
+                }
+              ]
+            }
           }
         }
       }
@@ -84,17 +88,19 @@ RSpec.describe Rack::Tracker::Zanox do
     context 'with events' do
       let(:env) {
         {
-          'tracker' => {
-          'zanox' =>
-            [
-              {
-                'id' => '12345678D2345',
-                'class_name' => 'Mastertag',
-                'category' => 'Sewing',
-                'identifier' => '234',
-                'amount' => '5.90'
-              }
-            ]
+          'rack.session' => {
+            'tracker' => {
+            'zanox' =>
+              [
+                {
+                  'id' => '12345678D2345',
+                  'class_name' => 'Mastertag',
+                  'category' => 'Sewing',
+                  'identifier' => '234',
+                  'amount' => '5.90'
+                }
+              ]
+            }
           }
         }
       }

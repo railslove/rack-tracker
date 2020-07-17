@@ -91,11 +91,11 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
 
     describe "default" do
       def env
-        {'tracker' => {
+        { 'rack.session' => {'tracker' => {
           'google_analytics' => [
             { 'class_name' => 'Send', 'category' => 'Users', 'action' => 'Login', 'label' => 'Standard' }
           ]
-        }}
+        }}}
       end
 
       it "will show events" do
@@ -105,9 +105,9 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
 
     describe "with a event value" do
       def env
-        {'tracker' => { 'google_analytics' => [
+        { 'rack.session' => {'tracker' => { 'google_analytics' => [
           { 'class_name' => 'Send', category: "Users", action: "Login", label: "Standard", value: "5" }
-        ]}}
+        ]}}}
       end
 
       it "will show events with values" do
@@ -119,12 +119,12 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
   describe 'with ecommerce events' do
     describe "default" do
       def env
-        {'tracker' => {
+        { 'rack.session' => {'tracker' => {
           'google_analytics' => [
             { 'class_name' => 'Ecommerce', 'type' => 'addItem', 'id' => '1234', 'name' => 'Fluffy Pink Bunnies', 'sku' => 'DD23444', 'category' => 'Party Toys', 'price' => '11.99', 'quantity' => '1' },
             { 'class_name' => 'Ecommerce', 'type' => 'addTransaction', 'id' => '1234', 'affiliation' => 'Acme Clothing', 'revenue' => 11.99, 'shipping' => '5', 'tax' => '1.29', 'currency' => 'EUR' }
           ]
-        }}
+        }}}
       end
 
       subject { described_class.new(env, tracker: 'somebody', ecommerce: true).render }
@@ -148,12 +148,12 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
   describe 'with enhanced ecommerce events' do
     describe "default" do
       def env
-        {'tracker' => {
+        { 'rack.session' => {'tracker' => {
           'google_analytics' => [
             { 'class_name' => 'EnhancedEcommerce', 'type' => 'addProduct', 'id' => 'P12345', 'name' => 'Android Warhol T-Shirt', 'category' => 'Apparel', 'brand' => 'Google', 'variant' => 'black', 'price' => '29.20', 'coupon' => 'APPARELSALE', 'quantity' => 1 },
             { 'class_name' => 'EnhancedEcommerce', 'type' => 'setAction', 'label' => 'purchase' }
           ]
-        }}
+        }}}
       end
 
       subject { described_class.new(env, tracker: 'somebody', enhanced_ecommerce: true).render }
@@ -171,11 +171,11 @@ RSpec.describe Rack::Tracker::GoogleAnalytics do
 
   describe 'with parameters events' do
     def env
-      {'tracker' => {
+      { 'rack.session' => {'tracker' => {
         'google_analytics' => [
           { 'class_name' => 'Parameter', 'dimension1' => 'pink' },
         ]
-      }}
+      }}}
     end
 
     subject { described_class.new(env, tracker: 'somebody').render }

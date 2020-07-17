@@ -33,16 +33,18 @@ RSpec.describe Rack::Tracker::Facebook do
   describe 'with events' do
     def env
       {
-        'tracker' => {
-        'facebook' =>
-          [
-            {
-              'id' => '123456789',
-              'value' => '23',
-              'currency' => 'EUR',
-              'class_name' => 'Event'
-            }
-          ]
+        'rack.session' => {
+          'tracker' => {
+          'facebook' =>
+            [
+              {
+                'id' => '123456789',
+                'value' => '23',
+                'currency' => 'EUR',
+                'class_name' => 'Event'
+              }
+            ]
+          }
         }
       }
     end

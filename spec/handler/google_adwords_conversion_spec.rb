@@ -16,11 +16,11 @@ RSpec.describe Rack::Tracker::GoogleAdwordsConversion do
   describe "with events" do
     describe "default" do
       def env
-        {'tracker' => {
+        { 'rack.session' => {'tracker' => {
           'google_adwords_conversion' => [
             { 'class_name' => 'Conversion', 'id' => 123456, 'language' => 'en', 'format' => '3', 'color' => 'ffffff', 'label' => 'Conversion Label' }
           ]
-        }}
+        }}}
       end
 
       subject { described_class.new(env).render }
@@ -44,10 +44,12 @@ RSpec.describe Rack::Tracker::GoogleAdwordsConversion do
                         label: 'Conversion Label' } }
       let(:env) do
         {
-          'tracker' => {
-            'google_adwords_conversion' => [
-              { 'class_name' => 'Conversion', 'value' => '10.0' }
-            ]
+          'rack.session' => {
+            'tracker' => {
+              'google_adwords_conversion' => [
+                { 'class_name' => 'Conversion', 'value' => '10.0' }
+              ]
+            }
           }
         }
       end

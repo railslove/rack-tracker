@@ -5,7 +5,7 @@ class DummyHandler < Rack::Tracker::Handler
   end
 
   def dummy_alert
-    env['tracker']['dummy']
+    env['rack.session']['tracker']['dummy']
   end
 end
 
@@ -60,12 +60,12 @@ RSpec.describe Rack::Tracker do
     end
 
     it 'injects custom variables that was directly assigned' do
-      get '/', {}, {'tracker' => { 'dummy' => 'foo bar'}}
+      get '/', {}, { 'rack.session' => { 'tracker' => { 'dummy' => 'foo bar'} } }
       expect(last_response.body).to include("alert('foo bar');")
     end
 
     it 'injects custom variables that lives in the session' do
-      get '/', {}, {'rack.session' => {'tracker' => { 'dummy' => 'bar foo'}}}
+      get '/', {}, { 'rack.session' => {'tracker' => { 'dummy' => 'bar foo'} } }
       expect(last_response.body).to include("alert('bar foo');")
     end
   end
@@ -88,13 +88,13 @@ RSpec.describe Rack::Tracker do
 
   describe 'when a redirect' do
     it 'will keep the tracker attributes and show them on the new location' do
-      get '/redirect', {}, { 'tracker' => { 'dummy' => 'Keep this!' } }
+      get '/redirect', {}, { 'rack.session' => { 'tracker' => { 'dummy' => 'Keep this!' } } }
       follow_redirect!
       expect(last_response.body).to include("alert('Keep this!');")
     end
 
     it 'will keep the tracker attributes over multiple redirects' do
-      get '/moved', {}, { 'tracker' => { 'dummy' => 'Keep this twice!' } }
+      get '/moved', {}, { 'rack.session' => { 'tracker' => { 'dummy' => 'Keep this twice!' } } }
       follow_redirect!
       expect(last_response.body).to include("alert('Keep this twice!');")
     end
