@@ -7,7 +7,7 @@
     t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
     document,'script','//connect.facebook.net/en_US/fbevents.js');
 
-    fbq('init', '<%= tracker_options[:id] %>', '<%= tracker_options[:advanced_matching] %>');
+    fbq('init', '<%= tracker_options[:id] %>', '<%= tracker_options[:advanced_matching].to_h.compact.to_json %>');
     fbq('track', "PageView");
   }
 </script>
