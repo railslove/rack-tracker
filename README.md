@@ -309,6 +309,7 @@ To add events or variables to the dataLayer from the server side, just call the 
 ### Facebook
 
 * `Facebook Pixel` - adds the [Facebook Pixel](https://www.facebook.com/business/help/952192354843755)
+* `:advanced_matching` -  sets optional matching parameters, see https://developers.facebook.com/docs/facebook-pixel/advanced/advanced-matching/ for details.
 
 Use in conjunction with the [Facebook Helper](https://developers.facebook.com/docs/facebook-pixel/pixel-helper) to confirm your event fires correctly.
 
@@ -316,11 +317,12 @@ First, add the following to your config:
 
 ```ruby
   config.middleware.use(Rack::Tracker) do
-    handler :facebook_pixel, { id: 'PIXEL_ID' }
+    handler :facebook_pixel, { id: 'PIXEL_ID', advanced_matching: {fn: "Bob"} }
   end
 ```
 
 #### Dynamic Pixel Configuration
+
 
 If you need to have different pixel ids e.g. based on the request or serving pages for different accounts, you have the possibility to achieve this by passing a lambda:
 
@@ -339,6 +341,10 @@ and set the pixel id within the request `env` variable. Here an example on how i
     end
   end
 ```
+
+
+
+
 
 #### Standard Events
 

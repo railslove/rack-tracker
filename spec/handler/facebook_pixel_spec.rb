@@ -12,7 +12,7 @@ RSpec.describe Rack::Tracker::FacebookPixel do
     subject { described_class.new(env, id: 'PIXEL_ID').render }
 
     it 'will push the tracking events to the queue' do
-      expect(subject).to match(%r{fbq\('init', 'PIXEL_ID'\)})
+      expect(subject).to match(%r{fbq\('init', 'PIXEL_ID', {}\)})
     end
 
     it 'will add the noscript fallback' do
@@ -24,7 +24,7 @@ RSpec.describe Rack::Tracker::FacebookPixel do
     subject { described_class.new(env, id: lambda { |env| env['PIXEL_ID'] }).render }
 
     it 'will push the tracking events to the queue' do
-      expect(subject).to match(%r{fbq\('init', 'DYNAMIC_PIXEL_ID'\)})
+      expect(subject).to match(%r{fbq\('init', 'DYNAMIC_PIXEL_ID', {}\)})
     end
 
     it 'will add the noscript fallback' do

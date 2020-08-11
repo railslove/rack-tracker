@@ -1,6 +1,8 @@
 require 'support/capybara_app_helper'
 
 RSpec.describe "Facebook Pixel Integration" do
+  subject { page }
+
   before do
     setup_app(action: :facebook_pixel) do |tracker|
       tracker.handler :facebook_pixel, { id: 'PIXEL_ID' }
@@ -8,10 +10,10 @@ RSpec.describe "Facebook Pixel Integration" do
     visit '/'
   end
 
-  subject { page }
+  
 
   it "embeds the script tag with tracking event from the controller action" do
-    expect(page).to have_content("fbq('init', 'PIXEL_ID');")
+    expect(page).to have_content("fbq('init', 'PIXEL_ID', {});")
     expect(page.body).to include('https://www.facebook.com/tr?id=PIXEL_ID&ev=PageView&noscript=1')
   end
 
@@ -22,5 +24,20 @@ RSpec.describe "Facebook Pixel Integration" do
 
   it "can use non-standard event names for audience building" do
     expect(page.body).to match(/fbq\("trackCustom", "FrequentShopper", {\"purchases\":24,\"category\":\"Sport\"}/)
+  end
+
+  describe "swith advanced matching" do
+    before do
+      setup_app(action: :facebook_pixel) do |tracker|
+        tracker.handler :facebook_pixel, { id: 'PIXEL_ID', advanced_matching: {fn: "John", ln: "Smith"} }
+      end
+      visit '/'
+    end
+
+
+    it 'adding advanced matching on pixel init' do
+      expect(page).to have_content("fbq('init', 'PIXEL_ID', {\"fn\":\"John\",\"ln\":\"Smith\"});")
+    end
+
   end
 end
