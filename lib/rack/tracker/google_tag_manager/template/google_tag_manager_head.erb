@@ -17,6 +17,13 @@
         <% end %>
         dataLayer.push({'event':'pageView','virtualUrl': url});
       });
+      document.addEventListener('turbo:load', function(event) {
+        var url = event.detail.url;
+        <% if events.any? %>
+          dataLayer.push(<%= events.map(&:write).join(', ') %>);
+        <% end %>
+        dataLayer.push({'event':'pageView','virtualUrl': url});
+      });
     <% end %>
   (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
