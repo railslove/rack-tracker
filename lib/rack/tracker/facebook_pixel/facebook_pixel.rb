@@ -7,6 +7,10 @@ class Rack::Tracker::FacebookPixel < Rack::Tracker::Handler
       options.present? ? type_to_json << options_to_json : type_to_json
     end
 
+    def with_event_id
+      ", eventID: #{event_id}" if event_id.present?
+    end
+
     private
 
     def type_to_json
