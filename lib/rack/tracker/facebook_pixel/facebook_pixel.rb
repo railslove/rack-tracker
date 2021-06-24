@@ -8,7 +8,7 @@ class Rack::Tracker::FacebookPixel < Rack::Tracker::Handler
     end
 
     def with_event_id
-      ", eventID: #{event_id}" if event_id.present?
+      ", {\"eventID\":\"#{event_id}\"}" if event_id.present?
     end
 
     private

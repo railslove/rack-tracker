@@ -94,7 +94,7 @@ RSpec.describe Rack::Tracker::FacebookPixel do
     subject { described_class.new(env).render }
 
     it 'will push the tracking event with the eventID param' do
-      expect(subject).to match(%r{"track", "Purchase", \{"value":"23","currency":"EUR"\}, eventID: 42})
+      expect(subject).to match(%r{"track", "Purchase", \{"value":"23","currency":"EUR"\}, \{"eventID":"42"\}})
     end
   end
 end
