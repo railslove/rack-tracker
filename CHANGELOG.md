@@ -1,3 +1,8 @@
+# 1.13.0
+
+* [ENHANCEMENT] hotwired/turbo support #160 (thx @wrozka)
+* [BUGFIX] Use leftmost match for gtm tag injection #156 (thx @yutoji)
+
 # 1.12.1
 
 * [ENHANCEMENT] Use local variables to prevent instance state #151 (thx @bumi)
