@@ -1,23 +1,29 @@
 <% if container %>
-  <% unless options[:turbolinks] %>
-    <% if events.any? %>
-      <script>
-        dataLayer = [];
-        dataLayer.push(<%= events.map(&:write).join(', ') %>);
-      </script>
-    <% end %>
-  <% end %>
-
   <script>
+    dataLayer = [];
+
     <% if options[:turbolinks] %>
       document.addEventListener('turbolinks:load', function(event) {
         var url = event.data.url;
-        <% if events.any? %>
-          dataLayer.push(<%= events.map(&:write).join(', ') %>);
-        <% end %>
+        dataLayer.push({'event':'pageView','virtualUrl': url});
+      });
+      document.addEventListener('turbo:load', function(event) {
+        var url = event.detail.url;
         dataLayer.push({'event':'pageView','virtualUrl': url});
       });
     <% end %>
+  </script>
+
+  <% if events.any? %>
+    <script>
+      <%# Generates unique script tags to ensure that turbo/turbolinks include %>
+      <%# them in the document even if the same event happens more than once %>
+      // Unique Script ID: <%= SecureRandom.base64(8) %>
+      dataLayer.push(<%= events.map(&:write).join(', ') %>);
+    </script>
+  <% end %>
+
+  <script>
   (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=

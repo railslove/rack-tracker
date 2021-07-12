@@ -23,7 +23,7 @@ RSpec.describe "Google Tag Manager Integration" do
     expect(page.find("body")).to have_xpath '//body/noscript/iframe[@src="https://www.googletagmanager.com/ns.html?id=GTM-ABCDEF"]'
   end
 
-  it "embeds the turbolinks observer if requested" do
+  it "embeds turbolinks and turbo observers if requested" do
     visit '/'
     expect(page.find("head")).to_not have_content "turbolinks:load"
     setup_app(action: :google_tag_manager) do |tracker|
@@ -31,5 +31,6 @@ RSpec.describe "Google Tag Manager Integration" do
     end
     visit '/'
     expect(page.find("head")).to have_content "turbolinks:load"
+    expect(page.find("head")).to have_content "turbo:load"
   end
 end
