@@ -132,4 +132,8 @@ class MetalController < ActionController::Metal
   def heap
     render "metal/index"
   end
+
+  def tiktok_pixel
+    render "metal/index"
+  end
 end
