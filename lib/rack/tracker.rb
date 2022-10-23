@@ -27,6 +27,7 @@ require "rack/tracker/bing/bing"
 require "rack/tracker/hubspot/hubspot"
 require "rack/tracker/drift/drift"
 require "rack/tracker/heap/heap"
+require "rack/tracker/tiktok_pixel/tiktok_pixel"
 
 module Rack
   class Tracker
