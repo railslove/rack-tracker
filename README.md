@@ -627,6 +627,11 @@ config.middleware.use(Rack::Tracker) do
 end
 ```
 
+Other options:
+
+* `user_id` - This value will be used as the user identity
+* `reset_identity` - A truthy value will reset a user's identity to a random anonymous user ID
+
 ### Custom Handlers
 
 Tough we give you handlers for a few tracking services right out of the box, you might
